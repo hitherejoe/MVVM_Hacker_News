@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hacker News</string>
+    <string name="action_about">About</string>
+    <string name="latest_news">Latest News</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="view_button">VIEW</string>
+    <string name="comments_button">COMMENTS</string>
+    <string name="remove_button">REMOVE</string>
+    <string name="seperator_name_points">-</string>
+
+    <string name="view_replies">View Replies</string>
+    <string name="hide_replies">Hide Replies</string>
+    <string name="author_by"> - by</string>
+    <string name="story_by">by</string>
+    <string name="story_points">points</string>
+    <string name="via">via</string>
+
+    <string name="action_view_in_browser">View in Browser</string>
+    <string name="action_share">Share</string>
+    <string name="action_bookmark">Bookmark</string>
+    <string name="action_view_bookmarks">View Bookmarks</string>
+
+    <string name="about">About</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="created_by">Created by Joe Birch</string>
+    <string name="web_link">www.hitherejoe.com</string>
+    <string name="no_bookmarks">No bookmarks yet!</string>
+    <string name="bookmark_added">Bookmark added</string>
+    <string name="bookmark_removed">Bookmark removed</string>
+    <string name="bookmark_exists">Bookmark already exists</string>
+
+    <string name="error_stories">Sorry, unable to load stories!</string>
+    <string name="error_comments">Sorry, unable to load comments!</string>
+    <string name="error_post">Sorry, unable to load post!</string>
+    <string name="error_generic">Sorry, an error occurred!</string>
+    <string name="error_connection">No internet connection detected</string>
+    <string name="try_again">Try again</string>
+
+</resources>
