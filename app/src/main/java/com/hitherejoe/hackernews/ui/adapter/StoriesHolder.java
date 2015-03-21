@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
 import com.hitherejoe.hackernews.ui.activity.UserActivity;
 import com.hitherejoe.hackernews.ui.activity.WebPageActivity;
@@ -68,6 +69,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mPostAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AnalyticsHelper.trackUserNameClicked();
                 Intent intent = new Intent(getContext(), UserActivity.class);
                 intent.putExtra(UserActivity.EXTRA_USER, mPost.by);
                 getContext().startActivity(intent);
@@ -76,6 +78,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mPostComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AnalyticsHelper.trackViewCommentsClicked();
                 Intent intent = new Intent(getContext(), CommentsActivity.class);
                 intent.putExtra(CommentsActivity.EXTRA_COMMENTS, (Story) mPost);
                 intent.putExtra(CommentsActivity.EXTRA_TITLE, ((Story) mPost).title);
@@ -85,12 +88,14 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AnalyticsHelper.trackViewStoryClicked();
                 launchStoryActivity();
             }
         });
         mPostTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AnalyticsHelper.trackStoryCardClicked();
                 launchStoryActivity();
             }
         });

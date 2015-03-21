@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ga_sessionTimeout">300</integer>
+
+    <!-- Enable automatic Activity measurement -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- The screen names that will appear in reports -->
+    <screenName name="com.hitherejoe.hackernews.ui.activity.MainActivity">
+        HackerNewsReader MainActivity
+    </screenName>
+    <screenName name="com.hitherejoe.hackernews.ui.activity.AboutActivity">
+        HackerNewsReader AboutActivity
+    </screenName>
+    <screenName name="com.hitherejoe.hackernews.ui.activity.BookmarksActivity">
+        HackerNewsReader BookmarksActivity
+    </screenName>
+    <screenName name="com.hitherejoe.hackernews.ui.activity.CommentsActivity">
+        HackerNewsReader CommentsActivity
+    </screenName>
+    <screenName name="com.hitherejoe.hackernews.ui.activity.UserActivity">
+        HackerNewsReader UserActivity
+    </screenName>
+    <screenName name="com.hitherejoe.hackernews.ui.activity.WebPageActivity">
+        HackerNewsReader WebPageActivity
+    </screenName>
+    <!--  The following value should be replaced with correct property id. -->
+    <string name="ga_trackingId">UA-39804005-2</string>
+</resources>

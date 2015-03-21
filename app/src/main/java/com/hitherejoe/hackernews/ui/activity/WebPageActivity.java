@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.ShareActionProvider.OnShareTargetSelectedListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.util.ToastFactory;
 import com.hitherejoe.hackernews.util.ViewUtils;
 
@@ -128,22 +130,38 @@ public class WebPageActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_web_page_activity, menu);
-        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.menu_item_share));
-        if (shareActionProvider != null) shareActionProvider.setShareIntent(getShareIntent());
+        setupShareActionProvider(menu);
         return true;
+    }
+
+    private void setupShareActionProvider(Menu menu) {
+        ShareActionProvider shareActionProvider =
+                (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.menu_item_share));
+        if (shareActionProvider != null) {
+            shareActionProvider.setShareIntent(getShareIntent());
+            shareActionProvider.setOnShareTargetSelectedListener(new OnShareTargetSelectedListener() {
+                @Override
+                public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
+                    AnalyticsHelper.trackStoryShared(intent.getComponent().getPackageName());
+                    return false;
+                }
+            });
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_browser) {
-            openInBrowser();
-            return true;
-        } else if (id == R.id.action_bookmark) {
-            handleBookarkAdded();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_browser:
+                AnalyticsHelper.trackViewStoryInBrowserMenuItemClicked();
+                openInBrowser();
+                return true;
+            case R.id.action_bookmark:
+                handleBookarkAdded();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.button_try_again)

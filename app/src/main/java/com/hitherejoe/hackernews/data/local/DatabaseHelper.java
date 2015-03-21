@@ -5,6 +5,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 import com.hitherejoe.hackernews.data.model.Bookmark;
 import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.util.DataUtils;
 
 import java.util.List;
@@ -21,11 +22,13 @@ public class DatabaseHelper {
         Bookmark bookmark = DataUtils.createBookmarkObject(story);
         cupboard().withDatabase(
                 mCupboardSQLiteOpenHelper.getWritableDatabase()).put(bookmark);
+        AnalyticsHelper.trackBookmarkAdded();
     }
 
     public void deleteBookmark(Bookmark story) {
         cupboard().withDatabase(
                 mCupboardSQLiteOpenHelper.getWritableDatabase()).delete(Bookmark.class, story._id);
+        AnalyticsHelper.trackBookmarkRemoved();
     }
 
     public List<Bookmark> getBookmarkedStories() {
