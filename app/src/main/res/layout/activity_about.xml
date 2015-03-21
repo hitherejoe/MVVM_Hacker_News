@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_centerInParent="true"
+    android:background="@color/lighter_grey"
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center">
@@ -11,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/created_by"
+        android:textColor="@color/dark_grey"
         android:padding="10dp"
         android:textSize="24sp"/>
 
