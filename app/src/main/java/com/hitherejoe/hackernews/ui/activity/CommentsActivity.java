@@ -9,8 +9,10 @@ import com.hitherejoe.hackernews.ui.fragment.CommentsFragment;
 
 public class CommentsActivity extends BaseActivity {
 
-    public static final String EXTRA_COMMENTS = "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_COMMENTS";
-    public static final String EXTRA_TITLE = "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_TITLE";
+    public static final String EXTRA_COMMENTS =
+            "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_COMMENTS";
+    public static final String EXTRA_TITLE =
+            "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_TITLE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

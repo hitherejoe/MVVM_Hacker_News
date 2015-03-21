@@ -9,7 +9,8 @@ import com.hitherejoe.hackernews.ui.fragment.UserStoriesFragment;
 
 public class UserActivity extends BaseActivity {
 
-    public static final String EXTRA_USER = "com.hitherejoe.HackerNews.ui.activity.UserActivity.EXTRA_USER";
+    public static final String EXTRA_USER =
+            "com.hitherejoe.HackerNews.ui.activity.UserActivity.EXTRA_USER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

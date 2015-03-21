@@ -13,6 +13,7 @@ import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.model.Bookmark;
 import com.hitherejoe.hackernews.ui.adapter.BookmarkedStoriesHolder;
+import com.hitherejoe.hackernews.ui.adapter.BookmarkedStoriesHolder.RemovalListener;
 import com.hitherejoe.hackernews.util.ToastFactory;
 
 import java.util.List;
@@ -72,7 +73,7 @@ public class BookmarksActivity extends BaseActivity {
         mProgressBar.setVisibility(View.GONE);
     }
 
-    private BookmarkedStoriesHolder.RemovalListener mListener = new BookmarkedStoriesHolder.RemovalListener() {
+    private RemovalListener mListener = new RemovalListener() {
         @Override
         public void onBookmarkRemoved(Bookmark bookmark) {
             mDatabaseHelper.deleteBookmark(bookmark);

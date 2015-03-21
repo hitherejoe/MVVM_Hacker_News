@@ -19,21 +19,24 @@ public class DatabaseHelper {
 
     public void bookmarkStory(Story story) {
         Bookmark bookmark = DataUtils.createBookmarkObject(story);
-        cupboard().withDatabase(mCupboardSQLiteOpenHelper.getWritableDatabase()).put(bookmark);
+        cupboard().withDatabase(
+                mCupboardSQLiteOpenHelper.getWritableDatabase()).put(bookmark);
     }
 
     public void deleteBookmark(Bookmark story) {
-        cupboard().withDatabase(mCupboardSQLiteOpenHelper.getWritableDatabase()).delete(Bookmark.class, story._id);
+        cupboard().withDatabase(
+                mCupboardSQLiteOpenHelper.getWritableDatabase()).delete(Bookmark.class, story._id);
     }
 
     public List<Bookmark> getBookmarkedStories() {
-        return cupboard().withDatabase(mCupboardSQLiteOpenHelper.getWritableDatabase()).query(Bookmark.class).list();
+        return cupboard().withDatabase(
+                mCupboardSQLiteOpenHelper.getWritableDatabase()).query(Bookmark.class).list();
     }
 
     public boolean doesBookmarkExist(Story story) {
-        Bookmark bookmark = cupboard().withDatabase(mCupboardSQLiteOpenHelper.getWritableDatabase()).get(Bookmark.class, story.id);
-        if (bookmark != null) return true;
-        return false;
+        Bookmark bookmark = cupboard()
+                .withDatabase(mCupboardSQLiteOpenHelper.getWritableDatabase()).get(Bookmark.class, story.id);
+        return bookmark != null;
     }
 
 }

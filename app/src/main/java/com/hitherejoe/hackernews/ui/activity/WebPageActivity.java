@@ -37,12 +37,13 @@ public class WebPageActivity extends BaseActivity {
     @InjectView(R.id.layout_no_connection)
     LinearLayout mOfflineContainer;
 
-    public static final String EXTRA_POST_URL = "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST_URL";
+    public static final String EXTRA_POST_URL =
+            "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST_URL";
     private static final String KEY_PDF = "pdf";
     private static final String PDF_URL = "http://docs.google.com/gview?embedded=true&url=";
-    private static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.hitherejoe.hackernews&hl=en_GB";
+    private static final String PLAY_STORE_URL =
+            "https://play.google.com/store/apps/details?id=com.hitherejoe.hackernews&hl=en_GB";
     private Story mPost;
-    private ShareActionProvider mShareActionProvider;
     private DatabaseHelper mDatabaseHelper;
 
     @Override
@@ -127,8 +128,8 @@ public class WebPageActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_web_page_activity, menu);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.menu_item_share));
-        if (mShareActionProvider != null) mShareActionProvider.setShareIntent(getShareIntent());
+        ShareActionProvider shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.menu_item_share));
+        if (shareActionProvider != null) shareActionProvider.setShareIntent(getShareIntent());
         return true;
     }
 
