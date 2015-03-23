@@ -19,14 +19,14 @@ import butterknife.InjectView;
 
 public class ItemCommentThread extends RelativeLayout {
 
-    @InjectView(R.id.text_post_title)
-    TextView mPostTitle;
+    @InjectView(R.id.text_comment)
+    TextView mCommentText;
 
     @InjectView(R.id.text_post_author)
-    TextView mPostAuthor;
+    TextView mCommentAuthor;
 
     @InjectView(R.id.text_post_date)
-    TextView mPostPoints;
+    TextView mCommentPoints;
 
     @InjectView(R.id.container_item)
     LinearLayout mComment;
@@ -52,11 +52,11 @@ public class ItemCommentThread extends RelativeLayout {
     }
 
     public void setupViewData(Comment mComment) {
-        if (mComment.text != null) mPostTitle.setText(Html.fromHtml(mComment.text.trim()));
-        if (mComment.by != null) mPostAuthor.setText(mComment.by);
+        if (mComment.text != null) mCommentText.setText(Html.fromHtml(mComment.text.trim()));
+        if (mComment.by != null) mCommentAuthor.setText(mComment.by);
         long millisecond = mComment.time * 1000;
         PrettyTime prettyTime = new PrettyTime();
-        mPostPoints.setText(prettyTime.format(new Date(millisecond)));
+        mCommentPoints.setText(prettyTime.format(new Date(millisecond)));
     }
 
 }
