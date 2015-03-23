@@ -2,6 +2,7 @@ package com.hitherejoe.hackernews.ui.adapter;
 
 import android.text.Html;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,9 @@ public class CommentHolder extends ItemViewHolder<Comment> {
     @ViewId(R.id.text_post_date)
     TextView mCommentPoints;
 
+    @ViewId(R.id.container_item)
+    LinearLayout mComment;
+
     public CommentHolder(View view) {
         super(view);
     }
@@ -48,7 +52,7 @@ public class CommentHolder extends ItemViewHolder<Comment> {
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         float margin = ViewUtils.convertPixelsToDp(depth * 20, getContext());
         layoutParams.setMargins((int) margin, 0, 0, 0);
-        this.getView().setLayoutParams(layoutParams);
+        mComment.setLayoutParams(layoutParams);
     }
 
 
