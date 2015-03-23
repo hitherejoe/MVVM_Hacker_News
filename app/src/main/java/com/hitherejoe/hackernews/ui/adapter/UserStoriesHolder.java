@@ -10,7 +10,6 @@ import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
 import com.hitherejoe.hackernews.ui.activity.WebPageActivity;
-import com.hitherejoe.hackernews.util.DataUtils;
 
 import uk.co.ribot.easyadapter.ItemViewHolder;
 import uk.co.ribot.easyadapter.PositionInfo;
@@ -58,8 +57,7 @@ public class UserStoriesHolder extends ItemViewHolder<Post> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CommentsActivity.class);
-                intent.putExtra(CommentsActivity.EXTRA_COMMENTS, DataUtils.toStringArray(((Story) mPost).kids));
-                intent.putExtra(CommentsActivity.EXTRA_TITLE, ((Story) mPost).title);
+                intent.putExtra(CommentsActivity.EXTRA_POST, (Story) mPost);
                 getContext().startActivity(intent);
             }
         });

@@ -79,10 +79,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
             @Override
             public void onClick(View v) {
                 AnalyticsHelper.trackViewCommentsClicked();
-                Intent intent = new Intent(getContext(), CommentsActivity.class);
-                intent.putExtra(CommentsActivity.EXTRA_COMMENTS, (Story) mPost);
-                intent.putExtra(CommentsActivity.EXTRA_TITLE, ((Story) mPost).title);
-                getContext().startActivity(intent);
+                launchCommentsActivity();
             }
         });
         mViewPost.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +110,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
 
     private void launchCommentsActivity() {
         Intent intent = new Intent(getContext(), CommentsActivity.class);
-        intent.putExtra(CommentsActivity.EXTRA_COMMENTS, (Story) mPost);
-        intent.putExtra(CommentsActivity.EXTRA_TITLE, ((Story) mPost).title);
+        intent.putExtra(CommentsActivity.EXTRA_POST, (Story) mPost);
         getContext().startActivity(intent);
     }
 }

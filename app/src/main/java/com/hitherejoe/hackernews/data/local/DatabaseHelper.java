@@ -19,9 +19,8 @@ public class DatabaseHelper {
     }
 
     public void bookmarkStory(Story story) {
-        Bookmark bookmark = DataUtils.createBookmarkObject(story);
         cupboard().withDatabase(
-                mCupboardSQLiteOpenHelper.getWritableDatabase()).put(bookmark);
+                mCupboardSQLiteOpenHelper.getWritableDatabase()).put(DataUtils.createBookmarkObject(story));
         AnalyticsHelper.trackBookmarkAdded();
     }
 
@@ -37,9 +36,8 @@ public class DatabaseHelper {
     }
 
     public boolean doesBookmarkExist(Story story) {
-        Bookmark bookmark = cupboard()
-                .withDatabase(mCupboardSQLiteOpenHelper.getWritableDatabase()).get(Bookmark.class, story.id);
-        return bookmark != null;
+        return cupboard().withDatabase(
+                mCupboardSQLiteOpenHelper.getWritableDatabase()).get(Bookmark.class, story.id) != null;
     }
 
 }

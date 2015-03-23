@@ -28,7 +28,6 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.app.AppObservable;
-import rx.schedulers.Schedulers;
 import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class UserStoriesFragment extends Fragment {

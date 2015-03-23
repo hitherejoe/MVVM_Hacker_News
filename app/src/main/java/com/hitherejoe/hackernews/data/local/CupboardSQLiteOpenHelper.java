@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.hitherejoe.hackernews.data.model.Bookmark;
 
 public class CupboardSQLiteOpenHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "hitherejoehackernews.db";
+    private static final String DATABASE_NAME = "com_hitherejoe_hacker_news.db";
     private static final int DATABASE_VERSION = 1;
 
     static {

@@ -33,7 +33,7 @@ public interface HackerNewsService {
     public Observable<Story> getStoryItem(@Path("itemId") String itemId);
 
     /**
-     * Return comment item.
+     * Returns a comment item.
      */
     @GET("/item/{itemId}.json")
     public Observable<Comment> getCommentItem(@Path("itemId") String itemId);

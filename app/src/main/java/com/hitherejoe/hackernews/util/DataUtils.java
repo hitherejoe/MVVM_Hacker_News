@@ -7,12 +7,6 @@ import java.util.ArrayList;
 
 public class DataUtils {
 
-    public static String[] toStringArray(ArrayList<Long> ids) {
-        String[] stringIds = new String[ids.size()];
-        for (int i=0; i <ids.size(); i++) stringIds[i] = String.valueOf(ids.get(i));
-        return stringIds;
-    }
-
     public static Bookmark createBookmarkObject(Story story) {
         Bookmark bookmark = new Bookmark();
         bookmark.by = story.by;

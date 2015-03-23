@@ -79,9 +79,7 @@ public class BookmarksActivity extends BaseActivity {
             mDatabaseHelper.deleteBookmark(bookmark);
             mBookmarkList.remove(bookmark);
             mEasyRecycleAdapter.setItems(mBookmarkList);
-            if (mBookmarkList.isEmpty()) {
-                mNoBookmarksContainer.setVisibility(View.VISIBLE);
-            }
+            if (mBookmarkList.isEmpty()) mNoBookmarksContainer.setVisibility(View.VISIBLE);
             ToastFactory.createToast(getApplicationContext(), getString(R.string.bookmark_removed)).show();
         }
     };

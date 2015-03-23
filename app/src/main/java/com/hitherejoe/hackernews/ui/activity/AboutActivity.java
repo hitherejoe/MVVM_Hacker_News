@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.hitherejoe.hackernews.R;
 
 public class AboutActivity extends BaseActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,4 +18,5 @@ public class AboutActivity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 }
