@@ -19,15 +19,15 @@ public class DatabaseHelper {
     }
 
     public void bookmarkStory(Story story) {
+        AnalyticsHelper.trackBookmarkAdded();
         cupboard().withDatabase(
                 mCupboardSQLiteOpenHelper.getWritableDatabase()).put(DataUtils.createBookmarkObject(story));
-        AnalyticsHelper.trackBookmarkAdded();
     }
 
     public void deleteBookmark(Bookmark story) {
+        AnalyticsHelper.trackBookmarkRemoved();
         cupboard().withDatabase(
                 mCupboardSQLiteOpenHelper.getWritableDatabase()).delete(Bookmark.class, story._id);
-        AnalyticsHelper.trackBookmarkRemoved();
     }
 
     public List<Bookmark> getBookmarkedStories() {

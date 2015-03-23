@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.hitherejoe.hackernews.R;
-import com.hitherejoe.hackernews.ui.fragment.UserStoriesFragment;
+import com.hitherejoe.hackernews.ui.fragment.StoriesFragment;
 
 public class UserActivity extends BaseActivity {
 
@@ -30,9 +30,9 @@ public class UserActivity extends BaseActivity {
 
     private void setFragment(String username) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new UserStoriesFragment();
+        Fragment fragment = new StoriesFragment();
         Bundle b = new Bundle();
-        b.putString(UserStoriesFragment.ARG_USER, username);
+        b.putString(StoriesFragment.ARG_USER, username);
         fragment.setArguments(b);
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
