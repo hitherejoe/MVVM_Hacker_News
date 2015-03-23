@@ -3,7 +3,6 @@ package com.hitherejoe.hackernews.util;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
 public class ViewUtils {
@@ -16,7 +15,6 @@ public class ViewUtils {
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null;
+        return connectivityManager.getActiveNetworkInfo() != null;
     }
 }
