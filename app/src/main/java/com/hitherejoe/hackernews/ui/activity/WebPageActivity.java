@@ -110,21 +110,10 @@ public class WebPageActivity extends BaseActivity {
         }
     }
 
-    private void openInBrowser() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mPost.url));
-        startActivity(browserIntent);
-    }
-
     private void showHideOfflineLayout(boolean isOffline) {
-        if (isOffline) {
-            mOfflineContainer.setVisibility(View.VISIBLE);
-            mWebView.setVisibility(View.GONE);
-            mProgressBar.setVisibility(View.GONE);
-        } else {
-            mOfflineContainer.setVisibility(View.GONE);
-            mWebView.setVisibility(View.VISIBLE);
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
+        mOfflineContainer.setVisibility(isOffline ? View.VISIBLE : View.GONE);
+        mWebView.setVisibility(isOffline ? View.GONE : View.VISIBLE);
+        mProgressBar.setVisibility(isOffline ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -154,7 +143,7 @@ public class WebPageActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_browser:
                 AnalyticsHelper.trackViewStoryInBrowserMenuItemClicked();
-                openInBrowser();
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mPost.url)));
                 return true;
             case R.id.action_bookmark:
                 handleBookarkAdded();
