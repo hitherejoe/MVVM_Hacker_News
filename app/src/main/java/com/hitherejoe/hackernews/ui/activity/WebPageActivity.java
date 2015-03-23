@@ -55,7 +55,7 @@ public class WebPageActivity extends BaseActivity {
         ButterKnife.inject(this);
         Bundle bundle = getIntent().getExtras();
         mPost = bundle.getParcelable(EXTRA_POST_URL);
-        mDatabaseHelper = HackerNewsApplication.get().getDatabaseHelper();
+        mDatabaseHelper = HackerNewsApplication.get().getDataManager().getDatabaseHelper();
         setupActionBar();
         setupContent();
     }

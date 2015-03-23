@@ -96,7 +96,11 @@ public class StoriesHolder extends ItemViewHolder<Post> {
             @Override
             public void onClick(View v) {
                 AnalyticsHelper.trackStoryCardClicked();
+            if (mPost.type.equals("comment")) {
+                launchCommentsActivity();
+            } else {
                 launchStoryActivity();
+            }
             }
         });
     }
@@ -104,6 +108,13 @@ public class StoriesHolder extends ItemViewHolder<Post> {
     private void launchStoryActivity() {
         Intent intent = new Intent(getContext(), WebPageActivity.class);
         intent.putExtra(WebPageActivity.EXTRA_POST_URL, (Story) mPost);
+        getContext().startActivity(intent);
+    }
+
+    private void launchCommentsActivity() {
+        Intent intent = new Intent(getContext(), CommentsActivity.class);
+        intent.putExtra(CommentsActivity.EXTRA_COMMENTS, (Story) mPost);
+        intent.putExtra(CommentsActivity.EXTRA_TITLE, ((Story) mPost).title);
         getContext().startActivity(intent);
     }
 }

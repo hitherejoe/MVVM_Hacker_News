@@ -3,25 +3,31 @@ package com.hitherejoe.hackernews.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.firebase.client.Firebase;
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
+import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Comment;
-import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.Story;
-import com.hitherejoe.hackernews.data.remote.FirebaseHelper;
-import com.hitherejoe.hackernews.ui.widget.ItemCommentContainer;
+import com.hitherejoe.hackernews.ui.widget.ItemCommentThread;
 import com.hitherejoe.hackernews.util.ViewUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.app.AppObservable;
+import rx.schedulers.Schedulers;
 
 public class CommentsFragment extends Fragment {
 
@@ -36,19 +42,17 @@ public class CommentsFragment extends Fragment {
 
     public static final String ARG_COMMENTS = "ARG_COMMENTS";
     private Story mPost;
-    private FirebaseHelper mFirebaseHelper;
+    private DataManager mDataManager;
+    private List<Subscription> mSubscriptions;
     private Context mContext;
-    private int mCommentCount;
-    private int mCompleteRequests;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPost = getArguments().getParcelable(ARG_COMMENTS);
-        mFirebaseHelper = HackerNewsApplication.get().getFireBaseHelper();
+        mSubscriptions = new ArrayList<>();
+        mDataManager = HackerNewsApplication.get().getDataManager();
         mContext = getActivity();
-        mCommentCount = 0;
-        mCompleteRequests = 0;
     }
 
     @Override
@@ -60,6 +64,12 @@ public class CommentsFragment extends Fragment {
         return fragmentView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
+    }
+
     @OnClick(R.id.button_try_again)
     public void onTryAgainClick() {
         checkCanLoadComments();
@@ -68,7 +78,7 @@ public class CommentsFragment extends Fragment {
     private void checkCanLoadComments() {
         if (ViewUtils.isNetworkAvailable(getActivity())) {
             showHideOfflineLayout(false);
-            retrieveRecursiveComments(mPost);
+            retrieveRecursiveCommentsNew(mPost.kids);
         } else {
             showHideOfflineLayout(true);
         }
@@ -86,41 +96,37 @@ public class CommentsFragment extends Fragment {
         }
     }
 
-    private void retrieveRecursiveComments(Post post) {
-        if (post.kids != null) {
-            mCommentCount = post.kids.size();
-            for (Long id : post.kids) {
-                mFirebaseHelper.getItem(String.valueOf(id), new FirebaseHelper.ItemRetrievedListener() {
-                    @Override
-                    public void onItemRetrieved(Post comment) {
-                        if (comment instanceof Comment) {
-                            ItemCommentContainer itemCommentContainer = new ItemCommentContainer(mContext, (Comment) comment, mCommentsCompleteListener);
-                            mListPosts.addView(itemCommentContainer);
-                            mCompleteRequests++;
-                            checkCompleteComments();
+    private void retrieveRecursiveCommentsNew(final List<Long> kids) {
+        if (kids != null) {
+            mSubscriptions.add(AppObservable.bindFragment(this,
+                    mDataManager.getStoryComments(kids, 0))
+                    .subscribeOn(mDataManager.getScheduler())
+                    .subscribe(new Subscriber<Comment>() {
+                        @Override
+                        public void onCompleted() {
+                            mProgressBar.setVisibility(View.GONE);
                         }
-                    }
 
-                    @Override
-                    public void onItemNotValid() {
-                        mCommentCount--;
-                        checkCompleteComments();
-                    }
-                });
-            }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("ERROR", e + "");
+                            e.printStackTrace();
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onNext(Comment comment) {
+                            addCommentViews(comment);
+                        }
+                    }));
         }
     }
 
-    private void checkCompleteComments() {
-        if (mCompleteRequests == mCommentCount) mProgressBar.setVisibility(View.GONE);
-    }
-
-    private ItemCommentContainer.CommentsCompleteListener mCommentsCompleteListener = new ItemCommentContainer.CommentsCompleteListener() {
-        @Override
-        public void onComplete() {
-            mCompleteRequests++;
-            checkCompleteComments();
+    private void addCommentViews(Comment comment) {
+        mListPosts.addView(new ItemCommentThread(mContext, comment));
+        for (Comment innerComment : comment.comments) {
+            mListPosts.addView(new ItemCommentThread(mContext, innerComment));
         }
-    };
+    }
 
 }

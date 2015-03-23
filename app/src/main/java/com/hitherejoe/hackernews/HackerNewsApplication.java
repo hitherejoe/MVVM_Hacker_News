@@ -4,25 +4,21 @@ import android.app.Application;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.hitherejoe.hackernews.data.local.DatabaseHelper;
-import com.hitherejoe.hackernews.data.local.PreferencesHelper;
-import com.hitherejoe.hackernews.data.remote.FirebaseHelper;
+import com.hitherejoe.hackernews.data.DataManager;
+
+import rx.schedulers.Schedulers;
 
 public class HackerNewsApplication extends Application {
 
     private static HackerNewsApplication sHackerNewsApplication;
-    private FirebaseHelper mFireBaseHelper;
-    private DatabaseHelper mDatabaseHelper;
-    private PreferencesHelper mPreferencesHelper;
+    private DataManager mDataManager;
     private Tracker mAnalyticsTracker;
 
     @Override
     public void onCreate() {
         super.onCreate();
         sHackerNewsApplication = this;
-        mFireBaseHelper = new FirebaseHelper(this);
-        mDatabaseHelper = new DatabaseHelper(this);
-        mPreferencesHelper = new PreferencesHelper(this);
+        mDataManager = new DataManager(this, Schedulers.io());
     }
 
     @Override
@@ -35,13 +31,7 @@ public class HackerNewsApplication extends Application {
         return sHackerNewsApplication;
     }
 
-    public FirebaseHelper getFireBaseHelper() {
-        return mFireBaseHelper;
-    }
-
-    public DatabaseHelper getDatabaseHelper() { return mDatabaseHelper; }
-
-    public PreferencesHelper getPreferencesHelper() { return mPreferencesHelper; }
+    public DataManager getDataManager() { return mDataManager; }
 
     public synchronized Tracker getAnalyticsTrackerTracker() {
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);

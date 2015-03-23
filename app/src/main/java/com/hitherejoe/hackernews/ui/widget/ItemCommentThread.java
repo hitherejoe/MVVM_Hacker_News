@@ -31,10 +31,11 @@ public class ItemCommentThread extends RelativeLayout {
     @InjectView(R.id.container_item)
     LinearLayout mComment;
 
-    public ItemCommentThread(Context context, int depth) {
+    public ItemCommentThread(Context context, Comment comment) {
         super(context);
         init();
-        setCommentIndent(depth);
+        setCommentIndent(comment.depth);
+        setupViewData(comment);
     }
 
     private void init() {

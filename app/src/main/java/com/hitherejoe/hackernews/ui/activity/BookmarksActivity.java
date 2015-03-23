@@ -42,7 +42,7 @@ public class BookmarksActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
         ButterKnife.inject(this);
-        mDatabaseHelper = HackerNewsApplication.get().getDatabaseHelper();
+        mDatabaseHelper = HackerNewsApplication.get().getDataManager().getDatabaseHelper();
         setupActionBar();
         setupRecyclerView();
         getBookmarkedStories();
