@@ -69,6 +69,11 @@ public class DataManager {
                     public Observable<Story> call(Long aLong) {
                         return mHackerNewsService.getStoryItem(String.valueOf(aLong));
                     }
+                }).filter(new Func1<Story, Boolean>() {
+                    @Override
+                    public Boolean call(Story story) {
+                        return story.type.equals("story");
+                    }
                 });
     }
 
