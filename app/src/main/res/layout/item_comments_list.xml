@@ -28,7 +28,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/text_post_date"
@@ -36,7 +36,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/text_post_seperator"
                         android:textSize="16sp"
-                        android:textColor="@color/hn_orange"/>
+                        android:textColor="@color/hn_orange" />
 
                     <TextView
                         android:id="@+id/text_post_seperator"
@@ -46,7 +46,7 @@
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:textSize="16sp"
-                        android:text="@string/seperator_name_points"/>
+                        android:text="@string/seperator_name_points" />
 
                 </RelativeLayout>
 
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:autoLink="all"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -66,6 +66,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/container_item"
-        android:background="@color/light_grey"/>
+        android:background="@color/light_grey" />
 
 </RelativeLayout>
