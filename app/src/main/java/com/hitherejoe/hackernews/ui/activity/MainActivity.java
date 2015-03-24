@@ -1,9 +1,7 @@
 package com.hitherejoe.hackernews.ui.activity;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,14 +16,9 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setFragment();
+        addStoriesFragment();
         if (!HackerNewsApplication.get().getDataManager().getPreferencesHelper().getDialogFlag()) showRateDialog();
     }
-
-    private void showRateDialog() {
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,10 +42,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void setFragment() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new StoriesFragment();
-        ft.replace(R.id.content_frame, fragment);
-        ft.commit();
+    private void addStoriesFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, new StoriesFragment())
+                .commit();
     }
+
+    private void showRateDialog() {
+
+    }
+
 }

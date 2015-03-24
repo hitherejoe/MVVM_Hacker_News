@@ -22,11 +22,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.UserActivity"/>
-        <activity android:name=".ui.activity.CommentsActivity"/>
-        <activity android:name=".ui.activity.WebPageActivity"/>
-        <activity android:name=".ui.activity.AboutActivity"/>
-        <activity android:name=".ui.activity.BookmarksActivity"/>
+        <activity
+            android:name=".ui.activity.UserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WebPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BookmarksActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

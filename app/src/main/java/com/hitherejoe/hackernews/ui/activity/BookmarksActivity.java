@@ -10,16 +10,20 @@ import android.widget.TextView;
 
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
-import com.hitherejoe.hackernews.data.local.DatabaseHelper;
-import com.hitherejoe.hackernews.data.model.Bookmark;
+import com.hitherejoe.hackernews.data.DataManager;
+import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.adapter.BookmarkedStoriesHolder;
 import com.hitherejoe.hackernews.ui.adapter.BookmarkedStoriesHolder.RemovedListener;
 import com.hitherejoe.hackernews.util.ToastFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.app.AppObservable;
 import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class BookmarksActivity extends BaseActivity {
@@ -33,19 +37,28 @@ public class BookmarksActivity extends BaseActivity {
     @InjectView(R.id.progress_indicator)
     ProgressBar mProgressBar;
 
-    private EasyRecyclerAdapter<Bookmark> mEasyRecycleAdapter;
-    private DatabaseHelper mDatabaseHelper;
-    private List<Bookmark> mBookmarkList;
+    private EasyRecyclerAdapter<Story> mEasyRecycleAdapter;
+    private DataManager mDataManager;
+    private List<Story> mBookmarkList;
+    private List<Subscription> mSubscriptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
         ButterKnife.inject(this);
-        mDatabaseHelper = HackerNewsApplication.get().getDataManager().getDatabaseHelper();
+        mDataManager = HackerNewsApplication.get().getDataManager();
+        mBookmarkList = new ArrayList<>();
+        mSubscriptions = new ArrayList<>();
         setupActionBar();
         setupRecyclerView();
         getBookmarkedStories();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
     }
 
     private void setupActionBar() {
@@ -55,32 +68,68 @@ public class BookmarksActivity extends BaseActivity {
 
     private void setupRecyclerView() {
         mStoriesList.setHasFixedSize(true);
-        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkedStoriesHolder.class, mBookmarkremovedListener);
+        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkedStoriesHolder.class, mBookmarkList, mBookmarkremovedListener);
         mStoriesList.setAdapter(mEasyRecycleAdapter);
         mStoriesList.setLayoutManager(new LinearLayoutManager(this));
         mStoriesList.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void getBookmarkedStories() {
-        mBookmarkList = mDatabaseHelper.getBookmarkedStories();
-        if (mBookmarkList != null && !mBookmarkList.isEmpty()) {
-            mNoBookmarksText.setVisibility(View.GONE);
-            mEasyRecycleAdapter.setItems(mBookmarkList);
-        } else {
-            mStoriesList.setVisibility(View.GONE);
-        }
-        mProgressBar.setVisibility(View.GONE);
+        mSubscriptions.add(AppObservable.bindActivity(this,
+                mDataManager.getBookmarks())
+                .subscribeOn(mDataManager.getScheduler())
+                .subscribe(new Observer<Story>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mEasyRecycleAdapter.getItemCount() == 0) {
+                            mStoriesList.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Story story) {
+                        mProgressBar.setVisibility(View.GONE);
+                        mNoBookmarksText.setVisibility(View.GONE);
+                        mBookmarkList.add(story);
+                    }
+                }));
+    }
+
+    private void removeBookmark(final Story story) {
+        mSubscriptions.add(AppObservable.bindActivity(this,
+                mDataManager.deleteBookmark(story))
+                .subscribeOn(mDataManager.getScheduler())
+                .subscribe(new Observer<Void>() {
+                    @Override
+                    public void onCompleted() {
+                        mBookmarkList.remove(story);
+                        mEasyRecycleAdapter.notifyDataSetChanged();
+                        if (mBookmarkList.isEmpty()) mNoBookmarksText.setVisibility(View.VISIBLE);
+                        ToastFactory.createToast(
+                                BookmarksActivity.this,
+                                getString(R.string.bookmark_removed)
+                        ).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) { }
+                }));
     }
 
     private RemovedListener mBookmarkremovedListener = new RemovedListener() {
         @Override
-        public void onBookmarkRemoved(Bookmark bookmark) {
-            mDatabaseHelper.deleteBookmark(bookmark);
-            mBookmarkList.remove(bookmark);
-            mEasyRecycleAdapter.notifyDataSetChanged();
-            if (mBookmarkList.isEmpty()) mNoBookmarksText.setVisibility(View.VISIBLE);
-            ToastFactory.createToast(
-                    getApplicationContext(), getString(R.string.bookmark_removed)).show();
+        public void onBookmarkRemoved(Story bookmark) {
+            removeBookmark(bookmark);
         }
     };
 }

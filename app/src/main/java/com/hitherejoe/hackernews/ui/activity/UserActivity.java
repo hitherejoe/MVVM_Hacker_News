@@ -2,7 +2,6 @@ package com.hitherejoe.hackernews.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.ui.fragment.StoriesFragment;
@@ -19,7 +18,7 @@ public class UserActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString(EXTRA_USER);
         setupActionBar(username);
-        setFragment(username);
+        addStoriesFragment(username);
     }
 
     private void setupActionBar(String username) {
@@ -28,13 +27,15 @@ public class UserActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setFragment(String username) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new StoriesFragment();
-        Bundle b = new Bundle();
-        b.putString(StoriesFragment.ARG_USER, username);
-        fragment.setArguments(b);
-        ft.replace(R.id.content_frame, fragment);
-        ft.commit();
+    private void addStoriesFragment(String username) {
+        Fragment storiesFragment = new StoriesFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(StoriesFragment.ARG_USER, username);
+        storiesFragment.setArguments(bundle);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, storiesFragment)
+                .commit();
     }
 }

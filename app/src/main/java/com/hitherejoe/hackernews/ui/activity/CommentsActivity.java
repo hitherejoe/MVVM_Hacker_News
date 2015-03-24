@@ -58,13 +58,18 @@ public class CommentsActivity extends BaseActivity {
         mDataManager = HackerNewsApplication.get().getDataManager();
         setupActionbar();
         setupRecyclerView();
-        checkCanLoadComments();
+        loadStoriesIfNetworkConnected();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
+    }
+
+    @OnClick(R.id.button_try_again)
+    public void onTryAgainClick() {
+        loadStoriesIfNetworkConnected();
     }
 
     private void setupActionbar() {
@@ -80,30 +85,19 @@ public class CommentsActivity extends BaseActivity {
         mCommentsRecycler.setAdapter(mEasyRecycleAdapter);
     }
 
-    @OnClick(R.id.button_try_again)
-    public void onTryAgainClick() {
-        checkCanLoadComments();
-    }
-
-    private void checkCanLoadComments() {
+    private void loadStoriesIfNetworkConnected() {
         if (ViewUtils.isNetworkAvailable(this)) {
             showHideOfflineLayout(false);
-            retrieveRecursiveCommentsNew(mPost.kids);
+            getStoryComments(mPost.kids);
         } else {
             showHideOfflineLayout(true);
         }
     }
 
-    private void showHideOfflineLayout(boolean isOffline) {
-        mOfflineLayout.setVisibility(isOffline ? View.VISIBLE : View.GONE);
-        mCommentsRecycler.setVisibility(isOffline ? View.GONE : View.VISIBLE);
-        mProgressBar.setVisibility(isOffline ? View.GONE : View.VISIBLE);
-    }
-
-    private void retrieveRecursiveCommentsNew(final List<Long> kids) {
-        if (kids != null) {
+    private void getStoryComments(List<Long> commentIds) {
+        if (commentIds != null) {
             mSubscriptions.add(AppObservable.bindActivity(this,
-                    mDataManager.getStoryComments(kids, 0))
+                    mDataManager.getStoryComments(commentIds, 0))
                     .subscribeOn(mDataManager.getScheduler())
                     .subscribe(new Subscriber<Comment>() {
                         @Override
@@ -115,7 +109,6 @@ public class CommentsActivity extends BaseActivity {
                         public void onError(Throwable e) {
                             mProgressBar.setVisibility(View.GONE);
                             Log.e(TAG, "There was an error retrieving the comments " + e);
-                            e.printStackTrace();
                         }
 
                         @Override
@@ -130,5 +123,11 @@ public class CommentsActivity extends BaseActivity {
         mComments.add(comment);
         mComments.addAll(comment.comments);
         mEasyRecycleAdapter.notifyDataSetChanged();
+    }
+
+    private void showHideOfflineLayout(boolean isOffline) {
+        mOfflineLayout.setVisibility(isOffline ? View.VISIBLE : View.GONE);
+        mCommentsRecycler.setVisibility(isOffline ? View.GONE : View.VISIBLE);
+        mProgressBar.setVisibility(isOffline ? View.GONE : View.VISIBLE);
     }
 }

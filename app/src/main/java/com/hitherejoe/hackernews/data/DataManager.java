@@ -104,4 +104,27 @@ public class DataManager {
                 });
     }
 
+    public Observable<Story> getBookmarks() {
+        return mDatabaseHelper.getBookmarkedStories();
+    }
+
+    public Observable<Story> addBookmark(final Story story) {
+        return doesBookmarkExist(story)
+                .flatMap(new Func1<Boolean, Observable<Story>>() {
+                    @Override
+                    public Observable<Story> call(Boolean doesExist) {
+                        if (!doesExist) return mDatabaseHelper.bookmarkStory(story);
+                        return Observable.empty();
+                    }
+                });
+    }
+
+    public Observable<Void> deleteBookmark(Story story) {
+        return mDatabaseHelper.deleteBookmark(story);
+    }
+
+    public Observable<Boolean> doesBookmarkExist(Story story) {
+        return mDatabaseHelper.doesBookmarkExist(story);
+    }
+
 }

@@ -123,9 +123,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Subscriber<Story>() {
                     @Override
-                    public void onCompleted() {
-                        hideLoadingViews();
-                    }
+                    public void onCompleted() { }
 
                     @Override
                     public void onError(Throwable e) {
@@ -135,6 +133,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
 
                     @Override
                     public void onNext(Story post) {
+                        hideLoadingViews();
                         mEasyRecycleAdapter.addItem(post);
                     }
                 }));
@@ -146,9 +145,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Subscriber<Story>() {
                     @Override
-                    public void onCompleted() {
-                        hideLoadingViews();
-                    }
+                    public void onCompleted() { }
 
                     @Override
                     public void onError(Throwable e) {
@@ -158,6 +155,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
 
                     @Override
                     public void onNext(Story story) {
+                        hideLoadingViews();
                         mEasyRecycleAdapter.addItem(story);
                     }
                 }));

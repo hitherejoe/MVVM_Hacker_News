@@ -6,9 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hitherejoe.hackernews.R;
-import com.hitherejoe.hackernews.data.model.Bookmark;
+import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.activity.WebPageActivity;
-import com.hitherejoe.hackernews.util.DataUtils;
 
 import uk.co.ribot.easyadapter.ItemViewHolder;
 import uk.co.ribot.easyadapter.PositionInfo;
@@ -16,7 +15,7 @@ import uk.co.ribot.easyadapter.annotations.LayoutId;
 import uk.co.ribot.easyadapter.annotations.ViewId;
 
 @LayoutId(R.layout.item_bookmarks_list)
-public class BookmarkedStoriesHolder extends ItemViewHolder<Bookmark> {
+public class BookmarkedStoriesHolder extends ItemViewHolder<Story> {
 
     @ViewId(R.id.text_post_title)
     TextView mPostTitle;
@@ -33,14 +32,14 @@ public class BookmarkedStoriesHolder extends ItemViewHolder<Bookmark> {
     @ViewId(R.id.text_remove_bookmark)
     TextView mRemoveBookmark;
 
-    private Bookmark mPost;
+    private Story mPost;
 
     public BookmarkedStoriesHolder(View view) {
         super(view);
     }
 
     @Override
-    public void onSetValues(Bookmark post, PositionInfo positionInfo) {
+    public void onSetValues(Story post, PositionInfo positionInfo) {
         mPost = post;
         mPostTitle.setText(mPost.title);
         mPostAuthor.setText(Html.fromHtml(getContext().getString(R.string.story_by) + " " + post.by));
@@ -53,7 +52,7 @@ public class BookmarkedStoriesHolder extends ItemViewHolder<Bookmark> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), WebPageActivity.class);
-                intent.putExtra(WebPageActivity.EXTRA_POST_URL, DataUtils.createStoryObject(mPost));
+                intent.putExtra(WebPageActivity.EXTRA_POST_URL, mPost);
                 getContext().startActivity(intent);
             }
         });
@@ -67,7 +66,7 @@ public class BookmarkedStoriesHolder extends ItemViewHolder<Bookmark> {
     }
 
     public interface RemovedListener {
-        public void onBookmarkRemoved(Bookmark bookmark);
+        public void onBookmarkRemoved(Story bookmark);
     }
 
 }
