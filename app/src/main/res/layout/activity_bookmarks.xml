@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lighter_grey"
+    android:background="@color/bg_light_grey"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -20,27 +20,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
-    <LinearLayout
-        android:id="@+id/layout_no_bookmarks"
+    <TextView
+        android:id="@+id/text_no_bookmarks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_book_grey"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_bookmarks"
-            android:textColor="@color/dark_grey"
-            android:textSize="20sp"/>
-
-    </LinearLayout>
+        android:drawableTop="@drawable/ic_book_grey"
+        android:drawablePadding="10dp"
+        android:text="@string/no_bookmarks"
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/text_title" />
 
 </RelativeLayout>

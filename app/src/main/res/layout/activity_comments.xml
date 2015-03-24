@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/lighter_grey">
+    android:background="@color/bg_light_grey">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_comments"
@@ -21,7 +21,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:background="@android:color/white">
+        android:background="@color/white">
 
         <ProgressBar
             style="?android:attr/progressBarStyleSmall"
@@ -39,6 +39,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/layout_offline"/>
+    <include layout="@layout/layout_offline" />
 
 </RelativeLayout>

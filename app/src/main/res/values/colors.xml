@@ -3,6 +3,8 @@
     <color name="hn_orange">#FF6600</color>
     <color name="hn_orange_lighter">#FF8C3F</color>
     <color name="light_grey">#D4D4D4</color>
-    <color name="lighter_grey">#E9E9E9</color>
+    <color name="bg_light_grey">#E9E9E9</color>
     <color name="dark_grey">#A8A8A8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black_87">#87000000</color>
 </resources>

@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,25 +28,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/text_body" />
 
                     <TextView
-                        android:id="@+id/text_post_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/text_post_seperator"
-                        android:textSize="16sp"
-                        android:textColor="@color/hn_orange" />
-
-                    <TextView
-                        android:id="@+id/text_post_seperator"
+                        android:id="@+id/text_post_separator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/text_post_author"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_body"
                         android:text="@string/seperator_name_points" />
+
+                    <TextView
+                        android:id="@+id/text_post_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/text_post_separator"
+                        android:textSize="@dimen/text_body"
+                        android:textColor="@color/hn_orange" />
 
                 </RelativeLayout>
 
@@ -54,7 +54,7 @@
                     android:id="@+id/text_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoLink="all"
+                    android:autoLink="web|email"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 

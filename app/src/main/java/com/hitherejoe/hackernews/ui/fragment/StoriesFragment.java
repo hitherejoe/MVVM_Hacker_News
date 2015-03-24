@@ -40,7 +40,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @InjectView(R.id.list_stories)
     RecyclerView mListPosts;
 
-    @InjectView(R.id.layout_no_connection)
+    @InjectView(R.id.layout_offline)
     LinearLayout mOfflineContainer;
 
     @InjectView(R.id.progress_indicator)

@@ -36,7 +36,7 @@ public class WebPageActivity extends BaseActivity {
     @InjectView(R.id.progress_indicator)
     LinearLayout mProgressBar;
 
-    @InjectView(R.id.layout_no_connection)
+    @InjectView(R.id.layout_offline)
     LinearLayout mOfflineContainer;
 
     public static final String EXTRA_POST_URL =
@@ -118,7 +118,7 @@ public class WebPageActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_web_page_activity, menu);
+        getMenuInflater().inflate(R.menu.web_page, menu);
         setupShareActionProvider(menu);
         return true;
     }

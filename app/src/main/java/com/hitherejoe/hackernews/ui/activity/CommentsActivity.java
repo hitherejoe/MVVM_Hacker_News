@@ -31,7 +31,7 @@ public class CommentsActivity extends BaseActivity {
     @InjectView(R.id.progress_indicator)
     LinearLayout mProgressBar;
 
-    @InjectView(R.id.layout_no_connection)
+    @InjectView(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
     @InjectView(R.id.recycler_comments)

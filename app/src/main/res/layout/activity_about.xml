@@ -2,26 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerInParent="true"
-    android:background="@color/lighter_grey"
+    android:gravity="center"
     android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center">
+    android:background="@color/bg_light_grey">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="@string/created_by"
         android:textColor="@color/dark_grey"
-        android:padding="10dp"
-        android:textSize="24sp"/>
+        android:textSize="@dimen/text_headline" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="@string/web_link"
         android:autoLink="web"
-        android:textSize="20sp"/>
+        android:text="@string/web_link"
+        android:textSize="@dimen/text_title" />
 
 </LinearLayout>

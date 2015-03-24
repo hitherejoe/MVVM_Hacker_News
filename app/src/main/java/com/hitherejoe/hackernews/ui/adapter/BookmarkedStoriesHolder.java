@@ -60,13 +60,13 @@ public class BookmarkedStoriesHolder extends ItemViewHolder<Bookmark> {
         mRemoveBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RemovalListener listener = getListener(RemovalListener.class);
+                RemovedListener listener = getListener(RemovedListener.class);
                 if (listener != null) listener.onBookmarkRemoved(getItem());
             }
         });
     }
 
-    public interface RemovalListener {
+    public interface RemovedListener {
         public void onBookmarkRemoved(Bookmark bookmark);
     }
 
