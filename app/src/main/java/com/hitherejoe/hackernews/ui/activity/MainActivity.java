@@ -11,7 +11,6 @@ import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.fragment.StoriesFragment;
-import com.hitherejoe.hackernews.ui.fragment.TopStoriesFragment;
 
 public class MainActivity extends BaseActivity {
 
