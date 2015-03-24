@@ -83,6 +83,7 @@ public class BookmarksActivity extends BaseActivity {
                     public void onCompleted() {
                         if (mEasyRecycleAdapter.getItemCount() == 0) {
                             mStoriesList.setVisibility(View.GONE);
+                            mProgressBar.setVisibility(View.GONE);
                         }
                     }
 
