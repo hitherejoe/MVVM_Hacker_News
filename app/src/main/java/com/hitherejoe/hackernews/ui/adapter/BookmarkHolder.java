@@ -7,7 +7,9 @@ import android.widget.TextView;
 
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Story;
-import com.hitherejoe.hackernews.ui.activity.WebPageActivity;
+import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
+import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
+import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
 
 import uk.co.ribot.easyadapter.ItemViewHolder;
 import uk.co.ribot.easyadapter.PositionInfo;
@@ -15,7 +17,7 @@ import uk.co.ribot.easyadapter.annotations.LayoutId;
 import uk.co.ribot.easyadapter.annotations.ViewId;
 
 @LayoutId(R.layout.item_bookmarks_list)
-public class BookmarkedStoriesHolder extends ItemViewHolder<Story> {
+public class BookmarkHolder extends ItemViewHolder<Story> {
 
     @ViewId(R.id.text_post_title)
     TextView mPostTitle;
@@ -32,18 +34,16 @@ public class BookmarkedStoriesHolder extends ItemViewHolder<Story> {
     @ViewId(R.id.text_remove_bookmark)
     TextView mRemoveBookmark;
 
-    private Story mPost;
 
-    public BookmarkedStoriesHolder(View view) {
+    public BookmarkHolder(View view) {
         super(view);
     }
 
     @Override
     public void onSetValues(Story post, PositionInfo positionInfo) {
-        mPost = post;
-        mPostTitle.setText(mPost.title);
+        mPostTitle.setText(post.title);
         mPostAuthor.setText(Html.fromHtml(getContext().getString(R.string.story_by) + " " + post.by));
-        mPostPoints.setText(mPost.score + " " + getContext().getString(R.string.story_points));
+        mPostPoints.setText(post.score + " " + getContext().getString(R.string.story_points));
     }
 
     @Override
@@ -51,9 +51,8 @@ public class BookmarkedStoriesHolder extends ItemViewHolder<Story> {
         mViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), WebPageActivity.class);
-                intent.putExtra(WebPageActivity.EXTRA_POST_URL, mPost);
-                getContext().startActivity(intent);
+                AnalyticsHelper.trackViewStoryClicked();
+                launchActivity();
             }
         });
         mRemoveBookmark.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +62,33 @@ public class BookmarkedStoriesHolder extends ItemViewHolder<Story> {
                 if (listener != null) listener.onBookmarkRemoved(getItem());
             }
         });
+        mPostTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnalyticsHelper.trackStoryCardClicked();
+                launchActivity();
+            }
+        });
+    }
+
+    private void launchActivity() {
+        if (getItem().storyType == Story.StoryType.ASK) {
+            launchCommentsActivity();
+        } else {
+            launchStoryActivity();
+        }
+    }
+
+    private void launchStoryActivity() {
+        Intent intent = new Intent(getContext(), ViewStoryActivity.class);
+        intent.putExtra(ViewStoryActivity.EXTRA_POST_URL, getItem());
+        getContext().startActivity(intent);
+    }
+
+    private void launchCommentsActivity() {
+        Intent intent = new Intent(getContext(), CommentsActivity.class);
+        intent.putExtra(CommentsActivity.EXTRA_POST, getItem());
+        getContext().startActivity(intent);
     }
 
     public interface RemovedListener {

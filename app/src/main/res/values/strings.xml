@@ -30,6 +30,7 @@
     <string name="bookmark_added">Bookmark added</string>
     <string name="bookmark_removed">Bookmark removed</string>
     <string name="bookmark_exists">Bookmark already exists</string>
+    <string name="bookmark_error">There was a problem adding the bookmark</string>
 
     <string name="error_stories">Sorry, unable to load stories!</string>
     <string name="error_comments">Sorry, unable to load comments!</string>

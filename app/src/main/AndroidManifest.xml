@@ -29,7 +29,7 @@
             android:name=".ui.activity.CommentsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.WebPageActivity"
+            android:name=".ui.activity.ViewStoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.AboutActivity"

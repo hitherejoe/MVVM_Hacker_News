@@ -16,6 +16,7 @@ public class Db {
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_SCORE = "score";
         public static final String COLUMN_URL = "url";
+        public static final String COLUMN_TYPE = "type";
 
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -23,7 +24,8 @@ public class Db {
                         COLUMN_BY + " TEXT NOT NULL," +
                         COLUMN_TITLE + " TEXT NOT NULL," +
                         COLUMN_SCORE + " INTEGER NOT NULL," +
-                        COLUMN_URL + " TEXT NOT NULL" +
+                        COLUMN_URL + " TEXT NOT NULL, " +
+                        COLUMN_TYPE + " TEXT NOT NULL" +
                         " ); ";
 
         public static ContentValues toContentValues(Story story) {
@@ -33,6 +35,7 @@ public class Db {
             values.put(COLUMN_TITLE, story.title);
             values.put(COLUMN_SCORE, story.score);
             values.put(COLUMN_URL, story.url);
+            values.put(COLUMN_TYPE, story.storyType.toString());
             return values;
         }
 
@@ -43,6 +46,7 @@ public class Db {
             story.title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
             story.score = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_SCORE));
             story.url = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL));
+            story.storyType = Story.StoryType.fromString(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE)));
             return story;
         }
     }

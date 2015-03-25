@@ -19,6 +19,7 @@ import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.adapter.StoriesHolder;
 import com.hitherejoe.hackernews.ui.adapter.UserStoriesHolder;
+import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.ViewUtils;
 
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     }
 
     private void loadStoriesIfNetworkConnected() {
-        if (ViewUtils.isNetworkAvailable(getActivity())) {
+        if (DataUtils.isNetworkAvailable(getActivity())) {
             showHideOfflineLayout(false);
             if (mUser != null) {
                getUserStories();

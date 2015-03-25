@@ -13,6 +13,7 @@ import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Comment;
 import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.adapter.CommentHolder;
+import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.ViewUtils;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class CommentsActivity extends BaseActivity {
     }
 
     private void loadStoriesIfNetworkConnected() {
-        if (ViewUtils.isNetworkAvailable(this)) {
+        if (DataUtils.isNetworkAvailable(this)) {
             showHideOfflineLayout(false);
             getStoryComments(mPost.kids);
         } else {

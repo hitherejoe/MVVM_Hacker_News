@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.hitherejoe.hackernews.data.model.Story;
-import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -16,6 +15,10 @@ public class DatabaseHelper {
 
     public DatabaseHelper(Context context) {
         mDatabaseOpenHelper = new DbOpenHelper(context);
+    }
+
+    public SQLiteDatabase getReadableDatabase() {
+        return mDatabaseOpenHelper.getReadableDatabase();
     }
 
     public Observable<Void> deleteBookmark(final Story story) {
@@ -35,7 +38,8 @@ public class DatabaseHelper {
             @Override
             public void call(Subscriber<? super Story> subscriber) {
                 SQLiteDatabase db = mDatabaseOpenHelper.getReadableDatabase();
-                Cursor bookmarkCursor = db.rawQuery("SELECT * FROM " + Db.BookmarkTable.TABLE_NAME, null);
+                Cursor bookmarkCursor =
+                        db.rawQuery("SELECT * FROM " + Db.BookmarkTable.TABLE_NAME, null);
                 while (bookmarkCursor.moveToNext()) {
                     subscriber.onNext(Db.BookmarkTable.parseCursor(bookmarkCursor));
                 }
@@ -46,7 +50,6 @@ public class DatabaseHelper {
     }
 
     public Observable<Story> bookmarkStory(final Story story) {
-        AnalyticsHelper.trackBookmarkAdded();
         return Observable.create(new Observable.OnSubscribe<Story>() {
             @Override
             public void call(Subscriber<? super Story> subscriber) {
@@ -63,9 +66,10 @@ public class DatabaseHelper {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 SQLiteDatabase db = mDatabaseOpenHelper.getReadableDatabase();
-                //Inner join of Calendar and UserCalendar table to get the full UserCalendar object.
-                Cursor bookmarkCursor = db.rawQuery("SELECT * FROM " + Db.BookmarkTable.TABLE_NAME + " WHERE " + Db.BookmarkTable.COLUMN_ID + " = ?"
-                        , new String[]{String.valueOf(story.id)});
+                Cursor bookmarkCursor =
+                        db.rawQuery("SELECT * FROM " + Db.BookmarkTable.TABLE_NAME +
+                                " WHERE " + Db.BookmarkTable.COLUMN_ID + " = ?"
+                                , new String[]{String.valueOf(story.id)});
                 subscriber.onNext(bookmarkCursor.moveToNext());
                 bookmarkCursor.close();
                 subscriber.onCompleted();

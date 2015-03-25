@@ -9,7 +9,7 @@ import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
-import com.hitherejoe.hackernews.ui.activity.WebPageActivity;
+import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
 
 import uk.co.ribot.easyadapter.ItemViewHolder;
 import uk.co.ribot.easyadapter.PositionInfo;
@@ -76,8 +76,8 @@ public class UserStoriesHolder extends ItemViewHolder<Post> {
     }
 
     private void launchStoryActivity() {
-        Intent intent = new Intent(getContext(), WebPageActivity.class);
-        intent.putExtra(WebPageActivity.EXTRA_POST_URL, (Story) mPost);
+        Intent intent = new Intent(getContext(), ViewStoryActivity.class);
+        intent.putExtra(ViewStoryActivity.EXTRA_POST_URL, (Story) mPost);
         getContext().startActivity(intent);
     }
 }

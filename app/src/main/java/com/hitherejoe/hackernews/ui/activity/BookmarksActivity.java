@@ -12,8 +12,8 @@ import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Story;
-import com.hitherejoe.hackernews.ui.adapter.BookmarkedStoriesHolder;
-import com.hitherejoe.hackernews.ui.adapter.BookmarkedStoriesHolder.RemovedListener;
+import com.hitherejoe.hackernews.ui.adapter.BookmarkHolder;
+import com.hitherejoe.hackernews.ui.adapter.BookmarkHolder.RemovedListener;
 import com.hitherejoe.hackernews.util.ToastFactory;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class BookmarksActivity extends BaseActivity {
 
     private void setupRecyclerView() {
         mStoriesList.setHasFixedSize(true);
-        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkedStoriesHolder.class, mBookmarkList, mBookmarkremovedListener);
+        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkHolder.class, mBookmarkList, mBookmarkremovedListener);
         mStoriesList.setAdapter(mEasyRecycleAdapter);
         mStoriesList.setLayoutManager(new LinearLayoutManager(this));
         mStoriesList.setItemAnimator(new DefaultItemAnimator());
@@ -123,7 +123,8 @@ public class BookmarksActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(Void aVoid) { }
+                    public void onNext(Void aVoid) {
+                    }
                 }));
     }
 

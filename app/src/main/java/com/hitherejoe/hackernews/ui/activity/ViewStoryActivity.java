@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.ShareActionProvider.OnShareTargetSelectedListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
+import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.ToastFactory;
 import com.hitherejoe.hackernews.util.ViewUtils;
 
@@ -34,7 +36,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.app.AppObservable;
 
-public class WebPageActivity extends BaseActivity {
+public class ViewStoryActivity extends BaseActivity {
 
     @InjectView(R.id.web_view)
     WebView mWebView;
@@ -45,11 +47,12 @@ public class WebPageActivity extends BaseActivity {
     @InjectView(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
+    private static final String TAG = "WebPageActivity";
     public static final String EXTRA_POST_URL =
             "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST_URL";
     private static final String KEY_PDF = "pdf";
-    private static final String PDF_URL = "http://docs.google.com/gview?embedded=true&url=";
-    private static final String PLAY_STORE_URL =
+    private static final String URL_GOOGLE_DOCS = "http://docs.google.com/gview?embedded=true&url=";
+    private static final String URL_PLAY_STORE =
             "https://play.google.com/store/apps/details?id=com.hitherejoe.hackernews&hl=en_GB";
     private Story mPost;
     private DataManager mDataManager;
@@ -65,7 +68,7 @@ public class WebPageActivity extends BaseActivity {
         mDataManager = HackerNewsApplication.get().getDataManager();
         mSubscriptions = new ArrayList<>();
         setupActionBar();
-        setupContent();
+        setupWebView();
     }
 
     @Override
@@ -76,7 +79,7 @@ public class WebPageActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.web_page, menu);
+        getMenuInflater().inflate(R.menu.view_story, menu);
         setupShareActionProvider(menu);
         return true;
     }
@@ -98,17 +101,7 @@ public class WebPageActivity extends BaseActivity {
 
     @OnClick(R.id.button_try_again)
     public void onTryAgainClick() {
-        setupContent();
-    }
-
-    private Intent getShareIntent() {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        String shareText = mPost.title + " " + getString(R.string.seperator_name_points)
-                + " " + mPost.url + " " + getString(R.string.via) + " " + PLAY_STORE_URL;
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-        return shareIntent;
+        setupWebView();
     }
 
     private void setupActionBar() {
@@ -116,48 +109,6 @@ public class WebPageActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(mPost.title);
     }
-
-    private void setupContent() {
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                if (progress == 100) mProgressBar.setVisibility(ProgressBar.GONE);
-            }
-        });
-        mWebView.setWebViewClient(new CustomWebViewClient());
-        mWebView.setInitialScale(1);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.getSettings().setDisplayZoomControls(true);
-        mWebView.getSettings().setLoadsImagesAutomatically(true);
-        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setAllowFileAccess(true);
-        mWebView.getSettings().setAppCacheEnabled(true);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        if (ViewUtils.isNetworkAvailable(this)) {
-            showHideOfflineLayout(false);
-            if (mPost.url != null) {
-                String urlEnd = mPost.url.substring(mPost.url.length() - 3);
-                if (urlEnd.equals(KEY_PDF)) {
-                    mWebView.loadUrl(PDF_URL + mPost.url);
-                } else {
-                    mWebView.loadUrl(mPost.url);
-                }
-            }
-        } else {
-            showHideOfflineLayout(true);
-        }
-    }
-
-    private void showHideOfflineLayout(boolean isOffline) {
-        mOfflineLayout.setVisibility(isOffline ? View.VISIBLE : View.GONE);
-        mWebView.setVisibility(isOffline ? View.GONE : View.VISIBLE);
-        mProgressBar.setVisibility(isOffline ? View.GONE : View.VISIBLE);
-    }
-
-
 
     private void setupShareActionProvider(Menu menu) {
         ShareActionProvider shareActionProvider =
@@ -174,6 +125,45 @@ public class WebPageActivity extends BaseActivity {
         }
     }
 
+    private void setupWebView() {
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                if (progress == 100) mProgressBar.setVisibility(ProgressBar.GONE);
+            }
+        });
+        mWebView.setWebViewClient(new ProgressWebViewClient());
+        mWebView.setInitialScale(1);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.getSettings().setDisplayZoomControls(true);
+        mWebView.getSettings().setLoadsImagesAutomatically(true);
+        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        if (DataUtils.isNetworkAvailable(this)) {
+            showHideOfflineLayout(false);
+            if (mPost.storyType == Story.StoryType.LINK) {
+                String strippedUrl = mPost.url.split("\\?")[0].split("#")[0];
+                mWebView.loadUrl(strippedUrl.endsWith(KEY_PDF) ? URL_GOOGLE_DOCS + mPost.url : mPost.url);
+            }
+        } else {
+            showHideOfflineLayout(true);
+        }
+    }
+
+    private Intent getShareIntent() {
+        String shareText = mPost.title + " " + getString(R.string.seperator_name_points)
+                + " " + mPost.url + " " + getString(R.string.via) + " " + URL_PLAY_STORE;
+        return new Intent()
+                .setAction(Intent.ACTION_SEND)
+                .setType("text/plain")
+                .putExtra(Intent.EXTRA_TEXT, shareText);
+    }
+
     private void addBookmark() {
         mSubscriptions.add(AppObservable.bindActivity(this,
                 mDataManager.addBookmark(mPost))
@@ -185,14 +175,18 @@ public class WebPageActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
                         ToastFactory.createToast(
-                                WebPageActivity.this,
+                                ViewStoryActivity.this,
                                 storyResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
                         ).show();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG, "There was an error bookmarking the story " + e);
+                        ToastFactory.createToast(
+                                ViewStoryActivity.this,
+                                getString(R.string.bookmark_error)
+                        ).show();
                     }
 
                     @Override
@@ -202,7 +196,13 @@ public class WebPageActivity extends BaseActivity {
                 }));
     }
 
-    private class CustomWebViewClient extends WebViewClient {
+    private void showHideOfflineLayout(boolean isOffline) {
+        mOfflineLayout.setVisibility(isOffline ? View.VISIBLE : View.GONE);
+        mWebView.setVisibility(isOffline ? View.GONE : View.VISIBLE);
+        mProgressBar.setVisibility(isOffline ? View.GONE : View.VISIBLE);
+    }
+
+    private class ProgressWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
