@@ -33,6 +33,10 @@ public class DataManager {
         mScheduler = scheduler;
     }
 
+    public void setHackerNewsService(HackerNewsService hackerNewsService) {
+        mHackerNewsService = hackerNewsService;
+    }
+
     public DatabaseHelper getDatabaseHelper() {
         return mDatabaseHelper;
     }
