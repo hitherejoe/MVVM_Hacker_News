@@ -1,12 +1,11 @@
 package com.hitherejoe.hackernews;
 
-
 import android.database.Cursor;
 
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.local.Db;
 import com.hitherejoe.hackernews.data.model.Post;
-import com.hitherejoe.hackernews.espresso.util.DefaultConfig;
+import com.hitherejoe.hackernews.util.DefaultConfig;
 import com.hitherejoe.hackernews.util.MockModelsUtil;
 
 import junit.framework.Assert;

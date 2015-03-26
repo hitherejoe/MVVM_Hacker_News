@@ -4,7 +4,7 @@ import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 import com.hitherejoe.hackernews.data.remote.HackerNewsService;
-import com.hitherejoe.hackernews.espresso.util.DefaultConfig;
+import com.hitherejoe.hackernews.util.DefaultConfig;
 import com.hitherejoe.hackernews.util.MockModelsUtil;
 
 import junit.framework.Assert;
@@ -173,7 +173,7 @@ public class DataManagerTest {
 
         final List<Post> stories = new ArrayList<>();
 
-        mDataManager.getStoriesFromIds(storyIds).subscribe(new Action1<Post>() {
+        mDataManager.getPostsFromIds(storyIds).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
                 stories.add(story);
@@ -209,7 +209,7 @@ public class DataManagerTest {
 
         final List<Post> userStories = new ArrayList<>();
 
-        mDataManager.getUserStories(mockUser.id).subscribe(new Action1<Post>() {
+        mDataManager.getUserPosts(mockUser.id).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
                 userStories.add(story);
