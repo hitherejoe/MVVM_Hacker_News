@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
-import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
 import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
 
@@ -43,12 +42,10 @@ public class UserStoriesHolder extends ItemViewHolder<Post> {
     @Override
     public void onSetValues(Post post, PositionInfo positionInfo) {
         mPost = post;
-        if (post instanceof Story) {
-            mPostTitle.setText(((Story) post).title);
+            mPostTitle.setText(post.title);
             mPostAuthor.setText(Html.fromHtml(getContext().getString(R.string.story_by) + " " + post.by));
-            mPostPoints.setText(((Story) post).score + " " + getContext().getString(R.string.story_points));
-            if (((Story) post).kids == null) mPostComments.setVisibility(View.GONE);
-        }
+            mPostPoints.setText(post.score + " " + getContext().getString(R.string.story_points));
+            if (post.kids == null) mPostComments.setVisibility(View.GONE);
     }
 
     @Override
@@ -57,7 +54,7 @@ public class UserStoriesHolder extends ItemViewHolder<Post> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CommentsActivity.class);
-                intent.putExtra(CommentsActivity.EXTRA_POST, (Story) mPost);
+                intent.putExtra(CommentsActivity.EXTRA_POST, mPost);
                 getContext().startActivity(intent);
             }
         });
@@ -77,7 +74,7 @@ public class UserStoriesHolder extends ItemViewHolder<Post> {
 
     private void launchStoryActivity() {
         Intent intent = new Intent(getContext(), ViewStoryActivity.class);
-        intent.putExtra(ViewStoryActivity.EXTRA_POST_URL, (Story) mPost);
+        intent.putExtra(ViewStoryActivity.EXTRA_POST_URL, mPost);
         getContext().startActivity(intent);
     }
 }

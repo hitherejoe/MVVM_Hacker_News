@@ -3,7 +3,7 @@ package com.hitherejoe.hackernews.data.local;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 
 public class Db {
 
@@ -28,25 +28,25 @@ public class Db {
                         COLUMN_TYPE + " TEXT NOT NULL" +
                         " ); ";
 
-        public static ContentValues toContentValues(Story story) {
+        public static ContentValues toContentValues(Post story) {
             ContentValues values = new ContentValues();
             values.put(COLUMN_ID, story.id);
             values.put(COLUMN_BY, story.by);
             values.put(COLUMN_TITLE, story.title);
             values.put(COLUMN_SCORE, story.score);
             values.put(COLUMN_URL, story.url);
-            values.put(COLUMN_TYPE, story.storyType.toString());
+            values.put(COLUMN_TYPE, story.postType.toString());
             return values;
         }
 
-        public static Story parseCursor(Cursor cursor) {
-            Story story = new Story();
+        public static Post parseCursor(Cursor cursor) {
+            Post story = new Post();
             story.id = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID));
             story.by = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_BY));
             story.title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE));
             story.score = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_SCORE));
             story.url = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_URL));
-            story.storyType = Story.StoryType.fromString(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE)));
+            story.postType = Post.PostType.fromString(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE)));
             return story;
         }
     }

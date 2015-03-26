@@ -21,7 +21,7 @@ import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.ToastFactory;
@@ -54,7 +54,7 @@ public class ViewStoryActivity extends BaseActivity {
     private static final String URL_GOOGLE_DOCS = "http://docs.google.com/gview?embedded=true&url=";
     private static final String URL_PLAY_STORE =
             "https://play.google.com/store/apps/details?id=com.hitherejoe.hackernews&hl=en_GB";
-    private Story mPost;
+    private Post mPost;
     private DataManager mDataManager;
     private List<Subscription> mSubscriptions;
 
@@ -146,9 +146,8 @@ public class ViewStoryActivity extends BaseActivity {
 
         if (DataUtils.isNetworkAvailable(this)) {
             showHideOfflineLayout(false);
-            if (mPost.storyType == Story.StoryType.LINK) {
+            if (mPost.postType == Post.PostType.LINK) {
                 String strippedUrl = mPost.url.split("\\?")[0].split("#")[0];
-                Log.d("URLL", strippedUrl);
                 mWebView.loadUrl(strippedUrl.endsWith(KEY_PDF) ? URL_GOOGLE_DOCS + mPost.url : mPost.url);
             }
         } else {
@@ -169,15 +168,15 @@ public class ViewStoryActivity extends BaseActivity {
         mSubscriptions.add(AppObservable.bindActivity(this,
                 mDataManager.addBookmark(mPost))
                 .subscribeOn(mDataManager.getScheduler())
-                .subscribe(new Observer<Story>() {
+                .subscribe(new Observer<Post>() {
 
-                    private Story storyResult;
+                    private Post bookmarkResult;
 
                     @Override
                     public void onCompleted() {
                         ToastFactory.createToast(
                                 ViewStoryActivity.this,
-                                storyResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
+                                bookmarkResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
                         ).show();
                     }
 
@@ -191,8 +190,8 @@ public class ViewStoryActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(Story story) {
-                        storyResult = story;
+                    public void onNext(Post story) {
+                        bookmarkResult = story;
                     }
                 }));
     }

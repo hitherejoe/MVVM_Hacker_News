@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hitherejoe.hackernews.R;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
 import com.hitherejoe.hackernews.ui.activity.UserActivity;
@@ -18,7 +18,7 @@ import uk.co.ribot.easyadapter.annotations.LayoutId;
 import uk.co.ribot.easyadapter.annotations.ViewId;
 
 @LayoutId(R.layout.item_stories_list)
-public class StoriesHolder extends ItemViewHolder<Story> {
+public class StoriesHolder extends ItemViewHolder<Post> {
 
     @ViewId(R.id.text_post_title)
     TextView mPostTitle;
@@ -40,7 +40,7 @@ public class StoriesHolder extends ItemViewHolder<Story> {
     }
 
     @Override
-    public void onSetValues(Story story, PositionInfo positionInfo) {
+    public void onSetValues(Post story, PositionInfo positionInfo) {
         mPostTitle.setText(story.title);
         mPostAuthor.setText(Html.fromHtml(getContext().getString(R.string.story_by) + " " + "<u>" + story.by + "</u>"));
         mPostPoints.setText(story.score + " " + getContext().getString(R.string.story_points));
@@ -49,7 +49,7 @@ public class StoriesHolder extends ItemViewHolder<Story> {
         } else {
             mPostComments.setVisibility(View.VISIBLE);
         }
-        mViewPost.setVisibility(story.storyType == Story.StoryType.LINK ? View.VISIBLE : View.GONE);
+        mViewPost.setVisibility(story.postType == Post.PostType.LINK ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class StoriesHolder extends ItemViewHolder<Story> {
             @Override
             public void onClick(View v) {
                 AnalyticsHelper.trackStoryCardClicked();
-            if (getItem().storyType == Story.StoryType.ASK) {
+            if (getItem().postType == Post.PostType.ASK) {
                 launchCommentsActivity();
             } else {
                 launchStoryActivity();

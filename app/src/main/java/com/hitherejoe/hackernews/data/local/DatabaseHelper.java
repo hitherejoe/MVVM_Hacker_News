@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -21,7 +21,7 @@ public class DatabaseHelper {
         return mDatabaseOpenHelper.getReadableDatabase();
     }
 
-    public Observable<Void> deleteBookmark(final Story story) {
+    public Observable<Void> deleteBookmark(final Post story) {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(Subscriber<? super Void> subscriber) {
@@ -33,10 +33,10 @@ public class DatabaseHelper {
         });
     }
 
-    public Observable<Story> getBookmarkedStories() {
-        return Observable.create(new Observable.OnSubscribe<Story>() {
+    public Observable<Post> getBookmarkedStories() {
+        return Observable.create(new Observable.OnSubscribe<Post>() {
             @Override
-            public void call(Subscriber<? super Story> subscriber) {
+            public void call(Subscriber<? super Post> subscriber) {
                 SQLiteDatabase db = mDatabaseOpenHelper.getReadableDatabase();
                 Cursor bookmarkCursor =
                         db.rawQuery("SELECT * FROM " + Db.BookmarkTable.TABLE_NAME, null);
@@ -49,10 +49,10 @@ public class DatabaseHelper {
         });
     }
 
-    public Observable<Story> bookmarkStory(final Story story) {
-        return Observable.create(new Observable.OnSubscribe<Story>() {
+    public Observable<Post> bookmarkStory(final Post story) {
+        return Observable.create(new Observable.OnSubscribe<Post>() {
             @Override
-            public void call(Subscriber<? super Story> subscriber) {
+            public void call(Subscriber<? super Post> subscriber) {
                 SQLiteDatabase db = mDatabaseOpenHelper.getWritableDatabase();
                 db.insertOrThrow(Db.BookmarkTable.TABLE_NAME, null, Db.BookmarkTable.toContentValues(story));
                 subscriber.onNext(story);
@@ -61,7 +61,7 @@ public class DatabaseHelper {
         });
     }
 
-    public Observable<Boolean> doesBookmarkExist(final Story story) {
+    public Observable<Boolean> doesBookmarkExist(final Post story) {
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {

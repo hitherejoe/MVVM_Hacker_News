@@ -1,7 +1,7 @@
 package com.hitherejoe.hackernews.data.remote;
 
 import com.hitherejoe.hackernews.data.model.Comment;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public interface HackerNewsService {
      * Return story item.
      */
     @GET("/item/{itemId}.json")
-    public Observable<Story> getStoryItem(@Path("itemId") String itemId);
+    public Observable<Post> getStoryItem(@Path("itemId") String itemId);
 
     /**
      * Returns a comment item.

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hitherejoe.hackernews.R;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
 import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
@@ -17,7 +17,7 @@ import uk.co.ribot.easyadapter.annotations.LayoutId;
 import uk.co.ribot.easyadapter.annotations.ViewId;
 
 @LayoutId(R.layout.item_bookmarks_list)
-public class BookmarkHolder extends ItemViewHolder<Story> {
+public class BookmarkHolder extends ItemViewHolder<Post> {
 
     @ViewId(R.id.text_post_title)
     TextView mPostTitle;
@@ -40,7 +40,7 @@ public class BookmarkHolder extends ItemViewHolder<Story> {
     }
 
     @Override
-    public void onSetValues(Story post, PositionInfo positionInfo) {
+    public void onSetValues(Post post, PositionInfo positionInfo) {
         mPostTitle.setText(post.title);
         mPostAuthor.setText(Html.fromHtml(getContext().getString(R.string.story_by) + " " + post.by));
         mPostPoints.setText(post.score + " " + getContext().getString(R.string.story_points));
@@ -72,7 +72,7 @@ public class BookmarkHolder extends ItemViewHolder<Story> {
     }
 
     private void launchActivity() {
-        if (getItem().storyType == Story.StoryType.ASK) {
+        if (getItem().postType == Post.PostType.ASK) {
             launchCommentsActivity();
         } else {
             launchStoryActivity();
@@ -92,7 +92,7 @@ public class BookmarkHolder extends ItemViewHolder<Story> {
     }
 
     public interface RemovedListener {
-        public void onBookmarkRemoved(Story bookmark);
+        public void onBookmarkRemoved(Post bookmark);
     }
 
 }

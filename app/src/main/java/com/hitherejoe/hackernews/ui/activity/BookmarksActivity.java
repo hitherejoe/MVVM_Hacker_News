@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.adapter.BookmarkHolder;
 import com.hitherejoe.hackernews.ui.adapter.BookmarkHolder.RemovedListener;
 import com.hitherejoe.hackernews.util.ToastFactory;
@@ -39,9 +39,9 @@ public class BookmarksActivity extends BaseActivity {
     ProgressBar mProgressBar;
 
     private static final String TAG = "BookmarksActivity";
-    private EasyRecyclerAdapter<Story> mEasyRecycleAdapter;
+    private EasyRecyclerAdapter<Post> mEasyRecycleAdapter;
     private DataManager mDataManager;
-    private List<Story> mBookmarkList;
+    private List<Post> mBookmarkList;
     private List<Subscription> mSubscriptions;
 
     @Override
@@ -80,7 +80,7 @@ public class BookmarksActivity extends BaseActivity {
         mSubscriptions.add(AppObservable.bindActivity(this,
                 mDataManager.getBookmarks())
                 .subscribeOn(mDataManager.getScheduler())
-                .subscribe(new Observer<Story>() {
+                .subscribe(new Observer<Post>() {
                     @Override
                     public void onCompleted() {
                         if (mEasyRecycleAdapter.getItemCount() == 0) {
@@ -96,7 +96,7 @@ public class BookmarksActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(Story story) {
+                    public void onNext(Post story) {
                         mProgressBar.setVisibility(View.GONE);
                         mNoBookmarksText.setVisibility(View.GONE);
                         mBookmarkList.add(story);
@@ -104,7 +104,7 @@ public class BookmarksActivity extends BaseActivity {
                 }));
     }
 
-    private void removeBookmark(final Story story) {
+    private void removeBookmark(final Post story) {
         mSubscriptions.add(AppObservable.bindActivity(this,
                 mDataManager.deleteBookmark(story))
                 .subscribeOn(mDataManager.getScheduler())
@@ -132,7 +132,7 @@ public class BookmarksActivity extends BaseActivity {
 
     private RemovedListener mBookmarkRemovedListener = new RemovedListener() {
         @Override
-        public void onBookmarkRemoved(Story bookmark) {
+        public void onBookmarkRemoved(Post bookmark) {
             removeBookmark(bookmark);
         }
     };

@@ -7,7 +7,7 @@ import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.local.PreferencesHelper;
 import com.hitherejoe.hackernews.data.model.Comment;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.data.remote.HackerNewsService;
@@ -54,52 +54,47 @@ public class DataManager {
         return mScheduler;
     }
 
-    public Observable<Story> getTopStories() {
+    public Observable<Post> getTopStories() {
         return mHackerNewsService.getTopStories()
-                .concatMap(new Func1<List<Long>, Observable<? extends Story>>() {
+                .concatMap(new Func1<List<Long>, Observable<? extends Post>>() {
                     @Override
-                    public Observable<? extends Story> call(List<Long> longs) {
-                        return getStoriesFromIds(longs);
+                    public Observable<? extends Post> call(List<Long> longs) {
+                        return getPostsFromIds(longs);
                     }
                 });
     }
 
-    public Observable<Story> getUserStories(String user) {
+    public Observable<Post> getUserPosts(String user) {
         return mHackerNewsService.getUser(user)
-                .concatMap(new Func1<User, Observable<? extends Story>>() {
+                .concatMap(new Func1<User, Observable<? extends Post>>() {
                     @Override
-                    public Observable<? extends Story> call(User user) {
-                        return getStoriesFromIds(user.submitted);
+                    public Observable<? extends Post> call(User user) {
+                        return getPostsFromIds(user.submitted);
                     }
                 });
     }
 
-    public Observable<Story> getStoriesFromIds(List<Long> storyIds) {
+    public Observable<Post> getPostsFromIds(List<Long> storyIds) {
         return Observable.from(storyIds)
-                .concatMap(new Func1<Long, Observable<Story>>() {
+                .concatMap(new Func1<Long, Observable<Post>>() {
                     @Override
-                    public Observable<Story> call(Long aLong) {
+                    public Observable<Post> call(Long aLong) {
                         return mHackerNewsService.getStoryItem(String.valueOf(aLong));
                     }
-                }).filter(new Func1<Story, Boolean>() {
+                }).flatMap(new Func1<Post, Observable<Post>>() {
                     @Override
-                    public Boolean call(Story story) {
-                        return story.type.equals("story");
-                    }
-                }).flatMap(new Func1<Story, Observable<Story>>() {
-                    @Override
-                    public Observable<Story> call(Story story) {
+                    public Observable<Post> call(Post story) {
                         if (Patterns.WEB_URL.matcher(story.url).matches()) {
-                            story.storyType = Story.StoryType.LINK;
+                            story.postType = Post.PostType.LINK;
                         } else {
-                            story.storyType = Story.StoryType.ASK;
+                            story.postType = Post.PostType.ASK;
                         }
                         return Observable.just(story);
                     }
                 });
     }
 
-    public Observable<Comment> getStoryComments(final List<Long> commentIds, final int depth) {
+    public Observable<Comment> getPostComments(final List<Long> commentIds, final int depth) {
         return Observable.from(commentIds)
                 .concatMap(new Func1<Long, Observable<Comment>>() {
                     @Override
@@ -114,7 +109,7 @@ public class DataManager {
                             return Observable.just(comment);
                         } else {
                             return Observable.just(comment)
-                                    .mergeWith(getStoryComments(comment.kids, depth + 1));
+                                    .mergeWith(getPostComments(comment.kids, depth + 1));
                         }
                     }
                 }).filter(new Func1<Comment, Boolean>() {
@@ -126,15 +121,15 @@ public class DataManager {
                 });
     }
 
-    public Observable<Story> getBookmarks() {
+    public Observable<Post> getBookmarks() {
         return mDatabaseHelper.getBookmarkedStories();
     }
 
-    public Observable<Story> addBookmark(final Story story) {
+    public Observable<Post> addBookmark(final Post story) {
         return doesBookmarkExist(story)
-                .flatMap(new Func1<Boolean, Observable<Story>>() {
+                .flatMap(new Func1<Boolean, Observable<Post>>() {
                     @Override
-                    public Observable<Story> call(Boolean doesExist) {
+                    public Observable<Post> call(Boolean doesExist) {
                         if (!doesExist) return mDatabaseHelper.bookmarkStory(story);
                         return Observable.empty();
                     }
@@ -146,7 +141,7 @@ public class DataManager {
                 });
     }
 
-    public Observable<Void> deleteBookmark(Story story) {
+    public Observable<Void> deleteBookmark(Post story) {
         return mDatabaseHelper.deleteBookmark(story)
                 .doOnCompleted(new Action0() {
                     @Override
@@ -156,7 +151,7 @@ public class DataManager {
                 });
     }
 
-    public Observable<Boolean> doesBookmarkExist(Story story) {
+    public Observable<Boolean> doesBookmarkExist(Post story) {
         return mDatabaseHelper.doesBookmarkExist(story);
     }
 

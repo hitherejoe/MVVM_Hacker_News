@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.adapter.StoriesHolder;
 import com.hitherejoe.hackernews.ui.adapter.UserStoriesHolder;
 import com.hitherejoe.hackernews.util.DataUtils;
@@ -50,9 +50,9 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     public static final String ARG_USER = "ARG_USER";
 
     private DataManager mDataManager;
-    private EasyRecyclerAdapter<Story> mEasyRecycleAdapter;
+    private EasyRecyclerAdapter<Post> mEasyRecycleAdapter;
     private List<Subscription> mSubscriptions;
-    private List<Story> mStories;
+    private List<Post> mStories;
     private String mUser;
 
     @Override
@@ -84,7 +84,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onRefresh() {
         for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
-        mEasyRecycleAdapter.setItems(new ArrayList<Story>());
+        mEasyRecycleAdapter.setItems(new ArrayList<Post>());
         getTopStories();
     }
 
@@ -121,7 +121,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
         mSubscriptions.add(AppObservable.bindFragment(this,
                 mDataManager.getTopStories())
                 .subscribeOn(mDataManager.getScheduler())
-                .subscribe(new Subscriber<Story>() {
+                .subscribe(new Subscriber<Post>() {
                     @Override
                     public void onCompleted() { }
 
@@ -132,7 +132,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                     }
 
                     @Override
-                    public void onNext(Story post) {
+                    public void onNext(Post post) {
                         hideLoadingViews();
                         mEasyRecycleAdapter.addItem(post);
                     }
@@ -141,9 +141,9 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
 
     private void getUserStories() {
         mSubscriptions.add(AppObservable.bindFragment(this,
-                mDataManager.getUserStories(mUser))
+                mDataManager.getUserPosts(mUser))
                 .subscribeOn(mDataManager.getScheduler())
-                .subscribe(new Subscriber<Story>() {
+                .subscribe(new Subscriber<Post>() {
                     @Override
                     public void onCompleted() { }
 
@@ -154,7 +154,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                     }
 
                     @Override
-                    public void onNext(Story story) {
+                    public void onNext(Post story) {
                         hideLoadingViews();
                         mEasyRecycleAdapter.addItem(story);
                     }

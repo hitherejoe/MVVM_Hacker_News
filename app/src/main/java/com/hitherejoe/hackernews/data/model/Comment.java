@@ -3,6 +3,7 @@ package com.hitherejoe.hackernews.data.model;
 import java.util.ArrayList;
 
 public class Comment {
+
     public String text;
     public Long time;
     public String by;

@@ -1,6 +1,6 @@
 package com.hitherejoe.hackernews.util;
 
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class MockModelsUtil {
         return UUID.randomUUID().toString();
     }
 
-    public static Story createMockStory() {
-        Story story = new Story();
+    public static Post createMockStory() {
+        Post story = new Post();
         story.id = generateRandomLong();
-        story.storyType = Story.StoryType.LINK;
+        story.postType = Post.PostType.LINK;
         story.url = "www.hitherejoe.com";
         story.title = "Title";
         story.score = 1000L;
@@ -28,10 +28,10 @@ public class MockModelsUtil {
         return story;
     }
 
-    public static Story createMockStoryWithId(Long id) {
-        Story story = new Story();
+    public static Post createMockStoryWithId(Long id) {
+        Post story = new Post();
         story.id = id;
-        story.storyType = Story.StoryType.LINK;
+        story.postType = Post.PostType.LINK;
         story.url = "www.hitherejoe.com";
         story.title = "Title";
         story.score = 1000L;

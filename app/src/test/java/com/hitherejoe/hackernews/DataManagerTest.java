@@ -1,7 +1,7 @@
 package com.hitherejoe.hackernews;
 
 import com.hitherejoe.hackernews.data.DataManager;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 import com.hitherejoe.hackernews.data.remote.HackerNewsService;
 import com.hitherejoe.hackernews.espresso.util.DefaultConfig;
@@ -33,7 +33,7 @@ public class DataManagerTest {
 
     private DataManager mDataManager;
     private HackerNewsService mHackerNewsService;
-    private Story mStory;
+    private Post mStory;
     private Boolean mDoesBookmarkExist;
 
     @Before
@@ -45,20 +45,20 @@ public class DataManagerTest {
 
     @Test
     public void shouldAddBookmark() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
-        mDataManager.addBookmark(mockStory).subscribe(new Action1<Story>() {
+        Post mockStory = MockModelsUtil.createMockStory();
+        mDataManager.addBookmark(mockStory).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 mStory = story;
             }
         });
         Assert.assertEquals(mockStory, mStory);
 
-        final List<Story> storyList = new ArrayList<>();
+        final List<Post> storyList = new ArrayList<>();
 
-        mDataManager.getBookmarks().subscribe(new Action1<Story>() {
+        mDataManager.getBookmarks().subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 storyList.add(story);
             }
         });
@@ -69,10 +69,10 @@ public class DataManagerTest {
 
     @Test
     public void shouldRemoveBookmark() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
-        mDataManager.addBookmark(mockStory).subscribe(new Action1<Story>() {
+        Post mockStory = MockModelsUtil.createMockStory();
+        mDataManager.addBookmark(mockStory).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 mStory = story;
             }
         });
@@ -80,11 +80,11 @@ public class DataManagerTest {
 
         mDataManager.deleteBookmark(mockStory).subscribe();
 
-        final List<Story> storyList = new ArrayList<>();
+        final List<Post> storyList = new ArrayList<>();
 
-        mDataManager.getBookmarks().subscribe(new Action1<Story>() {
+        mDataManager.getBookmarks().subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 storyList.add(story);
             }
         });
@@ -94,10 +94,10 @@ public class DataManagerTest {
 
     @Test
     public void shouldReturnBookmarkExists() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
-        mDataManager.addBookmark(mockStory).subscribe(new Action1<Story>() {
+        Post mockStory = MockModelsUtil.createMockStory();
+        mDataManager.addBookmark(mockStory).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 mStory = story;
             }
         });
@@ -114,7 +114,7 @@ public class DataManagerTest {
 
     @Test
     public void shouldReturnBookmarkDoesNotExist() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
+        Post mockStory = MockModelsUtil.createMockStory();
 
         mDataManager.doesBookmarkExist(mockStory).subscribe(new Action1<Boolean>() {
             @Override
@@ -127,18 +127,18 @@ public class DataManagerTest {
 
     @Test
     public void shouldGetBookmarks() throws Exception {
-        Story mockStoryOne = MockModelsUtil.createMockStory();
-        Story mockStoryTwo = MockModelsUtil.createMockStory();
-        Story mockStoryThree = MockModelsUtil.createMockStory();
+        Post mockStoryOne = MockModelsUtil.createMockStory();
+        Post mockStoryTwo = MockModelsUtil.createMockStory();
+        Post mockStoryThree = MockModelsUtil.createMockStory();
         mDataManager.addBookmark(mockStoryOne).subscribe();
         mDataManager.addBookmark(mockStoryTwo).subscribe();
         mDataManager.addBookmark(mockStoryThree).subscribe();
 
-        final List<Story> storyList = new ArrayList<>();
+        final List<Post> storyList = new ArrayList<>();
 
-        mDataManager.getBookmarks().subscribe(new Action1<Story>() {
+        mDataManager.getBookmarks().subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 storyList.add(story);
             }
         });
@@ -151,10 +151,10 @@ public class DataManagerTest {
     @Test
     public void shouldGetTopStories() throws Exception {
         User mockUser = MockModelsUtil.createMockUser();
-        Story mockStoryOne = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(0));
-        Story mockStoryTwo = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(1));
-        Story mockStoryThree = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(2));
-        Story mockStoryFour = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(3));
+        Post mockStoryOne = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(0));
+        Post mockStoryTwo = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(1));
+        Post mockStoryThree = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(2));
+        Post mockStoryFour = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(3));
 
         when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(0))))
                 .thenReturn(Observable.just(mockStoryOne));
@@ -171,11 +171,11 @@ public class DataManagerTest {
         storyIds.add(mockUser.submitted.get(2));
         storyIds.add(mockUser.submitted.get(3));
 
-        final List<Story> stories = new ArrayList<>();
+        final List<Post> stories = new ArrayList<>();
 
-        mDataManager.getStoriesFromIds(storyIds).subscribe(new Action1<Story>() {
+        mDataManager.getStoriesFromIds(storyIds).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 stories.add(story);
             }
         });
@@ -193,10 +193,10 @@ public class DataManagerTest {
         User mockUser = MockModelsUtil.createMockUser();
         when(mHackerNewsService.getUser(any(String.class)))
                 .thenReturn(Observable.just(mockUser));
-        Story mockStoryOne = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(0));
-        Story mockStoryTwo = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(1));
-        Story mockStoryThree = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(2));
-        Story mockStoryFour = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(3));
+        Post mockStoryOne = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(0));
+        Post mockStoryTwo = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(1));
+        Post mockStoryThree = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(2));
+        Post mockStoryFour = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(3));
 
         when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(0))))
                 .thenReturn(Observable.just(mockStoryOne));
@@ -207,11 +207,11 @@ public class DataManagerTest {
         when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(3))))
                 .thenReturn(Observable.just(mockStoryFour));
 
-        final List<Story> userStories = new ArrayList<>();
+        final List<Post> userStories = new ArrayList<>();
 
-        mDataManager.getUserStories(mockUser.id).subscribe(new Action1<Story>() {
+        mDataManager.getUserStories(mockUser.id).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 userStories.add(story);
             }
         });

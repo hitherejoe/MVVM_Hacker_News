@@ -20,10 +20,6 @@ public class PreferencesHelper {
         mPref.edit().clear().apply();
     }
 
-    public void putDialogFlag() {
-        mPref.edit().putBoolean(PREF_KEY_DIALOG_FLAG, true).apply();
-    }
-
     public boolean getDialogFlag() {
         return mPref.getBoolean(PREF_KEY_DIALOG_FLAG, false);
     }

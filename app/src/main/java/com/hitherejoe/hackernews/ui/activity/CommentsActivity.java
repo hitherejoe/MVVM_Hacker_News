@@ -11,7 +11,7 @@ import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Comment;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.adapter.CommentHolder;
 import com.hitherejoe.hackernews.util.DataUtils;
 
@@ -41,7 +41,7 @@ public class CommentsActivity extends BaseActivity {
     public static final String EXTRA_POST =
             "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_POST";
 
-    private Story mPost;
+    private Post mPost;
     private DataManager mDataManager;
     private List<Subscription> mSubscriptions;
     private EasyRecyclerAdapter<Comment> mEasyRecycleAdapter;
@@ -97,7 +97,7 @@ public class CommentsActivity extends BaseActivity {
     private void getStoryComments(List<Long> commentIds) {
         if (commentIds != null) {
             mSubscriptions.add(AppObservable.bindActivity(this,
-                    mDataManager.getStoryComments(commentIds, 0))
+                    mDataManager.getPostComments(commentIds, 0))
                     .subscribeOn(mDataManager.getScheduler())
                     .subscribe(new Subscriber<Comment>() {
                         @Override

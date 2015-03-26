@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.local.Db;
-import com.hitherejoe.hackernews.data.model.Story;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.espresso.util.DefaultConfig;
 import com.hitherejoe.hackernews.util.MockModelsUtil;
 
@@ -28,7 +28,7 @@ import rx.functions.Action1;
 public class DatabaseHelperTest {
 
     private DatabaseHelper mDatabaseHelper;
-    private Story mStory;
+    private Post mStory;
     private Boolean mDoesBookmarkExist;
 
     @Before
@@ -38,11 +38,11 @@ public class DatabaseHelperTest {
 
     @Test
     public void shouldAddBookmark() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
+        Post mockStory = MockModelsUtil.createMockStory();
 
-        mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Story>() {
+        mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 mStory = story;
             }
         });
@@ -54,18 +54,18 @@ public class DatabaseHelperTest {
                 new String[]{String.valueOf(mockStory.id)},
                 null, null, null);
         cursor.moveToFirst();
-        Story storyResult = Db.BookmarkTable.parseCursor(cursor);
+        Post storyResult = Db.BookmarkTable.parseCursor(cursor);
         Assert.assertEquals(mockStory, storyResult);
         cursor.close();
     }
 
     @Test
     public void shouldReturnBookmarkExists() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
+        Post mockStory = MockModelsUtil.createMockStory();
 
-        mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Story>() {
+        mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 mStory = story;
             }
         });
@@ -81,7 +81,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void shouldReturnBookmarkDoesNotExist() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
+        Post mockStory = MockModelsUtil.createMockStory();
 
         mDatabaseHelper.doesBookmarkExist(mockStory).subscribe(new Action1<Boolean>() {
             @Override
@@ -94,11 +94,11 @@ public class DatabaseHelperTest {
 
     @Test
     public void shouldDeleteBookmark() throws Exception {
-        Story mockStory = MockModelsUtil.createMockStory();
+        Post mockStory = MockModelsUtil.createMockStory();
 
-        mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Story>() {
+        mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 mStory = story;
             }
         });
@@ -109,7 +109,7 @@ public class DatabaseHelperTest {
                 new String[]{String.valueOf(mockStory.id)},
                 null, null, null);
         addBookmarkCursor.moveToFirst();
-        Story addResult = Db.BookmarkTable.parseCursor(addBookmarkCursor);
+        Post addResult = Db.BookmarkTable.parseCursor(addBookmarkCursor);
         Assert.assertEquals(mockStory, addResult);
         addBookmarkCursor.close();
 
@@ -126,18 +126,18 @@ public class DatabaseHelperTest {
 
     @Test
     public void shouldGetBookmarks() throws Exception {
-        Story mockStoryOne = MockModelsUtil.createMockStory();
-        Story mockStoryTwo = MockModelsUtil.createMockStory();
-        Story mockStoryThree = MockModelsUtil.createMockStory();
+        Post mockStoryOne = MockModelsUtil.createMockStory();
+        Post mockStoryTwo = MockModelsUtil.createMockStory();
+        Post mockStoryThree = MockModelsUtil.createMockStory();
 
-        final List<Story> storyList = new ArrayList<>();
+        final List<Post> storyList = new ArrayList<>();
         mDatabaseHelper.bookmarkStory(mockStoryOne).subscribe();
         mDatabaseHelper.bookmarkStory(mockStoryTwo).subscribe();
         mDatabaseHelper.bookmarkStory(mockStoryThree).subscribe();
 
-        mDatabaseHelper.getBookmarkedStories().subscribe(new Action1<Story>() {
+        mDatabaseHelper.getBookmarkedStories().subscribe(new Action1<Post>() {
             @Override
-            public void call(Story story) {
+            public void call(Post story) {
                 storyList.add(story);
             }
         });
@@ -146,7 +146,7 @@ public class DatabaseHelperTest {
         Assert.assertTrue(storyList.contains(mockStoryTwo));
         Assert.assertTrue(storyList.contains(mockStoryThree));
 
-        List<Story> cursorResultList = new ArrayList<>();
+        List<Post> cursorResultList = new ArrayList<>();
         Cursor cursor = mDatabaseHelper.getReadableDatabase().query(Db.BookmarkTable.TABLE_NAME,
                 null, null, null, null, null, null);
         Assert.assertEquals(cursor.getCount(), 3);
