@@ -14,7 +14,6 @@ import com.hitherejoe.hackernews.data.model.Comment;
 import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.adapter.CommentHolder;
 import com.hitherejoe.hackernews.util.DataUtils;
-import com.hitherejoe.hackernews.util.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;

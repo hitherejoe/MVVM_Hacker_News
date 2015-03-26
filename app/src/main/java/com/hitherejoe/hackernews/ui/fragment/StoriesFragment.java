@@ -20,7 +20,6 @@ import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.ui.adapter.StoriesHolder;
 import com.hitherejoe.hackernews.ui.adapter.UserStoriesHolder;
 import com.hitherejoe.hackernews.util.DataUtils;
-import com.hitherejoe.hackernews.util.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;

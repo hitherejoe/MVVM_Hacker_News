@@ -3,6 +3,7 @@ package com.hitherejoe.hackernews.data;
 import android.content.Context;
 import android.util.Patterns;
 
+import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.local.PreferencesHelper;
 import com.hitherejoe.hackernews.data.model.Comment;
@@ -35,6 +36,10 @@ public class DataManager {
 
     public void setHackerNewsService(HackerNewsService hackerNewsService) {
         mHackerNewsService = hackerNewsService;
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        mScheduler = scheduler;
     }
 
     public DatabaseHelper getDatabaseHelper() {
@@ -136,7 +141,7 @@ public class DataManager {
                 }).doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        AnalyticsHelper.trackBookmarkAdded();
+                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkAdded();
                     }
                 });
     }
@@ -146,7 +151,7 @@ public class DataManager {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        AnalyticsHelper.trackBookmarkRemoved();
+                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkRemoved();
                     }
                 });
     }

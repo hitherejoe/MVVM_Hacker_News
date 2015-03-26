@@ -17,6 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
@@ -24,7 +25,6 @@ import com.hitherejoe.hackernews.data.model.Story;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.ToastFactory;
-import com.hitherejoe.hackernews.util.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class ViewStoryActivity extends BaseActivity {
     WebView mWebView;
 
     @InjectView(R.id.progress_indicator)
-    LinearLayout mProgressBar;
+    LinearLayout mProgressContainer;
 
     @InjectView(R.id.layout_offline)
     LinearLayout mOfflineLayout;
@@ -118,7 +118,7 @@ public class ViewStoryActivity extends BaseActivity {
             shareActionProvider.setOnShareTargetSelectedListener(new OnShareTargetSelectedListener() {
                 @Override
                 public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-                    AnalyticsHelper.trackStoryShared(intent.getComponent().getPackageName());
+                    if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryShared(intent.getComponent().getPackageName());
                     return false;
                 }
             });
@@ -128,7 +128,7 @@ public class ViewStoryActivity extends BaseActivity {
     private void setupWebView() {
         mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
-                if (progress == 100) mProgressBar.setVisibility(ProgressBar.GONE);
+                if (progress == 100) mProgressContainer.setVisibility(ProgressBar.GONE);
             }
         });
         mWebView.setWebViewClient(new ProgressWebViewClient());
@@ -148,6 +148,7 @@ public class ViewStoryActivity extends BaseActivity {
             showHideOfflineLayout(false);
             if (mPost.storyType == Story.StoryType.LINK) {
                 String strippedUrl = mPost.url.split("\\?")[0].split("#")[0];
+                Log.d("URLL", strippedUrl);
                 mWebView.loadUrl(strippedUrl.endsWith(KEY_PDF) ? URL_GOOGLE_DOCS + mPost.url : mPost.url);
             }
         } else {
@@ -199,7 +200,7 @@ public class ViewStoryActivity extends BaseActivity {
     private void showHideOfflineLayout(boolean isOffline) {
         mOfflineLayout.setVisibility(isOffline ? View.VISIBLE : View.GONE);
         mWebView.setVisibility(isOffline ? View.GONE : View.VISIBLE);
-        mProgressBar.setVisibility(isOffline ? View.GONE : View.VISIBLE);
+        mProgressContainer.setVisibility(isOffline ? View.GONE : View.VISIBLE);
     }
 
     private class ProgressWebViewClient extends WebViewClient {
@@ -211,7 +212,7 @@ public class ViewStoryActivity extends BaseActivity {
 
         @Override
         public void onPageFinished(WebView view, String page) {
-            mProgressBar.setVisibility(ProgressBar.GONE);
+            mProgressContainer.setVisibility(ProgressBar.GONE);
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class BookmarksActivity extends BaseActivity {
     @InjectView(R.id.progress_indicator)
     ProgressBar mProgressBar;
 
+    private static final String TAG = "BookmarksActivity";
     private EasyRecyclerAdapter<Story> mEasyRecycleAdapter;
     private DataManager mDataManager;
     private List<Story> mBookmarkList;
@@ -68,7 +70,7 @@ public class BookmarksActivity extends BaseActivity {
 
     private void setupRecyclerView() {
         mStoriesList.setHasFixedSize(true);
-        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkHolder.class, mBookmarkList, mBookmarkremovedListener);
+        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkHolder.class, mBookmarkList, mBookmarkRemovedListener);
         mStoriesList.setAdapter(mEasyRecycleAdapter);
         mStoriesList.setLayoutManager(new LinearLayoutManager(this));
         mStoriesList.setItemAnimator(new DefaultItemAnimator());
@@ -89,7 +91,8 @@ public class BookmarksActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mProgressBar.setVisibility(View.GONE);
+                        Log.e(TAG, "There was an error retrieving the bookmarks " + e);
                     }
 
                     @Override
@@ -119,16 +122,15 @@ public class BookmarksActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG, "There was an error removing the bookmark " + e);
                     }
 
                     @Override
-                    public void onNext(Void aVoid) {
-                    }
+                    public void onNext(Void aVoid) { }
                 }));
     }
 
-    private RemovedListener mBookmarkremovedListener = new RemovedListener() {
+    private RemovedListener mBookmarkRemovedListener = new RemovedListener() {
         @Override
         public void onBookmarkRemoved(Story bookmark) {
             removeBookmark(bookmark);

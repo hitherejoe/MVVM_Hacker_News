@@ -6,7 +6,7 @@ import android.database.Cursor;
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.local.Db;
 import com.hitherejoe.hackernews.data.model.Story;
-import com.hitherejoe.hackernews.util.DefaultConfig;
+import com.hitherejoe.hackernews.espresso.util.DefaultConfig;
 import com.hitherejoe.hackernews.util.MockModelsUtil;
 
 import junit.framework.Assert;
