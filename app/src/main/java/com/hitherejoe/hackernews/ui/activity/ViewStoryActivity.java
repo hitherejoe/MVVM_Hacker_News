@@ -48,8 +48,8 @@ public class ViewStoryActivity extends BaseActivity {
     LinearLayout mOfflineLayout;
 
     private static final String TAG = "WebPageActivity";
-    public static final String EXTRA_POST_URL =
-            "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST_URL";
+    public static final String EXTRA_POST =
+            "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST";
     private static final String KEY_PDF = "pdf";
     private static final String URL_GOOGLE_DOCS = "http://docs.google.com/gview?embedded=true&url=";
     private static final String URL_PLAY_STORE =
@@ -64,7 +64,7 @@ public class ViewStoryActivity extends BaseActivity {
         setContentView(R.layout.activity_web_page);
         ButterKnife.inject(this);
         Bundle bundle = getIntent().getExtras();
-        mPost = bundle.getParcelable(EXTRA_POST_URL);
+        mPost = bundle.getParcelable(EXTRA_POST);
         mDataManager = HackerNewsApplication.get().getDataManager();
         mSubscriptions = new ArrayList<>();
         setupActionBar();
@@ -88,7 +88,7 @@ public class ViewStoryActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_browser:
-                AnalyticsHelper.trackViewStoryInBrowserMenuItemClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryInBrowserMenuItemClicked();
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mPost.url)));
                 return true;
             case R.id.action_bookmark:

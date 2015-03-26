@@ -74,7 +74,7 @@ public class UserStoriesHolder extends ItemViewHolder<Post> {
 
     private void launchStoryActivity() {
         Intent intent = new Intent(getContext(), ViewStoryActivity.class);
-        intent.putExtra(ViewStoryActivity.EXTRA_POST_URL, mPost);
+        intent.putExtra(ViewStoryActivity.EXTRA_POST, mPost);
         getContext().startActivity(intent);
     }
 }

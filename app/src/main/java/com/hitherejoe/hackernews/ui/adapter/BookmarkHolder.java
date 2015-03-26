@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
@@ -51,7 +52,7 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
         mViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnalyticsHelper.trackViewStoryClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryClicked();
                 launchActivity();
             }
         });
@@ -65,7 +66,7 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
         mPostTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnalyticsHelper.trackStoryCardClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked();
                 launchActivity();
             }
         });
@@ -81,7 +82,7 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
 
     private void launchStoryActivity() {
         Intent intent = new Intent(getContext(), ViewStoryActivity.class);
-        intent.putExtra(ViewStoryActivity.EXTRA_POST_URL, getItem());
+        intent.putExtra(ViewStoryActivity.EXTRA_POST, getItem());
         getContext().startActivity(intent);
     }
 
