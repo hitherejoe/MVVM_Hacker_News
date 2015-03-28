@@ -27,7 +27,7 @@ import rx.functions.Action1;
 public class DatabaseHelperTest {
 
     private DatabaseHelper mDatabaseHelper;
-    private Post mStory;
+    private Post mPost;
     private Boolean mDoesBookmarkExist;
 
     @Before
@@ -42,10 +42,10 @@ public class DatabaseHelperTest {
         mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
-                mStory = story;
+                mPost = story;
             }
         });
-        Assert.assertEquals(mockStory, mStory);
+        Assert.assertEquals(mockStory, mPost);
 
         Cursor cursor = mDatabaseHelper.getReadableDatabase().query(Db.BookmarkTable.TABLE_NAME,
                 null,
@@ -65,7 +65,7 @@ public class DatabaseHelperTest {
         mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
-                mStory = story;
+                mPost = story;
             }
         });
 
@@ -98,7 +98,7 @@ public class DatabaseHelperTest {
         mDatabaseHelper.bookmarkStory(mockStory).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
-                mStory = story;
+                mPost = story;
             }
         });
 

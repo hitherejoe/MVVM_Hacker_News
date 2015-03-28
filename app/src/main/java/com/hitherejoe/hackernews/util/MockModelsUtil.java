@@ -24,7 +24,6 @@ public class MockModelsUtil {
         story.title = "Title";
         story.score = 1000L;
         story.by = "JoeBirch";
-        story.type = "story";
         return story;
     }
 

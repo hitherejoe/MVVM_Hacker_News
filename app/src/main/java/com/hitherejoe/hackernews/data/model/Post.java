@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Post implements Parcelable {
 
-    public String by;
     public Long id;
+    public String by;
     public Integer time;
     public String type;
     public ArrayList<Long> kids;
