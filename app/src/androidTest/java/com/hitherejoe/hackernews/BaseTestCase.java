@@ -23,7 +23,7 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
         super.setUp();
         //Clear Data
         HackerNewsApplication.get().getDataManager().getPreferencesHelper().clear();
-        //HackerNewsApplication.get().getDataManager().getDatabaseHelper().clearTables();
+        HackerNewsApplication.get().getDataManager().getDatabaseHelper().clearBookmarks().subscribe();
 
         //Set up data manager for tests
         mHackerNewsService = mock(HackerNewsService.class);

@@ -77,4 +77,24 @@ public class DatabaseHelper {
         });
     }
 
+    public Observable<Void> clearBookmarks() {
+        return Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(Subscriber<? super Void> subscriber) {
+                SQLiteDatabase db = mDatabaseOpenHelper.getWritableDatabase();
+                db.beginTransaction();
+                try {
+                    Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+                    while (cursor.moveToNext()) {
+                        db.delete(cursor.getString(cursor.getColumnIndex("name")), null, null);
+                    }
+                    cursor.close();
+                    db.setTransactionSuccessful();
+                    subscriber.onCompleted();
+                } finally {
+                    db.endTransaction();
+                }
+            }
+        });
+    }
 }
