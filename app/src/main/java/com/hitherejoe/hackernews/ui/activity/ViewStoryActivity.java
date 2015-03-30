@@ -61,7 +61,7 @@ public class ViewStoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_page);
+        setContentView(R.layout.activity_view_story);
         ButterKnife.inject(this);
         Bundle bundle = getIntent().getExtras();
         mPost = bundle.getParcelable(EXTRA_POST);

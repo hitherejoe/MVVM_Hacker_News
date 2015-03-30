@@ -29,8 +29,8 @@ import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class BookmarksActivity extends BaseActivity {
 
-    @InjectView(R.id.list_stories)
-    RecyclerView mStoriesList;
+    @InjectView(R.id.recycler_bookmarks)
+    RecyclerView mBookmarksList;
 
     @InjectView(R.id.text_no_bookmarks)
     TextView mNoBookmarksText;
@@ -69,11 +69,11 @@ public class BookmarksActivity extends BaseActivity {
     }
 
     private void setupRecyclerView() {
-        mStoriesList.setHasFixedSize(true);
+        mBookmarksList.setHasFixedSize(true);
         mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkHolder.class, mBookmarkList, mBookmarkRemovedListener);
-        mStoriesList.setAdapter(mEasyRecycleAdapter);
-        mStoriesList.setLayoutManager(new LinearLayoutManager(this));
-        mStoriesList.setItemAnimator(new DefaultItemAnimator());
+        mBookmarksList.setAdapter(mEasyRecycleAdapter);
+        mBookmarksList.setLayoutManager(new LinearLayoutManager(this));
+        mBookmarksList.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void getBookmarkedStories() {
@@ -84,7 +84,7 @@ public class BookmarksActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
                         if (mEasyRecycleAdapter.getItemCount() == 0) {
-                            mStoriesList.setVisibility(View.GONE);
+                            mBookmarksList.setVisibility(View.GONE);
                             mProgressBar.setVisibility(View.GONE);
                         }
                     }
