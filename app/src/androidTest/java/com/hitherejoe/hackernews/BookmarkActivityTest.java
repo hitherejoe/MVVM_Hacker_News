@@ -1,13 +1,29 @@
 package com.hitherejoe.hackernews;
 
+import android.support.test.espresso.contrib.RecyclerViewActions;
+
+import com.hitherejoe.hackernews.data.DataManager;
+import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.activity.BookmarksActivity;
+import com.hitherejoe.hackernews.util.MockModelsUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.hitherejoe.hackernews.util.CustomMatcher.showsUrl;
+import static org.hamcrest.Matchers.not;
 
 public class BookmarkActivityTest extends BaseTestCase<BookmarksActivity> {
+
+    //TODO: Find / implement a way to test the recycler views correctly / better...
+
+    private DataManager mDataManager;
 
     public BookmarkActivityTest() {
         super(BookmarksActivity.class);
@@ -16,14 +32,48 @@ public class BookmarkActivityTest extends BaseTestCase<BookmarksActivity> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        mDataManager = HackerNewsApplication.get().getDataManager();
     }
 
-    public void testActivityShown() throws Exception {
+    public void testNoBookmarksShown() throws Exception {
         getActivity();
-        Thread.sleep(5000);
         onView(withText(R.string.no_bookmarks)).check(matches(isDisplayed()));
     }
 
+    public void testBookmarksShown() throws Exception {
+        List<Post> bookmarkList = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            mDataManager.addBookmark(MockModelsUtil.createMockStory()).subscribe();
+            bookmarkList.add(MockModelsUtil.createMockStory());
+        }
+        getActivity();
+        for (int i = 0; i < bookmarkList.size(); i++) {
+            RecyclerViewActions.scrollToPosition(i);
+            onView(withText(bookmarkList.get(i).title)).check(matches(isDisplayed()));
+            onView(withText(bookmarkList.get(i).by)).check(matches(isDisplayed()));
+            onView(withText(bookmarkList.get(i).score.toString())).check(matches(isDisplayed()));
+        }
+        onView(withText(R.string.no_bookmarks)).check(matches(not(isDisplayed())));
+    }
 
+    public void testViewBookmark() throws Exception {
+        Post mockBookmark = MockModelsUtil.createMockStory();
+        mDataManager.addBookmark(mockBookmark).subscribe();
+        getActivity();
+        onView(withText(R.string.no_bookmarks)).check(matches(not(isDisplayed())));
+        onView(withText(mockBookmark.title)).check(matches(isDisplayed()));
+        onView(withText(mockBookmark.title)).perform(click());
+        onView(withId(R.id.web_view))
+                .check(matches(showsUrl(mockBookmark.url)));
+    }
+
+    public void testRemoveBookmark() throws Exception {
+        Post mockBookmark = MockModelsUtil.createMockStory();
+        mDataManager.addBookmark(mockBookmark).subscribe();
+        getActivity();
+        onView(withText(R.string.no_bookmarks)).check(matches(not(isDisplayed())));
+        onView(withText(R.string.remove_button)).perform(click());
+        onView(withText(R.string.no_bookmarks)).check(matches(isDisplayed()));
+    }
 
 }
