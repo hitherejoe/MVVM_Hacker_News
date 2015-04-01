@@ -37,6 +37,8 @@
     <string name="error_post">Sorry, unable to load post!</string>
     <string name="error_generic">Sorry, an error occurred!</string>
     <string name="error_connection">No internet connection detected</string>
+    <string name="error_getting_bookmarks">Error retrieving bookmarks</string>
+    <string name="error_removing_bookmark">Error removing bookmark</string>
     <string name="try_again">Try again</string>
 
 </resources>

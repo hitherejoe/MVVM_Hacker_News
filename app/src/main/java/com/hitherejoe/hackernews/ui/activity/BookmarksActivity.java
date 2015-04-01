@@ -30,7 +30,7 @@ import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 public class BookmarksActivity extends BaseActivity {
 
     @InjectView(R.id.recycler_bookmarks)
-    RecyclerView mBookmarksList;
+    RecyclerView mBookmarksRecycler;
 
     @InjectView(R.id.text_no_bookmarks)
     TextView mNoBookmarksText;
@@ -69,11 +69,9 @@ public class BookmarksActivity extends BaseActivity {
     }
 
     private void setupRecyclerView() {
-        mBookmarksList.setHasFixedSize(true);
+        mBookmarksRecycler.setLayoutManager(new LinearLayoutManager(this));
         mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, BookmarkHolder.class, mBookmarkList, mBookmarkRemovedListener);
-        mBookmarksList.setAdapter(mEasyRecycleAdapter);
-        mBookmarksList.setLayoutManager(new LinearLayoutManager(this));
-        mBookmarksList.setItemAnimator(new DefaultItemAnimator());
+        mBookmarksRecycler.setAdapter(mEasyRecycleAdapter);
     }
 
     private void getBookmarkedStories() {
@@ -83,22 +81,23 @@ public class BookmarksActivity extends BaseActivity {
                 .subscribe(new Observer<Post>() {
                     @Override
                     public void onCompleted() {
-                        if (mEasyRecycleAdapter.getItemCount() == 0) {
-                            mBookmarksList.setVisibility(View.GONE);
-                            mProgressBar.setVisibility(View.GONE);
-                        }
+                        mProgressBar.setVisibility(View.GONE);
+                        mNoBookmarksText.setVisibility(mBookmarkList.isEmpty() ? View.VISIBLE : View.GONE);
+                        mBookmarksRecycler.setVisibility(mBookmarkList.isEmpty() ? View.GONE : View.VISIBLE);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mProgressBar.setVisibility(View.GONE);
                         Log.e(TAG, "There was an error retrieving the bookmarks " + e);
+                        ToastFactory.createToast(
+                                BookmarksActivity.this,
+                                getString(R.string.error_getting_bookmarks)
+                        ).show();
                     }
 
                     @Override
                     public void onNext(Post story) {
-                        mProgressBar.setVisibility(View.GONE);
-                        mNoBookmarksText.setVisibility(View.GONE);
                         mBookmarkList.add(story);
                     }
                 }));
@@ -113,7 +112,7 @@ public class BookmarksActivity extends BaseActivity {
                     public void onCompleted() {
                         mBookmarkList.remove(story);
                         mEasyRecycleAdapter.notifyDataSetChanged();
-                        if (mBookmarkList.isEmpty()) mNoBookmarksText.setVisibility(View.VISIBLE);
+                        mNoBookmarksText.setVisibility(mBookmarkList.isEmpty() ? View.VISIBLE : View.GONE);
                         ToastFactory.createToast(
                                 BookmarksActivity.this,
                                 getString(R.string.bookmark_removed)
@@ -123,6 +122,10 @@ public class BookmarksActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "There was an error removing the bookmark " + e);
+                        ToastFactory.createToast(
+                                BookmarksActivity.this,
+                                getString(R.string.error_removing_bookmark)
+                        ).show();
                     }
 
                     @Override

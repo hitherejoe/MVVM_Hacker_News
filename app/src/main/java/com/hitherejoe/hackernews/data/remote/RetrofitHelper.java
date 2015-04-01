@@ -10,7 +10,7 @@ public class RetrofitHelper {
     public HackerNewsService setupHackerNewsService() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(HackerNewsService.ENDPOINT)
-                .setLogLevel(RestAdapter.LogLevel.NONE)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setConverter(new GsonConverter(new GsonBuilder().create()))
                 .build();
         return restAdapter.create(HackerNewsService.class);
