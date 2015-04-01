@@ -17,11 +17,7 @@ public class CustomMatcher {
 
             @Override
             public boolean matchesSafely(View view) {
-                if (!(view instanceof WebView)) {
-                    return false;
-                }
-                WebView webView = (WebView) view;
-                return webView.getUrl().contains(url);
+                return view instanceof WebView && ((WebView) view).getUrl().contains(url);
             }
         };
     }

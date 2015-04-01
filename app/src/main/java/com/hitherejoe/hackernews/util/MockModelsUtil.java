@@ -27,15 +27,9 @@ public class MockModelsUtil {
         return story;
     }
 
-    public static Post createMockStoryWithId(Long id) {
-        Post story = new Post();
-        story.id = id;
-        story.postType = Post.PostType.LINK;
-        story.url = "www.hitherejoe.com";
-        story.title = "Title";
-        story.score = 1000L;
-        story.by = "JoeBirch";
-        story.type = "story";
+    public static Post createMockStoryWithTitle(String title) {
+        Post story = createMockStory();
+        story.title = title;
         return story;
     }
 
