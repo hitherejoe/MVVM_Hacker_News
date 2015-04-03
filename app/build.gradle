@@ -12,13 +12,13 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
         applicationId "com.hitherejoe.hackernews"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 22
         testApplicationId "com.hitherejoe.hackernews.espresso"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode 4
@@ -54,7 +54,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.0'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     compile 'com.google.android.gms:play-services-analytics:7.0.0'
-    compile 'com.github.hotchemi:android-rate:0.4.3'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'io.reactivex:rxandroid:0.24.0'
 

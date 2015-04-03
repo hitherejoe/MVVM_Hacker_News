@@ -3,6 +3,8 @@ package com.hitherejoe.hackernews.data.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.hitherejoe.hackernews.util.DialogFactory;
+
 public class PreferencesHelper {
 
     private static SharedPreferences mPref;
@@ -10,6 +12,10 @@ public class PreferencesHelper {
     public static final String PREF_FILE_NAME = "hacker_news_pref_file";
 
     private static final String PREF_KEY_DIALOG_FLAG = "PREF_KEY_DIALOG_FLAG";
+    private static final String PREF_KEY_LAUNCH_COUNT = "PREF_KEY_LAUNCH_COUNT";
+    private static final String PREF_KEY_FIRST_LAUNCH = "PREF_KEY_FIRST_LAUNCH";
+    private static final String PREF_KEY_LAUNCH_PROMPT = "PREF_KEY_LAUNCH_PROMPT";
+    private static final String PREF_KEY_DAY_PROMPT = "PREF_KEY_DAY_PROMPT";
 
 
     public PreferencesHelper(Context context) {
@@ -20,8 +26,27 @@ public class PreferencesHelper {
         mPref.edit().clear().apply();
     }
 
-    public boolean getDialogFlag() {
-        return mPref.getBoolean(PREF_KEY_DIALOG_FLAG, false);
+    public boolean shouldShowRateDialog() {
+        return mPref.getBoolean("PREF_KEY_DIALOG_FLAG", true);
+    }
+
+    public void putDialogFlag() {
+        mPref.edit().putBoolean("PREF_KEY_DIALOG_FLAG", false).apply();
+    }
+
+    public long getLaunchCount() {
+        long launchCount = mPref.getLong(PREF_KEY_LAUNCH_COUNT, 0) + 1;
+        mPref.edit().putLong(PREF_KEY_LAUNCH_COUNT, launchCount).apply();
+        return launchCount;
+    }
+
+    public Long getFirstLaunch() {
+        Long firstLaunch = mPref.getLong(PREF_KEY_FIRST_LAUNCH, 0);
+        if (firstLaunch == 0) {
+            firstLaunch = System.currentTimeMillis();
+            mPref.edit().putLong(PREF_KEY_FIRST_LAUNCH, firstLaunch).apply();
+        }
+        return firstLaunch;
     }
 
 }
