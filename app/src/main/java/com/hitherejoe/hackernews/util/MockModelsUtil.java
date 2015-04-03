@@ -33,6 +33,12 @@ public class MockModelsUtil {
         return story;
     }
 
+    public static Post createMockStoryWithId(long id) {
+        Post story = createMockStory();
+        story.id = id;
+        return story;
+    }
+
     public static User createMockUser() {
         User user = new User();
         user.id = generateRandomString();
