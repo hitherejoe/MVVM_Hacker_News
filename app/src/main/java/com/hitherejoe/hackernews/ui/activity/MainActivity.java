@@ -1,10 +1,10 @@
 package com.hitherejoe.hackernews.ui.activity;
 
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -55,16 +55,16 @@ public class MainActivity extends BaseActivity {
                 .commit();
     }
 
-    private DialogInterface.OnClickListener mOnRateDialogClickListener = new DialogInterface.OnClickListener() {
+    private OnClickListener mOnRateDialogClickListener = new OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case -2:
-                    HackerNewsApplication.get().getDataManager().getPreferencesHelper().putDialogFlag();
+                    HackerNewsApplication.get().getDataManager().getPreferencesHelper().putRateDialogShownFlag();
                     break;
                 case -1:
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-                    HackerNewsApplication.get().getDataManager().getPreferencesHelper().putDialogFlag();
+                    HackerNewsApplication.get().getDataManager().getPreferencesHelper().putRateDialogShownFlag();
                     break;
             }
             dialog.dismiss();

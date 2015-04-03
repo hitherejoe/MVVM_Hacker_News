@@ -3,8 +3,6 @@ package com.hitherejoe.hackernews.data.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.hitherejoe.hackernews.util.DialogFactory;
-
 public class PreferencesHelper {
 
     private static SharedPreferences mPref;
@@ -14,8 +12,6 @@ public class PreferencesHelper {
     private static final String PREF_KEY_DIALOG_FLAG = "PREF_KEY_DIALOG_FLAG";
     private static final String PREF_KEY_LAUNCH_COUNT = "PREF_KEY_LAUNCH_COUNT";
     private static final String PREF_KEY_FIRST_LAUNCH = "PREF_KEY_FIRST_LAUNCH";
-    private static final String PREF_KEY_LAUNCH_PROMPT = "PREF_KEY_LAUNCH_PROMPT";
-    private static final String PREF_KEY_DAY_PROMPT = "PREF_KEY_DAY_PROMPT";
 
 
     public PreferencesHelper(Context context) {
@@ -27,11 +23,11 @@ public class PreferencesHelper {
     }
 
     public boolean shouldShowRateDialog() {
-        return mPref.getBoolean("PREF_KEY_DIALOG_FLAG", true);
+        return mPref.getBoolean(PREF_KEY_DIALOG_FLAG, true);
     }
 
-    public void putDialogFlag() {
-        mPref.edit().putBoolean("PREF_KEY_DIALOG_FLAG", false).apply();
+    public void putRateDialogShownFlag() {
+        mPref.edit().putBoolean(PREF_KEY_DIALOG_FLAG, false).apply();
     }
 
     public long getLaunchCount() {

@@ -8,8 +8,8 @@ import com.hitherejoe.hackernews.data.local.PreferencesHelper;
 
 public class RateUtils {
 
-    private final static int DAYS_UNTIL_PROMPT = 0;//Min number of days
-    private final static int LAUNCHES_UNTIL_PROMPT = 0;//Min number of launches
+    private final static int DAYS_UNTIL_PROMPT = 3;
+    private final static int LAUNCHES_UNTIL_PROMPT = 6;
 
     public static void showRateDialog(Context context, DialogInterface.OnClickListener onClickListener) {
         PreferencesHelper preferencesHelper =
