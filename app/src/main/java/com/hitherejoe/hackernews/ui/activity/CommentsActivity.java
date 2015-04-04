@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
@@ -36,6 +37,9 @@ public class CommentsActivity extends BaseActivity {
 
     @InjectView(R.id.recycler_comments)
     RecyclerView mCommentsRecycler;
+
+    @InjectView(R.id.text_no_comments)
+    TextView mNoCommentsText;
 
     private static final String TAG = "CommentsActivity";
     public static final String EXTRA_POST =
@@ -95,7 +99,7 @@ public class CommentsActivity extends BaseActivity {
     }
 
     private void getStoryComments(List<Long> commentIds) {
-        if (commentIds != null) {
+        if (commentIds != null && !commentIds.isEmpty()) {
             mSubscriptions.add(AppObservable.bindActivity(this,
                     mDataManager.getPostComments(commentIds, 0))
                     .subscribeOn(mDataManager.getScheduler())
@@ -116,6 +120,10 @@ public class CommentsActivity extends BaseActivity {
                             addCommentViews(comment);
                         }
                     }));
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+            mCommentsRecycler.setVisibility(View.GONE);
+            mNoCommentsText.setVisibility(View.VISIBLE);
         }
     }
 
