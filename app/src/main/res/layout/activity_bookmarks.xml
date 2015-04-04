@@ -29,6 +29,7 @@
         android:drawablePadding="10dp"
         android:text="@string/no_bookmarks"
         android:textColor="@color/dark_grey"
-        android:textSize="@dimen/text_title" />
+        android:textSize="@dimen/text_title"
+        android:visibility="gone" />
 
 </RelativeLayout>
