@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto/android">
+    <item android:id="@+id/menu_item_share"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+    <item android:id="@+id/action_bookmark"
+        android:title="@string/action_bookmark"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_browser"
+        android:title="@string/action_view_in_browser"
+        app:showAsAction="never" />
+</menu>

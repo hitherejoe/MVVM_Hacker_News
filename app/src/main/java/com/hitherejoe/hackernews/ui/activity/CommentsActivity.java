@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.hitherejoe.hackernews.data.model.Comment;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.adapter.CommentHolder;
 import com.hitherejoe.hackernews.util.DataUtils;
+import com.hitherejoe.hackernews.util.ToastFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.app.AppObservable;
@@ -69,6 +73,23 @@ public class CommentsActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.comments, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_bookmark:
+                addBookmark();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnClick(R.id.button_try_again)
@@ -131,6 +152,38 @@ public class CommentsActivity extends BaseActivity {
         mComments.add(comment);
         mComments.addAll(comment.comments);
         mEasyRecycleAdapter.notifyDataSetChanged();
+    }
+
+    private void addBookmark() {
+        mSubscriptions.add(AppObservable.bindActivity(this,
+                mDataManager.addBookmark(mPost))
+                .subscribeOn(mDataManager.getScheduler())
+                .subscribe(new Observer<Post>() {
+
+                    private Post bookmarkResult;
+
+                    @Override
+                    public void onCompleted() {
+                        ToastFactory.createToast(
+                                CommentsActivity.this,
+                                bookmarkResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
+                        ).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "There was an error bookmarking the story " + e);
+                        ToastFactory.createToast(
+                                CommentsActivity.this,
+                                getString(R.string.bookmark_error)
+                        ).show();
+                    }
+
+                    @Override
+                    public void onNext(Post story) {
+                        bookmarkResult = story;
+                    }
+                }));
     }
 
     private void showHideOfflineLayout(boolean isOffline) {
