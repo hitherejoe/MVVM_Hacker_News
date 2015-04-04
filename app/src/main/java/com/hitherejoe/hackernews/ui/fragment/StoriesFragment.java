@@ -86,7 +86,11 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     public void onRefresh() {
         for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
         mEasyRecycleAdapter.setItems(new ArrayList<Post>());
-        getTopStories();
+        if (mUser != null) {
+            getUserStories();
+        } else {
+            getTopStories();
+        }
     }
 
     @OnClick(R.id.button_try_again)
