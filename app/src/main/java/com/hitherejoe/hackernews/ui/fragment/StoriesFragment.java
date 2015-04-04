@@ -70,6 +70,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
         View fragmentView = inflater.inflate(R.layout.fragment_stories, container, false);
         ButterKnife.inject(this, fragmentView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.hn_orange);
         setupRecyclerView();
         loadStoriesIfNetworkConnected();
         return fragmentView;
