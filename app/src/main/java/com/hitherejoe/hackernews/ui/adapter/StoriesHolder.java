@@ -45,7 +45,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mPostTitle.setText(story.title);
         mPostAuthor.setText(Html.fromHtml(getContext().getString(R.string.story_by) + " " + "<u>" + story.by + "</u>"));
         mPostPoints.setText(story.score + " " + getContext().getString(R.string.story_points));
-        if (getItem().postType == Post.PostType.ASK && story.kids == null) {
+        if (getItem().postType == Post.PostType.LINK && story.kids == null) {
             mPostComments.setVisibility(View.GONE);
         } else {
             mPostComments.setVisibility(View.VISIBLE);
