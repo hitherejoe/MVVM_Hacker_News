@@ -9,12 +9,13 @@ public class Post implements Parcelable {
 
     public Long id;
     public String by;
-    public Integer time;
+    public Long time;
     public String type;
     public ArrayList<Long> kids;
     public String url;
     public Long score;
     public String title;
+    public String text;
     public PostType postType;
 
     public static enum PostType {
@@ -53,6 +54,7 @@ public class Post implements Parcelable {
         if (postType != story.postType) return false;
         if (time != null ? !time.equals(story.time) : story.time != null) return false;
         if (title != null ? !title.equals(story.title) : story.title != null) return false;
+        if (text != null ? !text.equals(story.text) : story.text != null) return false;
         if (type != null ? !type.equals(story.type) : story.type != null) return false;
         if (url != null ? !url.equals(story.url) : story.url != null) return false;
 
@@ -69,6 +71,7 @@ public class Post implements Parcelable {
         result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (score != null ? score.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (postType != null ? postType.hashCode() : 0);
         return result;
     }
@@ -88,18 +91,20 @@ public class Post implements Parcelable {
         dest.writeString(this.url);
         dest.writeValue(this.score);
         dest.writeString(this.title);
+        dest.writeString(this.text);
         dest.writeInt(this.postType == null ? -1 : this.postType.ordinal());
     }
 
     private Post(Parcel in) {
         this.by = in.readString();
         this.id = (Long) in.readValue(Long.class.getClassLoader());
-        this.time = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.time = (Long) in.readValue(Long.class.getClassLoader());
         this.type = in.readString();
         this.kids = (ArrayList<Long>) in.readSerializable();
         this.url = in.readString();
         this.score = (Long) in.readValue(Long.class.getClassLoader());
         this.title = in.readString();
+        this.text = in.readString();
         int tmpStoryType = in.readInt();
         this.postType = tmpStoryType == -1 ? null : PostType.values()[tmpStoryType];
     }

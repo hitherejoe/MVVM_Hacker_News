@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:background="@color/dark_grey">
 
         <LinearLayout
-            android:id="@+id/container_item"
+            android:id="@+id/comment_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

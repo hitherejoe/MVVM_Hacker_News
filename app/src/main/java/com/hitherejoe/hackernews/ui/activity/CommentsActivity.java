@@ -15,7 +15,7 @@ import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Comment;
 import com.hitherejoe.hackernews.data.model.Post;
-import com.hitherejoe.hackernews.ui.adapter.CommentHolder;
+import com.hitherejoe.hackernews.ui.adapter.CommentAdapter;
 import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.ToastFactory;
 
@@ -29,7 +29,6 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.app.AppObservable;
-import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class CommentsActivity extends BaseActivity {
 
@@ -52,7 +51,7 @@ public class CommentsActivity extends BaseActivity {
     private Post mPost;
     private DataManager mDataManager;
     private List<Subscription> mSubscriptions;
-    private EasyRecyclerAdapter<Comment> mEasyRecycleAdapter;
+    private CommentAdapter mCommentsAdapter;
     private ArrayList<Comment> mComments;
 
     @Override
@@ -106,8 +105,8 @@ public class CommentsActivity extends BaseActivity {
 
     private void setupRecyclerView() {
         mCommentsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(this, CommentHolder.class, mComments);
-        mCommentsRecycler.setAdapter(mEasyRecycleAdapter);
+        mCommentsAdapter = new CommentAdapter(mPost, mComments);
+        mCommentsRecycler.setAdapter(mCommentsAdapter);
     }
 
     private void loadStoriesIfNetworkConnected() {
@@ -151,7 +150,7 @@ public class CommentsActivity extends BaseActivity {
     private void addCommentViews(Comment comment) {
         mComments.add(comment);
         mComments.addAll(comment.comments);
-        mEasyRecycleAdapter.notifyDataSetChanged();
+        mCommentsAdapter.notifyDataSetChanged();
     }
 
     private void addBookmark() {
