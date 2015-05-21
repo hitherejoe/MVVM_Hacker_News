@@ -39,6 +39,13 @@ public class MockModelsUtil {
         return story;
     }
 
+    public static Post createMockAskStoryWithTitle(String title) {
+        Post story = createMockStory();
+        story.title = title;
+        story.url = "";
+        return story;
+    }
+
     public static User createMockUser() {
         User user = new User();
         user.id = generateRandomString();
