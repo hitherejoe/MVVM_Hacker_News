@@ -10,6 +10,7 @@ import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
+import com.hitherejoe.hackernews.ui.activity.JobActivity;
 import com.hitherejoe.hackernews.ui.activity.UserActivity;
 import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
 
@@ -45,12 +46,12 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mPostTitle.setText(story.title);
         mPostAuthor.setText(Html.fromHtml(getContext().getString(R.string.story_by) + " " + "<u>" + story.by + "</u>"));
         mPostPoints.setText(story.score + " " + getContext().getString(R.string.story_points));
-        if (getItem().postType == Post.PostType.LINK && story.kids == null) {
+        if (getItem().postType == Post.PostType.STORY && story.kids == null) {
             mPostComments.setVisibility(View.GONE);
         } else {
             mPostComments.setVisibility(View.VISIBLE);
         }
-        mViewPost.setVisibility(story.postType == Post.PostType.LINK ? View.VISIBLE : View.GONE);
+        mViewPost.setVisibility(story.postType == Post.PostType.STORY ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -82,11 +83,14 @@ public class StoriesHolder extends ItemViewHolder<Post> {
             @Override
             public void onClick(View v) {
                 if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked();
-            if (getItem().postType == Post.PostType.ASK) {
-                launchCommentsActivity();
-            } else {
-                launchStoryActivity();
-            }
+                Post.PostType postType = getItem().postType;
+                if (postType == Post.PostType.ASK) {
+                    launchCommentsActivity();
+                } else if (postType == Post.PostType.JOB) {
+                    launchStoryActivity();
+                } else if (postType == Post.PostType.STORY) {
+                    launchStoryActivity();
+                }
             }
         });
     }
@@ -94,6 +98,12 @@ public class StoriesHolder extends ItemViewHolder<Post> {
     private void launchStoryActivity() {
         Intent intent = new Intent(getContext(), ViewStoryActivity.class);
         intent.putExtra(ViewStoryActivity.EXTRA_POST, getItem());
+        getContext().startActivity(intent);
+    }
+
+    private void launchJobActivity() {
+        Intent intent = new Intent(getContext(), JobActivity.class);
+        intent.putExtra(JobActivity.EXTRA_POST, getItem());
         getContext().startActivity(intent);
     }
 

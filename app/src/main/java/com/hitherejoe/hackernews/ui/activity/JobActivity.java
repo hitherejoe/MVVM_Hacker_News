@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.HackerNewsApplication;
@@ -26,6 +27,8 @@ import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.ToastFactory;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,22 +40,14 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.app.AppObservable;
 
-public class ViewStoryActivity extends BaseActivity {
+public class JobActivity extends BaseActivity {
 
-    @InjectView(R.id.web_view)
-    WebView mWebView;
+    @InjectView(R.id.text_job)
+    TextView mJobText;
 
-    @InjectView(R.id.progress_indicator)
-    LinearLayout mProgressContainer;
-
-    @InjectView(R.id.layout_offline)
-    LinearLayout mOfflineLayout;
-
-    private static final String TAG = "WebPageActivity";
+    private static final String TAG = "JobActivity";
     public static final String EXTRA_POST =
-            "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST";
-    private static final String KEY_PDF = "pdf";
-    private static final String URL_GOOGLE_DOCS = "http://docs.google.com/gview?embedded=true&url=";
+            "com.hitherejoe.HackerNews.ui.activity.JobActivity.EXTRA_POST";
     private static final String URL_PLAY_STORE =
             "https://play.google.com/store/apps/details?id=com.hitherejoe.hackernews&hl=en_GB";
     private Post mPost;
@@ -62,14 +57,14 @@ public class ViewStoryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_story);
+        setContentView(R.layout.activity_job);
         ButterKnife.inject(this);
         Bundle bundle = getIntent().getExtras();
         mPost = bundle.getParcelable(EXTRA_POST);
         mDataManager = HackerNewsApplication.get().getDataManager();
         mSubscriptions = new ArrayList<>();
         setupActionBar();
-        setupWebView();
+        setupJobDetails();
     }
 
     @Override
@@ -83,15 +78,6 @@ public class ViewStoryActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.view_story, menu);
         setupShareActionProvider(menu);
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -109,11 +95,6 @@ public class ViewStoryActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.button_try_again)
-    public void onTryAgainClick() {
-        setupWebView();
-    }
-
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -121,6 +102,12 @@ public class ViewStoryActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(mPost.title);
         }
+    }
+
+    private void setupJobDetails() {
+        //if (mPost.text != null) {
+            mJobText.setText(mPost.text);
+        //}
     }
 
     private void setupShareActionProvider(Menu menu) {
@@ -135,38 +122,6 @@ public class ViewStoryActivity extends BaseActivity {
                     return false;
                 }
             });
-        }
-    }
-
-    private void setupWebView() {
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                if (progress == 100) mProgressContainer.setVisibility(ProgressBar.GONE);
-            }
-        });
-        mWebView.setWebViewClient(new ProgressWebViewClient());
-        mWebView.setInitialScale(1);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.getSettings().setDisplayZoomControls(true);
-        mWebView.getSettings().setLoadsImagesAutomatically(true);
-        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setAllowFileAccess(true);
-        mWebView.getSettings().setAppCacheEnabled(true);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        if (DataUtils.isNetworkAvailable(this)) {
-            showHideOfflineLayout(false);
-            if (mPost.postType == Post.PostType.STORY) {
-                String strippedUrl = mPost.url.split("\\?")[0].split("#")[0];
-                mWebView.loadUrl(strippedUrl.endsWith(KEY_PDF) ? URL_GOOGLE_DOCS + mPost.url : mPost.url);
-            } else {
-                mWebView.loadUrl(mPost.url);
-            }
-        } else {
-            showHideOfflineLayout(true);
         }
     }
 
@@ -190,7 +145,7 @@ public class ViewStoryActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
                         ToastFactory.createToast(
-                                ViewStoryActivity.this,
+                                JobActivity.this,
                                 bookmarkResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
                         ).show();
                     }
@@ -199,7 +154,7 @@ public class ViewStoryActivity extends BaseActivity {
                     public void onError(Throwable e) {
                         Log.e(TAG, "There was an error bookmarking the story " + e);
                         ToastFactory.createToast(
-                                ViewStoryActivity.this,
+                                JobActivity.this,
                                 getString(R.string.bookmark_error)
                         ).show();
                     }
@@ -209,25 +164,6 @@ public class ViewStoryActivity extends BaseActivity {
                         bookmarkResult = story;
                     }
                 }));
-    }
-
-    private void showHideOfflineLayout(boolean isOffline) {
-        mOfflineLayout.setVisibility(isOffline ? View.VISIBLE : View.GONE);
-        mWebView.setVisibility(isOffline ? View.GONE : View.VISIBLE);
-        mProgressContainer.setVisibility(isOffline ? View.GONE : View.VISIBLE);
-    }
-
-    private class ProgressWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String page) {
-            mProgressContainer.setVisibility(ProgressBar.GONE);
-        }
     }
 
 }

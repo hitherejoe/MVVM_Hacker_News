@@ -1,6 +1,7 @@
 package com.hitherejoe.hackernews.data;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Patterns;
 
 import com.hitherejoe.hackernews.BuildConfig;
@@ -84,11 +85,15 @@ public class DataManager {
                 }).flatMap(new Func1<Post, Observable<Post>>() {
                     @Override
                     public Observable<Post> call(Post story) {
-                        if (Patterns.WEB_URL.matcher(story.url).matches()) {
-                            story.postType = Post.PostType.LINK;
-                        } else {
-                            story.postType = Post.PostType.ASK;
+                        Log.d("STORYDDDD", story.title + " : " + story.postType + " : url : " + story.url);
+                        if (story.postType != Post.PostType.JOB) {
+                            return Observable.empty();
                         }
+                     //   if (Patterns.WEB_URL.matcher(story.url).matches()) {
+                     //       story.postType = Post.PostType.STORY;
+                     //   } else {
+                     //       story.postType = Post.PostType.ASK;
+                     //   }
                         return Observable.just(story);
                     }
                 });

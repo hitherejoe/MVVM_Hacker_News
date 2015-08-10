@@ -134,6 +134,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                     public void onError(Throwable e) {
                         hideLoadingViews();
                         Log.e(TAG, "There was a problem loading the top stories " + e);
+                        e.printStackTrace();
                     }
 
                     @Override

@@ -1,14 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
-    }
-}
-
 apply plugin: 'com.android.application'
 
 android {
@@ -23,6 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode 5
         versionName "1.4"
+        testFunctionalTest true
     }
 
     buildTypes {
@@ -32,7 +22,12 @@ android {
         debug {
             versionNameSuffix " Debug"
             debuggable true
+            testCoverageEnabled = true
         }
+    }
+
+    jacoco {
+        version = '0.6.2.201302030002'
     }
 
     packagingOptions {
@@ -47,13 +42,13 @@ android {
 dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'uk.co.ribot:easyadapter:1.4.0@aar'
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.android.support:cardview-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:cardview-v7:22.2.1'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
-    compile 'com.google.android.gms:play-services-analytics:7.0.0'
+    compile 'com.google.android.gms:play-services-analytics:7.5.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'io.reactivex:rxandroid:0.24.0'
 

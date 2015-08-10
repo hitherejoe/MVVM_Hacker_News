@@ -19,7 +19,7 @@ public class MockModelsUtil {
     public static Post createMockStory() {
         Post story = new Post();
         story.id = generateRandomLong();
-        story.postType = Post.PostType.LINK;
+        story.postType = Post.PostType.STORY;
         story.url = "http://www.hitherejoe.com";
         story.title = generateRandomString();
         story.score = 1000L;

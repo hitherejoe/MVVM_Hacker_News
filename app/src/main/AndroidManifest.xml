@@ -32,6 +32,9 @@
             android:name=".ui.activity.ViewStoryActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.JobActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity

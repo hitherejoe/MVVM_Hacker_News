@@ -3,6 +3,8 @@ package com.hitherejoe.hackernews.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class Post implements Parcelable {
@@ -10,17 +12,21 @@ public class Post implements Parcelable {
     public Long id;
     public String by;
     public Long time;
-    public String type;
     public ArrayList<Long> kids;
     public String url;
     public Long score;
     public String title;
     public String text;
+    @SerializedName("type")
     public PostType postType;
 
-    public static enum PostType {
-        LINK("link"),
-        ASK("ask");
+    public enum PostType {
+        @SerializedName("story")
+        STORY("story"),
+        @SerializedName("ask")
+        ASK("ask"),
+        @SerializedName("job")
+        JOB("job");
 
         private String string;
 
@@ -55,7 +61,6 @@ public class Post implements Parcelable {
         if (time != null ? !time.equals(story.time) : story.time != null) return false;
         if (title != null ? !title.equals(story.title) : story.title != null) return false;
         if (text != null ? !text.equals(story.text) : story.text != null) return false;
-        if (type != null ? !type.equals(story.type) : story.type != null) return false;
         if (url != null ? !url.equals(story.url) : story.url != null) return false;
 
         return true;
@@ -66,7 +71,6 @@ public class Post implements Parcelable {
         int result = by != null ? by.hashCode() : 0;
         result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (time != null ? time.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (kids != null ? kids.hashCode() : 0);
         result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (score != null ? score.hashCode() : 0);
@@ -86,7 +90,6 @@ public class Post implements Parcelable {
         dest.writeString(this.by);
         dest.writeValue(this.id);
         dest.writeValue(this.time);
-        dest.writeString(this.type);
         dest.writeSerializable(this.kids);
         dest.writeString(this.url);
         dest.writeValue(this.score);
@@ -99,7 +102,6 @@ public class Post implements Parcelable {
         this.by = in.readString();
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.time = (Long) in.readValue(Long.class.getClassLoader());
-        this.type = in.readString();
         this.kids = (ArrayList<Long>) in.readSerializable();
         this.url = in.readString();
         this.score = (Long) in.readValue(Long.class.getClassLoader());
