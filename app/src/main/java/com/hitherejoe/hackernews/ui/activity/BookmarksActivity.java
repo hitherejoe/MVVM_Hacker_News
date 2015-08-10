@@ -1,7 +1,6 @@
 package com.hitherejoe.hackernews.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,22 +19,22 @@ import com.hitherejoe.hackernews.util.ToastFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import rx.Observer;
 import rx.Subscription;
-import rx.android.app.AppObservable;
+import rx.android.schedulers.AndroidSchedulers;
 import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class BookmarksActivity extends BaseActivity {
 
-    @InjectView(R.id.recycler_bookmarks)
+    @Bind(R.id.recycler_bookmarks)
     RecyclerView mBookmarksRecycler;
 
-    @InjectView(R.id.text_no_bookmarks)
+    @Bind(R.id.text_no_bookmarks)
     TextView mNoBookmarksText;
 
-    @InjectView(R.id.progress_indicator)
+    @Bind(R.id.progress_indicator)
     ProgressBar mProgressBar;
 
     private static final String TAG = "BookmarksActivity";
@@ -48,7 +47,7 @@ public class BookmarksActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         mDataManager = HackerNewsApplication.get().getDataManager();
         mBookmarkList = new ArrayList<>();
         mSubscriptions = new ArrayList<>();
@@ -75,8 +74,8 @@ public class BookmarksActivity extends BaseActivity {
     }
 
     private void getBookmarkedStories() {
-        mSubscriptions.add(AppObservable.bindActivity(this,
-                mDataManager.getBookmarks())
+        mSubscriptions.add(mDataManager.getBookmarks()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Observer<Post>() {
                     @Override
@@ -104,8 +103,8 @@ public class BookmarksActivity extends BaseActivity {
     }
 
     private void removeBookmark(final Post story) {
-        mSubscriptions.add(AppObservable.bindActivity(this,
-                mDataManager.deleteBookmark(story))
+        mSubscriptions.add(mDataManager.deleteBookmark(story)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Observer<Void>() {
                     @Override

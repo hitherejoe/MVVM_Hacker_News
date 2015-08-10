@@ -24,26 +24,26 @@ import com.hitherejoe.hackernews.util.DataUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.android.app.AppObservable;
+import rx.android.schedulers.AndroidSchedulers;
 import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class StoriesFragment extends Fragment implements OnRefreshListener {
 
-    @InjectView(R.id.swipe_container)
+    @Bind(R.id.swipe_container)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @InjectView(R.id.list_stories)
+    @Bind(R.id.list_stories)
     RecyclerView mListPosts;
 
-    @InjectView(R.id.layout_offline)
+    @Bind(R.id.layout_offline)
     LinearLayout mOfflineContainer;
 
-    @InjectView(R.id.progress_indicator)
+    @Bind(R.id.progress_indicator)
     ProgressBar mProgressBar;
 
     private static final String TAG = "StoriesFragment";
@@ -68,7 +68,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_stories, container, false);
-        ButterKnife.inject(this, fragmentView);
+        ButterKnife.bind(this, fragmentView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.hn_orange);
         setupRecyclerView();
@@ -123,12 +123,13 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     }
 
     private void getTopStories() {
-        mSubscriptions.add(AppObservable.bindFragment(this,
-                mDataManager.getTopStories())
+        mSubscriptions.add(mDataManager.getTopStories()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Subscriber<Post>() {
                     @Override
-                    public void onCompleted() { }
+                    public void onCompleted() {
+                    }
 
                     @Override
                     public void onError(Throwable e) {
@@ -146,12 +147,13 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     }
 
     private void getUserStories() {
-        mSubscriptions.add(AppObservable.bindFragment(this,
-                mDataManager.getUserPosts(mUser))
+        mSubscriptions.add(mDataManager.getUserPosts(mUser)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Subscriber<Post>() {
                     @Override
-                    public void onCompleted() { }
+                    public void onCompleted() {
+                    }
 
                     @Override
                     public void onError(Throwable e) {

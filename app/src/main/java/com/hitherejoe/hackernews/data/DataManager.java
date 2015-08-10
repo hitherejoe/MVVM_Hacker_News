@@ -82,20 +82,6 @@ public class DataManager {
                     public Observable<Post> call(Long aLong) {
                         return mHackerNewsService.getStoryItem(String.valueOf(aLong));
                     }
-                }).flatMap(new Func1<Post, Observable<Post>>() {
-                    @Override
-                    public Observable<Post> call(Post story) {
-                        Log.d("STORYDDDD", story.title + " : " + story.postType + " : url : " + story.url);
-                        if (story.postType != Post.PostType.JOB) {
-                            return Observable.empty();
-                        }
-                     //   if (Patterns.WEB_URL.matcher(story.url).matches()) {
-                     //       story.postType = Post.PostType.STORY;
-                     //   } else {
-                     //       story.postType = Post.PostType.ASK;
-                     //   }
-                        return Observable.just(story);
-                    }
                 });
     }
 

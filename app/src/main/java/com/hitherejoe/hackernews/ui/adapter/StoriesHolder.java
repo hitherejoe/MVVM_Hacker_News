@@ -10,7 +10,6 @@ import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
-import com.hitherejoe.hackernews.ui.activity.JobActivity;
 import com.hitherejoe.hackernews.ui.activity.UserActivity;
 import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
 
@@ -98,12 +97,6 @@ public class StoriesHolder extends ItemViewHolder<Post> {
     private void launchStoryActivity() {
         Intent intent = new Intent(getContext(), ViewStoryActivity.class);
         intent.putExtra(ViewStoryActivity.EXTRA_POST, getItem());
-        getContext().startActivity(intent);
-    }
-
-    private void launchJobActivity() {
-        Intent intent = new Intent(getContext(), JobActivity.class);
-        intent.putExtra(JobActivity.EXTRA_POST, getItem());
         getContext().startActivity(intent);
     }
 

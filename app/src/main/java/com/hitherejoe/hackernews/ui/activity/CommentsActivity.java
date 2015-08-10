@@ -22,26 +22,26 @@ import com.hitherejoe.hackernews.util.ToastFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.android.app.AppObservable;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class CommentsActivity extends BaseActivity {
 
-    @InjectView(R.id.progress_indicator)
+    @Bind(R.id.progress_indicator)
     LinearLayout mProgressBar;
 
-    @InjectView(R.id.layout_offline)
+    @Bind(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
-    @InjectView(R.id.recycler_comments)
+    @Bind(R.id.recycler_comments)
     RecyclerView mCommentsRecycler;
 
-    @InjectView(R.id.text_no_comments)
+    @Bind(R.id.text_no_comments)
     TextView mNoCommentsText;
 
     private static final String TAG = "CommentsActivity";
@@ -58,7 +58,7 @@ public class CommentsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         mSubscriptions = new ArrayList<>();
         mComments = new ArrayList<>();
         mPost = getIntent().getParcelableExtra(EXTRA_POST);
@@ -120,8 +120,8 @@ public class CommentsActivity extends BaseActivity {
 
     private void getStoryComments(List<Long> commentIds) {
         if (commentIds != null && !commentIds.isEmpty()) {
-            mSubscriptions.add(AppObservable.bindActivity(this,
-                    mDataManager.getPostComments(commentIds, 0))
+            mSubscriptions.add(mDataManager.getPostComments(commentIds, 0)
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(mDataManager.getScheduler())
                     .subscribe(new Subscriber<Comment>() {
                         @Override
@@ -154,8 +154,8 @@ public class CommentsActivity extends BaseActivity {
     }
 
     private void addBookmark() {
-        mSubscriptions.add(AppObservable.bindActivity(this,
-                mDataManager.addBookmark(mPost))
+        mSubscriptions.add(mDataManager.addBookmark(mPost)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Observer<Post>() {
 

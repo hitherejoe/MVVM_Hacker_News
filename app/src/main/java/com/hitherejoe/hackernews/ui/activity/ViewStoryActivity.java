@@ -30,22 +30,22 @@ import com.hitherejoe.hackernews.util.ToastFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
-import rx.android.app.AppObservable;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class ViewStoryActivity extends BaseActivity {
 
-    @InjectView(R.id.web_view)
+    @Bind(R.id.web_view)
     WebView mWebView;
 
-    @InjectView(R.id.progress_indicator)
+    @Bind(R.id.progress_indicator)
     LinearLayout mProgressContainer;
 
-    @InjectView(R.id.layout_offline)
+    @Bind(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
     private static final String TAG = "WebPageActivity";
@@ -63,7 +63,7 @@ public class ViewStoryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_story);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         mPost = bundle.getParcelable(EXTRA_POST);
         mDataManager = HackerNewsApplication.get().getDataManager();
@@ -180,8 +180,8 @@ public class ViewStoryActivity extends BaseActivity {
     }
 
     private void addBookmark() {
-        mSubscriptions.add(AppObservable.bindActivity(this,
-                mDataManager.addBookmark(mPost))
+        mSubscriptions.add(mDataManager.addBookmark(mPost)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Observer<Post>() {
 
