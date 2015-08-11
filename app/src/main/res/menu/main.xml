@@ -8,7 +8,7 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item android:id="@+id/action_bookmarks"
-        android:title="@string/action_about"
+        android:title="@string/action_view_bookmarks"
         android:icon="@drawable/ic_book"
         android:orderInCategory="200"
         app:showAsAction="ifRoom" />
