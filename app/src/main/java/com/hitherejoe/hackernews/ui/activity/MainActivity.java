@@ -1,5 +1,6 @@
 package com.hitherejoe.hackernews.ui.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -16,12 +17,16 @@ import com.hitherejoe.hackernews.util.RateUtils;
 
 public class MainActivity extends BaseActivity {
 
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addStoriesFragment();
-        if (HackerNewsApplication.get().getDataManager().getPreferencesHelper().shouldShowRateDialog()) {
+        if (HackerNewsApplication.get(this).getComponent().dataManager().getPreferencesHelper().shouldShowRateDialog()) {
             RateUtils.showRateDialog(this, mOnRateDialogClickListener);
         }
     }
@@ -36,11 +41,11 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about:
-                AnalyticsHelper.trackAboutMenuItemClicked();
+                AnalyticsHelper.trackAboutMenuItemClicked(this);
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;
             case R.id.action_bookmarks:
-                AnalyticsHelper.trackBookmarksMenuItemClicked();
+                AnalyticsHelper.trackBookmarksMenuItemClicked(this);
                 startActivity(new Intent(this, BookmarksActivity.class));
                 return true;
             default:
@@ -60,11 +65,11 @@ public class MainActivity extends BaseActivity {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case -2:
-                    HackerNewsApplication.get().getDataManager().getPreferencesHelper().putRateDialogShownFlag();
+                    HackerNewsApplication.get(MainActivity.this).getComponent().dataManager().getPreferencesHelper().putRateDialogShownFlag();
                     break;
                 case -1:
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
-                    HackerNewsApplication.get().getDataManager().getPreferencesHelper().putRateDialogShownFlag();
+                    HackerNewsApplication.get(MainActivity.this).getComponent().dataManager().getPreferencesHelper().putRateDialogShownFlag();
                     break;
             }
             dialog.dismiss();

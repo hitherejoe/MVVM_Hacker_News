@@ -4,6 +4,7 @@ import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -30,6 +31,14 @@ public class MockModelsUtil {
     public static Post createMockStoryWithTitle(String title) {
         Post story = createMockStory();
         story.title = title;
+        story.postType = Post.PostType.STORY;
+        return story;
+    }
+
+    public static Post createMockJobWithTitle(String title) {
+        Post story = createMockStory();
+        story.title = title;
+        story.postType = Post.PostType.JOB;
         return story;
     }
 
@@ -42,6 +51,7 @@ public class MockModelsUtil {
     public static Post createMockAskStoryWithTitle(String title) {
         Post story = createMockStory();
         story.title = title;
+        story.postType = Post.PostType.ASK;
         story.url = "";
         return story;
     }
@@ -57,6 +67,14 @@ public class MockModelsUtil {
         user.submitted.add(773454L);
         user.submitted.add(666454L);
         return user;
+    }
+
+    public static List<Long> createMockPostIdList(int count) {
+        List<Long> idList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            idList.add(generateRandomLong());
+        }
+        return idList;
     }
 
 }

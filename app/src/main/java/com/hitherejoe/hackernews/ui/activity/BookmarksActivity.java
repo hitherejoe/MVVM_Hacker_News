@@ -1,6 +1,9 @@
 package com.hitherejoe.hackernews.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,12 +46,16 @@ public class BookmarksActivity extends BaseActivity {
     private List<Post> mBookmarkList;
     private List<Subscription> mSubscriptions;
 
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, BookmarksActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
         ButterKnife.bind(this);
-        mDataManager = HackerNewsApplication.get().getDataManager();
+        mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         mBookmarkList = new ArrayList<>();
         mSubscriptions = new ArrayList<>();
         setupActionBar();
@@ -63,8 +70,11 @@ public class BookmarksActivity extends BaseActivity {
     }
 
     private void setupActionBar() {
-        getSupportActionBar().setTitle(getString(R.string.bookmarks));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.bookmarks));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void setupRecyclerView() {
@@ -103,7 +113,7 @@ public class BookmarksActivity extends BaseActivity {
     }
 
     private void removeBookmark(final Post story) {
-        mSubscriptions.add(mDataManager.deleteBookmark(story)
+        mSubscriptions.add(mDataManager.deleteBookmark(this, story)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Observer<Void>() {

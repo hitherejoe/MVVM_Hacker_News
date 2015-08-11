@@ -1,37 +1,41 @@
 package com.hitherejoe.hackernews;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.hitherejoe.hackernews.data.DataManager;
+import com.hitherejoe.hackernews.injection.component.ApplicationComponent;
+import com.hitherejoe.hackernews.injection.component.DaggerApplicationComponent;
+import com.hitherejoe.hackernews.injection.module.ApplicationModule;
 
-import rx.schedulers.Schedulers;
 
 public class HackerNewsApplication extends Application {
 
-    private static HackerNewsApplication sHackerNewsApplication;
-    private DataManager mDataManager;
+    ApplicationComponent mApplicationComponent;
+
     private Tracker mAnalyticsTracker;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sHackerNewsApplication = this;
-        mDataManager = new DataManager(this, Schedulers.io());
+        mApplicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
     }
 
-    @Override
-    public void onTerminate() {
-        sHackerNewsApplication = null;
-        super.onTerminate();
+    public static HackerNewsApplication get(Context context) {
+        return (HackerNewsApplication) context.getApplicationContext();
     }
 
-    public static HackerNewsApplication get() {
-        return sHackerNewsApplication;
+    public ApplicationComponent getComponent() {
+        return mApplicationComponent;
     }
 
-    public DataManager getDataManager() { return mDataManager; }
+    // Needed to replace the component with a test specific one
+    public void setComponent(ApplicationComponent applicationComponent) {
+        mApplicationComponent = applicationComponent;
+    }
 
     public synchronized Tracker getAnalyticsTrackerTracker() {
         GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);

@@ -37,7 +37,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Bind(R.id.swipe_container)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @Bind(R.id.list_stories)
+    @Bind(R.id.recycler_stories)
     RecyclerView mListPosts;
 
     @Bind(R.id.layout_offline)
@@ -60,7 +60,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
         super.onCreate(savedInstanceState);
         mSubscriptions = new ArrayList<>();
         mStories = new ArrayList<>();
-        mDataManager = HackerNewsApplication.get().getDataManager();
+        mDataManager = HackerNewsApplication.get(getActivity()).getComponent().dataManager();
         Bundle bundle = getArguments();
         if (bundle != null) mUser = bundle.getString(ARG_USER, null);
     }

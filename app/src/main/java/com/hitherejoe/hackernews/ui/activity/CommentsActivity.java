@@ -62,7 +62,7 @@ public class CommentsActivity extends BaseActivity {
         mSubscriptions = new ArrayList<>();
         mComments = new ArrayList<>();
         mPost = getIntent().getParcelableExtra(EXTRA_POST);
-        mDataManager = HackerNewsApplication.get().getDataManager();
+        mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         setupActionbar();
         setupRecyclerView();
         loadStoriesIfNetworkConnected();
@@ -154,7 +154,7 @@ public class CommentsActivity extends BaseActivity {
     }
 
     private void addBookmark() {
-        mSubscriptions.add(mDataManager.addBookmark(mPost)
+        mSubscriptions.add(mDataManager.addBookmark(this, mPost)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Observer<Post>() {

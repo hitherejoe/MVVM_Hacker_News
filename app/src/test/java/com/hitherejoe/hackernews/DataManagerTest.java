@@ -1,6 +1,8 @@
 package com.hitherejoe.hackernews;
 
 import com.hitherejoe.hackernews.data.DataManager;
+import com.hitherejoe.hackernews.data.local.DatabaseHelper;
+import com.hitherejoe.hackernews.data.local.PreferencesHelper;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 import com.hitherejoe.hackernews.data.remote.HackerNewsService;
@@ -14,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -28,25 +31,29 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(emulateSdk = DefaultConfig.EMULATE_SDK)
+@Config(constants = BuildConfig.class, sdk = DefaultConfig.EMULATE_SDK)
 public class DataManagerTest {
 
     private DataManager mDataManager;
-    private HackerNewsService mHackerNewsService;
+    private HackerNewsService mMockHackerNewsService;
     private Post mStory;
     private Boolean mDoesBookmarkExist;
 
     @Before
     public void setUp() {
-        mDataManager = new DataManager(Robolectric.application, Schedulers.immediate());
-        mHackerNewsService = mock(HackerNewsService.class);
-        mDataManager.setHackerNewsService(mHackerNewsService);
+        mMockHackerNewsService = mock(HackerNewsService.class);
+        DatabaseHelper databaseHelper = new DatabaseHelper(RuntimeEnvironment.application);
+        PreferencesHelper preferencesHelper = new PreferencesHelper(RuntimeEnvironment.application);
+        mDataManager = new DataManager(mMockHackerNewsService,
+                databaseHelper,
+                preferencesHelper,
+                Schedulers.immediate());
     }
 
     @Test
     public void shouldAddBookmark() throws Exception {
         Post mockStory = MockModelsUtil.createMockStory();
-        mDataManager.addBookmark(mockStory).subscribe(new Action1<Post>() {
+        mDataManager.addBookmark(RuntimeEnvironment.application, mockStory).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
                 mStory = story;
@@ -70,7 +77,7 @@ public class DataManagerTest {
     @Test
     public void shouldRemoveBookmark() throws Exception {
         Post mockStory = MockModelsUtil.createMockStory();
-        mDataManager.addBookmark(mockStory).subscribe(new Action1<Post>() {
+        mDataManager.addBookmark(RuntimeEnvironment.application, mockStory).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
                 mStory = story;
@@ -78,7 +85,7 @@ public class DataManagerTest {
         });
         Assert.assertEquals(mockStory, mStory);
 
-        mDataManager.deleteBookmark(mockStory).subscribe();
+        mDataManager.deleteBookmark(RuntimeEnvironment.application,mockStory).subscribe();
 
         final List<Post> storyList = new ArrayList<>();
 
@@ -95,7 +102,7 @@ public class DataManagerTest {
     @Test
     public void shouldReturnBookmarkExists() throws Exception {
         Post mockStory = MockModelsUtil.createMockStory();
-        mDataManager.addBookmark(mockStory).subscribe(new Action1<Post>() {
+        mDataManager.addBookmark(RuntimeEnvironment.application, mockStory).subscribe(new Action1<Post>() {
             @Override
             public void call(Post story) {
                 mStory = story;
@@ -130,9 +137,9 @@ public class DataManagerTest {
         Post mockStoryOne = MockModelsUtil.createMockStory();
         Post mockStoryTwo = MockModelsUtil.createMockStory();
         Post mockStoryThree = MockModelsUtil.createMockStory();
-        mDataManager.addBookmark(mockStoryOne).subscribe();
-        mDataManager.addBookmark(mockStoryTwo).subscribe();
-        mDataManager.addBookmark(mockStoryThree).subscribe();
+        mDataManager.addBookmark(RuntimeEnvironment.application, mockStoryOne).subscribe();
+        mDataManager.addBookmark(RuntimeEnvironment.application, mockStoryTwo).subscribe();
+        mDataManager.addBookmark(RuntimeEnvironment.application, mockStoryThree).subscribe();
 
         final List<Post> storyList = new ArrayList<>();
 
@@ -156,13 +163,13 @@ public class DataManagerTest {
         Post mockStoryThree = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(2));
         Post mockStoryFour = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(3));
 
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(0))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(0))))
                 .thenReturn(Observable.just(mockStoryOne));
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(1))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(1))))
                 .thenReturn(Observable.just(mockStoryTwo));
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(2))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(2))))
                 .thenReturn(Observable.just(mockStoryThree));
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(3))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(3))))
                 .thenReturn(Observable.just(mockStoryFour));
 
         final List<Long> storyIds = new ArrayList<>();
@@ -191,20 +198,20 @@ public class DataManagerTest {
     @Test
     public void shouldGetUserStories() throws Exception {
         User mockUser = MockModelsUtil.createMockUser();
-        when(mHackerNewsService.getUser(any(String.class)))
+        when(mMockHackerNewsService.getUser(any(String.class)))
                 .thenReturn(Observable.just(mockUser));
         Post mockStoryOne = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(0));
         Post mockStoryTwo = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(1));
         Post mockStoryThree = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(2));
         Post mockStoryFour = MockModelsUtil.createMockStoryWithId(mockUser.submitted.get(3));
 
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(0))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(0))))
                 .thenReturn(Observable.just(mockStoryOne));
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(1))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(1))))
                 .thenReturn(Observable.just(mockStoryTwo));
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(2))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(2))))
                 .thenReturn(Observable.just(mockStoryThree));
-        when(mHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(3))))
+        when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(3))))
                 .thenReturn(Observable.just(mockStoryFour));
 
         final List<Post> userStories = new ArrayList<>();

@@ -66,7 +66,7 @@ public class ViewStoryActivity extends BaseActivity {
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         mPost = bundle.getParcelable(EXTRA_POST);
-        mDataManager = HackerNewsApplication.get().getDataManager();
+        mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         mSubscriptions = new ArrayList<>();
         setupActionBar();
         setupWebView();
@@ -98,7 +98,7 @@ public class ViewStoryActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_browser:
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryInBrowserMenuItemClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryInBrowserMenuItemClicked(this);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mPost.url)));
                 return true;
             case R.id.action_bookmark:
@@ -131,7 +131,7 @@ public class ViewStoryActivity extends BaseActivity {
             shareActionProvider.setOnShareTargetSelectedListener(new OnShareTargetSelectedListener() {
                 @Override
                 public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-                    if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryShared(intent.getComponent().getPackageName());
+                    if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryShared(ViewStoryActivity.this, intent.getComponent().getPackageName());
                     return false;
                 }
             });
@@ -180,7 +180,7 @@ public class ViewStoryActivity extends BaseActivity {
     }
 
     private void addBookmark() {
-        mSubscriptions.add(mDataManager.addBookmark(mPost)
+        mSubscriptions.add(mDataManager.addBookmark(this, mPost)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Observer<Post>() {

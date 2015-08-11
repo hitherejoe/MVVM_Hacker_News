@@ -52,7 +52,7 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
         mViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryClicked(getContext());
                 launchActivity();
             }
         });
@@ -66,7 +66,7 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
         mPostTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked(getContext());
                 launchActivity();
             }
         });
@@ -93,7 +93,7 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
     }
 
     public interface RemovedListener {
-        public void onBookmarkRemoved(Post bookmark);
+        void onBookmarkRemoved(Post bookmark);
     }
 
 }

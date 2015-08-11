@@ -1,10 +1,9 @@
 package com.hitherejoe.hackernews.data;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.Patterns;
 
 import com.hitherejoe.hackernews.BuildConfig;
+import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.local.PreferencesHelper;
 import com.hitherejoe.hackernews.data.model.Comment;
@@ -13,8 +12,12 @@ import com.hitherejoe.hackernews.data.model.User;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.data.remote.HackerNewsService;
 import com.hitherejoe.hackernews.data.remote.RetrofitHelper;
+import com.hitherejoe.hackernews.injection.component.DaggerDataManagerComponent;
+import com.hitherejoe.hackernews.injection.module.DataManagerModule;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Scheduler;
@@ -23,16 +26,35 @@ import rx.functions.Func1;
 
 public class DataManager {
 
-    private HackerNewsService mHackerNewsService;
-    private DatabaseHelper mDatabaseHelper;
-    private PreferencesHelper mPreferencesHelper;
-    private Scheduler mScheduler;
+    @Inject protected HackerNewsService mHackerNewsService;
+    @Inject protected DatabaseHelper mDatabaseHelper;
+    @Inject protected PreferencesHelper mPreferencesHelper;
+    @Inject protected Scheduler mSubscribeScheduler;
 
-    public DataManager(Context context, Scheduler scheduler) {
-        mHackerNewsService = new RetrofitHelper().setupHackerNewsService();
-        mDatabaseHelper = new DatabaseHelper(context);
-        mPreferencesHelper = new PreferencesHelper(context);
-        mScheduler = scheduler;
+    public DataManager(Context context) {
+        injectDependencies(context);
+    }
+
+    /* This constructor is provided so we can set up a DataManager with mocks from unit test.
+     * At the moment this is not possible to do with Dagger because the Gradle APT plugin doesn't
+     * work for the unit test variant, plus Dagger 2 doesn't provide a nice way of overriding
+     * modules */
+    public DataManager(HackerNewsService watchTowerService,
+                       DatabaseHelper databaseHelper,
+                       PreferencesHelper preferencesHelper,
+                       Scheduler subscribeScheduler) {
+        mHackerNewsService = watchTowerService;
+        mDatabaseHelper = databaseHelper;
+        mPreferencesHelper = preferencesHelper;
+        mSubscribeScheduler = subscribeScheduler;
+    }
+
+    protected void injectDependencies(Context context) {
+        DaggerDataManagerComponent.builder()
+                .applicationComponent(HackerNewsApplication.get(context).getComponent())
+                .dataManagerModule(new DataManagerModule(context))
+                .build()
+                .inject(this);
     }
 
     public void setHackerNewsService(HackerNewsService hackerNewsService) {
@@ -40,7 +62,7 @@ public class DataManager {
     }
 
     public void setScheduler(Scheduler scheduler) {
-        mScheduler = scheduler;
+        mSubscribeScheduler = scheduler;
     }
 
     public DatabaseHelper getDatabaseHelper() {
@@ -52,7 +74,7 @@ public class DataManager {
     }
 
     public Scheduler getScheduler() {
-        return mScheduler;
+        return mSubscribeScheduler;
     }
 
     public Observable<Post> getTopStories() {
@@ -116,7 +138,7 @@ public class DataManager {
         return mDatabaseHelper.getBookmarkedStories();
     }
 
-    public Observable<Post> addBookmark(final Post story) {
+    public Observable<Post> addBookmark(final Context context, final Post story) {
         return doesBookmarkExist(story)
                 .flatMap(new Func1<Boolean, Observable<Post>>() {
                     @Override
@@ -127,17 +149,17 @@ public class DataManager {
                 }).doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkAdded();
+                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkAdded(context);
                     }
                 });
     }
 
-    public Observable<Void> deleteBookmark(Post story) {
+    public Observable<Void> deleteBookmark(final Context context, Post story) {
         return mDatabaseHelper.deleteBookmark(story)
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkRemoved();
+                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkRemoved(context);
                     }
                 });
     }

@@ -50,7 +50,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         } else {
             mPostComments.setVisibility(View.VISIBLE);
         }
-        mViewPost.setVisibility(story.postType == Post.PostType.STORY ? View.VISIBLE : View.GONE);
+        mViewPost.setVisibility(story.url != null && story.url.length() > 0 ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mPostAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackUserNameClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackUserNameClicked(getContext());
                 Intent intent = new Intent(getContext(), UserActivity.class);
                 intent.putExtra(UserActivity.EXTRA_USER, getItem().by);
                 getContext().startActivity(intent);
@@ -67,28 +67,26 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mPostComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewCommentsClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewCommentsClicked(getContext());
                 launchCommentsActivity();
             }
         });
         mViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryClicked(getContext());
                 launchStoryActivity();
             }
         });
         mPostTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked();
+                if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked(getContext());
                 Post.PostType postType = getItem().postType;
-                if (postType == Post.PostType.ASK) {
+                if (postType == Post.PostType.JOB || postType == Post.PostType.STORY) {
+                    launchStoryActivity();
+                } else if (postType == Post.PostType.ASK) {
                     launchCommentsActivity();
-                } else if (postType == Post.PostType.JOB) {
-                    launchStoryActivity();
-                } else if (postType == Post.PostType.STORY) {
-                    launchStoryActivity();
                 }
             }
         });

@@ -13,7 +13,7 @@ public class RateUtils {
 
     public static void showRateDialog(Context context, DialogInterface.OnClickListener onClickListener) {
         PreferencesHelper preferencesHelper =
-                HackerNewsApplication.get().getDataManager().getPreferencesHelper();
+                HackerNewsApplication.get(context).getComponent().dataManager().getPreferencesHelper();
 
         Long firstLaunch = preferencesHelper.getFirstLaunch();
         long launchCount = preferencesHelper.getLaunchCount();
