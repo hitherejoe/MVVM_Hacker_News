@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,9 @@ public class CommentsActivity extends BaseActivity {
     @Bind(R.id.text_no_comments)
     TextView mNoCommentsText;
 
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
     public static final String EXTRA_POST =
             "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_POST";
 
@@ -77,7 +81,7 @@ public class CommentsActivity extends BaseActivity {
         mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         mSubscriptions = new ArrayList<>();
         mComments = new ArrayList<>();
-        setupActionbar();
+        setupToolbar();
         setupRecyclerView();
         loadStoriesIfNetworkConnected();
     }
@@ -110,7 +114,8 @@ public class CommentsActivity extends BaseActivity {
         loadStoriesIfNetworkConnected();
     }
 
-    private void setupActionbar() {
+    private void setupToolbar() {
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             String title = mPost.title;
