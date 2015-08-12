@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hitherejoe.hackernews.HackerNewsApplication;
@@ -17,7 +18,8 @@ import com.hitherejoe.hackernews.data.model.Comment;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.adapter.CommentAdapter;
 import com.hitherejoe.hackernews.util.DataUtils;
-import com.hitherejoe.hackernews.util.ToastFactory;
+import com.hitherejoe.hackernews.util.DialogFactory;
+import com.hitherejoe.hackernews.util.SnackbarFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,9 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class CommentsActivity extends BaseActivity {
+
+    @Bind(R.id.layout_comments)
+    RelativeLayout mCommentsLayout;
 
     @Bind(R.id.progress_indicator)
     LinearLayout mProgressBar;
@@ -163,8 +168,9 @@ public class CommentsActivity extends BaseActivity {
 
                     @Override
                     public void onCompleted() {
-                        ToastFactory.createToast(
+                        SnackbarFactory.createSnackbar(
                                 CommentsActivity.this,
+                                mCommentsLayout,
                                 bookmarkResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
                         ).show();
                     }
@@ -172,10 +178,11 @@ public class CommentsActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "There was an error bookmarking the story " + e);
-                        ToastFactory.createToast(
+                        DialogFactory.createSimpleOkErrorDialog(
                                 CommentsActivity.this,
                                 getString(R.string.bookmark_error)
                         ).show();
+
                     }
 
                     @Override

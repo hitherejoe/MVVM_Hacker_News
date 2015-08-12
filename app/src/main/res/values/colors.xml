@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="hn_orange">#FF6600</color>
+    <color name="hn_orange_dark">#e65c00</color>
     <color name="hn_orange_lighter">#FF8C3F</color>
     <color name="light_grey">#D4D4D4</color>
     <color name="bg_light_grey">#E9E9E9</color>
     <color name="dark_grey">#A8A8A8</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="super_light_grey">#FAFAFA</color>
+    <color name="line_grey">#D7D7D7</color>
+    <color name="black_87pc">#DD000000</color>
 </resources>

@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +50,9 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Bind(R.id.progress_indicator)
     ProgressBar mProgressBar;
 
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
     private static final String TAG = "StoriesFragment";
     public static final String ARG_USER = "ARG_USER";
 
@@ -71,6 +78,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
         ButterKnife.bind(this, fragmentView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.hn_orange);
+        setupToolbar();
         setupRecyclerView();
         loadStoriesIfNetworkConnected();
         return fragmentView;
@@ -96,6 +104,18 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @OnClick(R.id.button_try_again)
     public void onTryAgainClick() {
         loadStoriesIfNetworkConnected();
+    }
+
+    private void setupToolbar() {
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(true);
+            if (mUser != null) {
+                actionBar.setTitle(mUser);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
     }
 
     private void setupRecyclerView() {

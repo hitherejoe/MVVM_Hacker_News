@@ -52,6 +52,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'uk.co.ribot:easyadapter:1.4.0@aar'
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"

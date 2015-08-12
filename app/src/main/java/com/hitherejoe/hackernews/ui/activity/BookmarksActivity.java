@@ -3,9 +3,11 @@ package com.hitherejoe.hackernews.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -17,7 +19,8 @@ import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.adapter.BookmarkHolder;
 import com.hitherejoe.hackernews.ui.adapter.BookmarkHolder.RemovedListener;
-import com.hitherejoe.hackernews.util.ToastFactory;
+import com.hitherejoe.hackernews.util.DialogFactory;
+import com.hitherejoe.hackernews.util.SnackbarFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,9 @@ import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class BookmarksActivity extends BaseActivity {
 
+    @Bind(R.id.layout_bookmarks)
+    CoordinatorLayout mBookmarksLayout;
+
     @Bind(R.id.recycler_bookmarks)
     RecyclerView mBookmarksRecycler;
 
@@ -39,6 +45,9 @@ public class BookmarksActivity extends BaseActivity {
 
     @Bind(R.id.progress_indicator)
     ProgressBar mProgressBar;
+
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     private static final String TAG = "BookmarksActivity";
     private EasyRecyclerAdapter<Post> mEasyRecycleAdapter;
@@ -58,7 +67,7 @@ public class BookmarksActivity extends BaseActivity {
         mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         mBookmarkList = new ArrayList<>();
         mSubscriptions = new ArrayList<>();
-        setupActionBar();
+        setupToolbar();
         setupRecyclerView();
         getBookmarkedStories();
     }
@@ -69,11 +78,12 @@ public class BookmarksActivity extends BaseActivity {
         for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
     }
 
-    private void setupActionBar() {
+    private void setupToolbar() {
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(getString(R.string.bookmarks));
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
         }
     }
 
@@ -99,7 +109,7 @@ public class BookmarksActivity extends BaseActivity {
                     public void onError(Throwable e) {
                         mProgressBar.setVisibility(View.GONE);
                         Log.e(TAG, "There was an error retrieving the bookmarks " + e);
-                        ToastFactory.createToast(
+                        DialogFactory.createSimpleOkErrorDialog(
                                 BookmarksActivity.this,
                                 getString(R.string.error_getting_bookmarks)
                         ).show();
@@ -122,8 +132,9 @@ public class BookmarksActivity extends BaseActivity {
                         mBookmarkList.remove(story);
                         mEasyRecycleAdapter.notifyDataSetChanged();
                         mNoBookmarksText.setVisibility(mBookmarkList.isEmpty() ? View.VISIBLE : View.GONE);
-                        ToastFactory.createToast(
+                        SnackbarFactory.createSnackbar(
                                 BookmarksActivity.this,
+                                mBookmarksLayout,
                                 getString(R.string.bookmark_removed)
                         ).show();
                     }
@@ -131,7 +142,7 @@ public class BookmarksActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "There was an error removing the bookmark " + e);
-                        ToastFactory.createToast(
+                        DialogFactory.createSimpleOkErrorDialog(
                                 BookmarksActivity.this,
                                 getString(R.string.error_removing_bookmark)
                         ).show();

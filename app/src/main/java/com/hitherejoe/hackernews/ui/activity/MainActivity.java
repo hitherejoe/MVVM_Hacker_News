@@ -6,6 +6,9 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,6 +17,8 @@ import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.fragment.StoriesFragment;
 import com.hitherejoe.hackernews.util.RateUtils;
+
+import butterknife.Bind;
 
 public class MainActivity extends BaseActivity {
 

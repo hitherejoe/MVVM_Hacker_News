@@ -17,8 +17,11 @@ import uk.co.ribot.easyadapter.PositionInfo;
 import uk.co.ribot.easyadapter.annotations.LayoutId;
 import uk.co.ribot.easyadapter.annotations.ViewId;
 
-@LayoutId(R.layout.item_bookmarks_list)
+@LayoutId(R.layout.item_bookmark)
 public class BookmarkHolder extends ItemViewHolder<Post> {
+
+    @ViewId(R.id.container_bookmark)
+    View mBookmarkContainer;
 
     @ViewId(R.id.text_post_title)
     TextView mPostTitle;
@@ -63,7 +66,7 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
                 if (listener != null) listener.onBookmarkRemoved(getItem());
             }
         });
-        mPostTitle.setOnClickListener(new View.OnClickListener() {
+        mBookmarkContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked(getContext());

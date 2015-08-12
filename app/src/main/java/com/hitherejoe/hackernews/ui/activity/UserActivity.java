@@ -2,6 +2,7 @@ package com.hitherejoe.hackernews.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.ui.fragment.StoriesFragment;
@@ -17,14 +18,7 @@ public class UserActivity extends BaseActivity {
         setContentView(R.layout.activity_user);
         Bundle bundle = getIntent().getExtras();
         String username = bundle.getString(EXTRA_USER);
-        setupActionBar(username);
         addStoriesFragment(username);
-    }
-
-    private void setupActionBar(String username) {
-        getSupportActionBar().setTitle(username);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void addStoriesFragment(String username) {

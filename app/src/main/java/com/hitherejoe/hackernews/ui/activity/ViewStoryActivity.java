@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.HackerNewsApplication;
@@ -25,7 +26,8 @@ import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.util.DataUtils;
-import com.hitherejoe.hackernews.util.ToastFactory;
+import com.hitherejoe.hackernews.util.DialogFactory;
+import com.hitherejoe.hackernews.util.SnackbarFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,9 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class ViewStoryActivity extends BaseActivity {
+
+    @Bind(R.id.layout_story)
+    RelativeLayout mStoryLayout;
 
     @Bind(R.id.web_view)
     WebView mWebView;
@@ -189,8 +194,9 @@ public class ViewStoryActivity extends BaseActivity {
 
                     @Override
                     public void onCompleted() {
-                        ToastFactory.createToast(
+                        SnackbarFactory.createSnackbar(
                                 ViewStoryActivity.this,
+                                mStoryLayout,
                                 bookmarkResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
                         ).show();
                     }
@@ -198,7 +204,7 @@ public class ViewStoryActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "There was an error bookmarking the story " + e);
-                        ToastFactory.createToast(
+                        DialogFactory.createSimpleOkErrorDialog(
                                 ViewStoryActivity.this,
                                 getString(R.string.bookmark_error)
                         ).show();

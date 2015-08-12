@@ -30,3 +30,7 @@ To run **unit** tests on your machine using [Robolectric] (http://robolectric.or
 To run automated tests on connected devices:
 
     ./gradlew connectedAndroidTest
+
+Contributions
+
+Thanks to [matto1990] (https://github.com/matto1990) for contributing to this project!

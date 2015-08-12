@@ -15,7 +15,7 @@ import uk.co.ribot.easyadapter.PositionInfo;
 import uk.co.ribot.easyadapter.annotations.LayoutId;
 import uk.co.ribot.easyadapter.annotations.ViewId;
 
-@LayoutId(R.layout.item_stories_list)
+@LayoutId(R.layout.item_story)
 public class UserStoriesHolder extends ItemViewHolder<Post> {
 
     @ViewId(R.id.text_post_title)

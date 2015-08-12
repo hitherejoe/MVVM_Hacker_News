@@ -42,6 +42,9 @@
     <string name="error_removing_bookmark">Error removing bookmark</string>
     <string name="try_again">Try again</string>
 
+    <string name="dialog_action_ok">OK</string>
+    <string name="dialog_error_title">Oops</string>
+
     <string name="dialog_rate_app_title">Rate</string>
     <string name="dialog_rate_app_text">Enjoying this app? Why not rate it!</string>
     <string name="dialog_neutral_button_text">Later</string>

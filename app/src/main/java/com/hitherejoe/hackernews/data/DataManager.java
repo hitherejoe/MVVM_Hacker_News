@@ -104,6 +104,11 @@ public class DataManager {
                     public Observable<Post> call(Long aLong) {
                         return mHackerNewsService.getStoryItem(String.valueOf(aLong));
                     }
+                }).flatMap(new Func1<Post, Observable<Post>>() {
+                    @Override
+                    public Observable<Post> call(Post post) {
+                        return post.title != null ? Observable.just(post) : Observable.<Post>empty();
+                    }
                 });
     }
 

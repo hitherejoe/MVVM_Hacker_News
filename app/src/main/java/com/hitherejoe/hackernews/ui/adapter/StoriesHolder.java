@@ -1,6 +1,7 @@
 package com.hitherejoe.hackernews.ui.adapter;
 
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -18,8 +19,11 @@ import uk.co.ribot.easyadapter.PositionInfo;
 import uk.co.ribot.easyadapter.annotations.LayoutId;
 import uk.co.ribot.easyadapter.annotations.ViewId;
 
-@LayoutId(R.layout.item_stories_list)
+@LayoutId(R.layout.item_story)
 public class StoriesHolder extends ItemViewHolder<Post> {
+
+    @ViewId(R.id.container_post)
+    View mPostContainer;
 
     @ViewId(R.id.text_post_title)
     TextView mPostTitle;
@@ -78,7 +82,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
                 launchStoryActivity();
             }
         });
-        mPostTitle.setOnClickListener(new View.OnClickListener() {
+        mPostContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked(getContext());
