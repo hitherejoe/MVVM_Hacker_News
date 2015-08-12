@@ -31,6 +31,7 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 public class CommentsActivity extends BaseActivity {
 
@@ -49,7 +50,6 @@ public class CommentsActivity extends BaseActivity {
     @Bind(R.id.text_no_comments)
     TextView mNoCommentsText;
 
-    private static final String TAG = "CommentsActivity";
     public static final String EXTRA_POST =
             "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_POST";
 
@@ -137,7 +137,7 @@ public class CommentsActivity extends BaseActivity {
                         @Override
                         public void onError(Throwable e) {
                             mProgressBar.setVisibility(View.GONE);
-                            Log.e(TAG, "There was an error retrieving the comments " + e);
+                            Timber.e("There was an error retrieving the comments " + e);
                         }
 
                         @Override
@@ -177,7 +177,7 @@ public class CommentsActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "There was an error bookmarking the story " + e);
+                        Timber.e("There was an error bookmarking the story " + e);
                         DialogFactory.createSimpleOkErrorDialog(
                                 CommentsActivity.this,
                                 getString(R.string.bookmark_error)

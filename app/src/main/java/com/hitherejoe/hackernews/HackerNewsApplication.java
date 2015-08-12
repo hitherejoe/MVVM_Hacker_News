@@ -9,6 +9,8 @@ import com.hitherejoe.hackernews.injection.component.ApplicationComponent;
 import com.hitherejoe.hackernews.injection.component.DaggerApplicationComponent;
 import com.hitherejoe.hackernews.injection.module.ApplicationModule;
 
+import timber.log.Timber;
+
 
 public class HackerNewsApplication extends Application {
 
@@ -19,6 +21,7 @@ public class HackerNewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (BuildConfig.DEBUG) Timber.plant(new Timber.DebugTree());
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();

@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.ShareActionProvider.OnShareTargetSelectedListener;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +38,7 @@ import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 public class ViewStoryActivity extends BaseActivity {
 
@@ -57,7 +57,6 @@ public class ViewStoryActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private static final String TAG = "WebPageActivity";
     public static final String EXTRA_POST =
             "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST";
     private static final String KEY_PDF = "pdf";
@@ -208,7 +207,7 @@ public class ViewStoryActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "There was an error bookmarking the story " + e);
+                        Timber.e("There was an error bookmarking the story " + e);
                         DialogFactory.createSimpleOkErrorDialog(
                                 ViewStoryActivity.this,
                                 getString(R.string.bookmark_error)

@@ -17,7 +17,6 @@ public class AboutActivity extends BaseActivity {
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            getSupportActionBar().setTitle(getString(R.string.about));
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

@@ -36,6 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.activity.AboutActivity"
+            android:label="@string/about"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.BookmarksActivity"

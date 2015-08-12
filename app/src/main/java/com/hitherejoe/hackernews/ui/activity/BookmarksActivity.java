@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class BookmarksActivity extends BaseActivity {
@@ -49,7 +50,6 @@ public class BookmarksActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private static final String TAG = "BookmarksActivity";
     private EasyRecyclerAdapter<Post> mEasyRecycleAdapter;
     private DataManager mDataManager;
     private List<Post> mBookmarkList;
@@ -108,7 +108,7 @@ public class BookmarksActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         mProgressBar.setVisibility(View.GONE);
-                        Log.e(TAG, "There was an error retrieving the bookmarks " + e);
+                        Timber.e("There was an error retrieving the bookmarks " + e);
                         DialogFactory.createSimpleOkErrorDialog(
                                 BookmarksActivity.this,
                                 getString(R.string.error_getting_bookmarks)
@@ -141,7 +141,7 @@ public class BookmarksActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "There was an error removing the bookmark " + e);
+                        Timber.e("There was an error removing the bookmark " + e);
                         DialogFactory.createSimpleOkErrorDialog(
                                 BookmarksActivity.this,
                                 getString(R.string.error_removing_bookmark)
