@@ -7,6 +7,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.ShareActionProvider.OnShareTargetSelectedListener;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +54,9 @@ public class ViewStoryActivity extends BaseActivity {
     @Bind(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
     private static final String TAG = "WebPageActivity";
     public static final String EXTRA_POST =
             "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST";
@@ -73,7 +77,7 @@ public class ViewStoryActivity extends BaseActivity {
         mPost = bundle.getParcelable(EXTRA_POST);
         mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         mSubscriptions = new ArrayList<>();
-        setupActionBar();
+        setupToolbar();
         setupWebView();
     }
 
@@ -119,12 +123,13 @@ public class ViewStoryActivity extends BaseActivity {
         setupWebView();
     }
 
-    private void setupActionBar() {
+    private void setupToolbar() {
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(mPost.title);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(mPost.title);
         }
     }
 
