@@ -1,9 +1,11 @@
 package com.hitherejoe.hackernews.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,15 +61,22 @@ public class CommentsActivity extends BaseActivity {
     private CommentAdapter mCommentsAdapter;
     private ArrayList<Comment> mComments;
 
+    public static Intent getStartIntent(Context context, Post post) {
+        Intent intent = new Intent(context, CommentsActivity.class);
+        intent.putExtra(EXTRA_POST, post);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
         ButterKnife.bind(this);
+        mPost = getIntent().getParcelableExtra(EXTRA_POST);
+        if (mPost == null) throw new IllegalArgumentException("CommentsActivity requires a Post object!");
+        mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         mSubscriptions = new ArrayList<>();
         mComments = new ArrayList<>();
-        mPost = getIntent().getParcelableExtra(EXTRA_POST);
-        mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         setupActionbar();
         setupRecyclerView();
         loadStoriesIfNetworkConnected();
@@ -102,10 +111,12 @@ public class CommentsActivity extends BaseActivity {
     }
 
     private void setupActionbar() {
-        String title = mPost.title;
-        if (title != null) getSupportActionBar().setTitle(title);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            String title = mPost.title;
+            if (title != null) actionBar.setTitle(title);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void setupRecyclerView() {
@@ -138,6 +149,10 @@ public class CommentsActivity extends BaseActivity {
                         public void onError(Throwable e) {
                             mProgressBar.setVisibility(View.GONE);
                             Timber.e("There was an error retrieving the comments " + e);
+                            DialogFactory.createSimpleOkErrorDialog(
+                                    CommentsActivity.this,
+                                    getString(R.string.error_comments)
+                            ).show();
                         }
 
                         @Override
@@ -171,7 +186,9 @@ public class CommentsActivity extends BaseActivity {
                         SnackbarFactory.createSnackbar(
                                 CommentsActivity.this,
                                 mCommentsLayout,
-                                bookmarkResult == null ? getString(R.string.bookmark_exists) : getString(R.string.bookmark_added)
+                                bookmarkResult == null
+                                        ? getString(R.string.bookmark_exists)
+                                        : getString(R.string.bookmark_added)
                         ).show();
                     }
 
@@ -182,7 +199,6 @@ public class CommentsActivity extends BaseActivity {
                                 CommentsActivity.this,
                                 getString(R.string.bookmark_error)
                         ).show();
-
                     }
 
                     @Override

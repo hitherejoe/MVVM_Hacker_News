@@ -1,5 +1,6 @@
 package com.hitherejoe.hackernews.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -67,6 +68,12 @@ public class ViewStoryActivity extends BaseActivity {
     private DataManager mDataManager;
     private List<Subscription> mSubscriptions;
 
+    public static Intent getStartIntent(Context context, Post post) {
+        Intent intent = new Intent(context, ViewStoryActivity.class);
+        intent.putExtra(EXTRA_POST, post);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +81,7 @@ public class ViewStoryActivity extends BaseActivity {
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
         mPost = bundle.getParcelable(EXTRA_POST);
+        if (mPost == null) throw new IllegalArgumentException("ViewStoryActivity requires a Post object!");
         mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
         mSubscriptions = new ArrayList<>();
         setupToolbar();
@@ -127,7 +135,6 @@ public class ViewStoryActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setTitle(mPost.title);
         }
     }

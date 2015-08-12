@@ -5,12 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +22,7 @@ import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.ui.adapter.StoriesHolder;
 import com.hitherejoe.hackernews.ui.adapter.UserStoriesHolder;
 import com.hitherejoe.hackernews.util.DataUtils;
+import com.hitherejoe.hackernews.util.DialogFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,7 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class StoriesFragment extends Fragment implements OnRefreshListener {
@@ -53,7 +53,6 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private static final String TAG = "StoriesFragment";
     public static final String ARG_USER = "ARG_USER";
 
     private DataManager mDataManager;
@@ -61,6 +60,14 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     private List<Subscription> mSubscriptions;
     private List<Post> mStories;
     private String mUser;
+
+    public static StoriesFragment newInstance(String user) {
+        StoriesFragment storiesFragment = new StoriesFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_USER, user);
+        storiesFragment.setArguments(args);
+        return storiesFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,8 +161,11 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                     @Override
                     public void onError(Throwable e) {
                         hideLoadingViews();
-                        Log.e(TAG, "There was a problem loading the top stories " + e);
-                        e.printStackTrace();
+                        Timber.e("There was a problem loading the top stories " + e);
+                        DialogFactory.createSimpleOkErrorDialog(
+                                getActivity(),
+                                getString(R.string.error_stories)
+                        ).show();
                     }
 
                     @Override
@@ -178,7 +188,11 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                     @Override
                     public void onError(Throwable e) {
                         hideLoadingViews();
-                        Log.e(TAG, "There was a problem loading the user stories " + e);
+                        Timber.e("There was a problem loading the user stories " + e);
+                        DialogFactory.createSimpleOkErrorDialog(
+                                getActivity(),
+                                getString(R.string.error_stories)
+                        ).show();
                     }
 
                     @Override

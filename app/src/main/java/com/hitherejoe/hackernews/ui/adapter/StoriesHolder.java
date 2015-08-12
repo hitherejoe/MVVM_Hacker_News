@@ -1,7 +1,5 @@
 package com.hitherejoe.hackernews.ui.adapter;
 
-import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -63,9 +61,7 @@ public class StoriesHolder extends ItemViewHolder<Post> {
             @Override
             public void onClick(View v) {
                 if (!BuildConfig.DEBUG) AnalyticsHelper.trackUserNameClicked(getContext());
-                Intent intent = new Intent(getContext(), UserActivity.class);
-                intent.putExtra(UserActivity.EXTRA_USER, getItem().by);
-                getContext().startActivity(intent);
+                getContext().startActivity(UserActivity.getStartIntent(getContext(), getItem().by));
             }
         });
         mPostComments.setOnClickListener(new View.OnClickListener() {
@@ -97,14 +93,10 @@ public class StoriesHolder extends ItemViewHolder<Post> {
     }
 
     private void launchStoryActivity() {
-        Intent intent = new Intent(getContext(), ViewStoryActivity.class);
-        intent.putExtra(ViewStoryActivity.EXTRA_POST, getItem());
-        getContext().startActivity(intent);
+        getContext().startActivity(ViewStoryActivity.getStartIntent(getContext(), getItem()));
     }
 
     private void launchCommentsActivity() {
-        Intent intent = new Intent(getContext(), CommentsActivity.class);
-        intent.putExtra(CommentsActivity.EXTRA_POST, getItem());
-        getContext().startActivity(intent);
+        getContext().startActivity(CommentsActivity.getStartIntent(getContext(), getItem()));
     }
 }

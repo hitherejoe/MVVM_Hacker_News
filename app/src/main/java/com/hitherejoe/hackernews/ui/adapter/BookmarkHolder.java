@@ -1,6 +1,5 @@
 package com.hitherejoe.hackernews.ui.adapter;
 
-import android.content.Intent;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -84,15 +83,11 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
     }
 
     private void launchStoryActivity() {
-        Intent intent = new Intent(getContext(), ViewStoryActivity.class);
-        intent.putExtra(ViewStoryActivity.EXTRA_POST, getItem());
-        getContext().startActivity(intent);
+        getContext().startActivity(ViewStoryActivity.getStartIntent(getContext(), getItem()));
     }
 
     private void launchCommentsActivity() {
-        Intent intent = new Intent(getContext(), CommentsActivity.class);
-        intent.putExtra(CommentsActivity.EXTRA_POST, getItem());
-        getContext().startActivity(intent);
+        getContext().startActivity(CommentsActivity.getStartIntent(getContext(), getItem()));
     }
 
     public interface RemovedListener {
