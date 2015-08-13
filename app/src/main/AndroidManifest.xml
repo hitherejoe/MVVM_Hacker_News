@@ -37,11 +37,11 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.activity.AboutActivity"
-            android:label="@string/about"
+            android:label="@string/label_about"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.BookmarksActivity"
-            android:label="@string/bookmarks"
+            android:label="@string/label_bookmarks"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
