@@ -72,7 +72,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             android:background="@color/hn_orange"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+            app:theme="@style/AppTheme.ActionBar"/>
 
     </android.support.design.widget.AppBarLayout>
 

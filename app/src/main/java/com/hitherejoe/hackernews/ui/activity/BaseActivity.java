@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-
 public class BaseActivity extends AppCompatActivity {
 
     @Override

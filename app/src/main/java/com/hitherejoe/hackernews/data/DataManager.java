@@ -11,7 +11,6 @@ import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
 import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.data.remote.HackerNewsService;
-import com.hitherejoe.hackernews.data.remote.RetrofitHelper;
 import com.hitherejoe.hackernews.injection.component.DaggerDataManagerComponent;
 import com.hitherejoe.hackernews.injection.module.DataManagerModule;
 

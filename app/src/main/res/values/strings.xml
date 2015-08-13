@@ -33,6 +33,8 @@
     <string name="bookmark_exists">Bookmark already exists</string>
     <string name="bookmark_error">There was a problem adding the bookmark</string>
 
+    <!-- Error messages -->
+
     <string name="error_stories">Sorry, unable to load stories!</string>
     <string name="error_comments">Sorry, unable to load comments!</string>
     <string name="error_post">Sorry, unable to load post!</string>
@@ -41,6 +43,8 @@
     <string name="error_getting_bookmarks">Error retrieving bookmarks</string>
     <string name="error_removing_bookmark">Error removing bookmark</string>
     <string name="try_again">Try again</string>
+
+    <!-- Dialog strings -->
 
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Oops</string>

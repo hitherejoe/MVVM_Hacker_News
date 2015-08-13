@@ -12,30 +12,30 @@ import rx.Observable;
 
 public interface HackerNewsService {
 
-    public final String ENDPOINT = "https://hacker-news.firebaseio.com/v0/";
+    String ENDPOINT = "https://hacker-news.firebaseio.com/v0/";
 
     /**
      * Return a list of the latest post IDs.
      */
     @GET("/topstories.json")
-    public Observable<List<Long>> getTopStories();
+    Observable<List<Long>> getTopStories();
 
     /**
      * Return a list of a users post IDs.
      */
     @GET("/user/{user}.json")
-    public Observable<User> getUser(@Path("user") String user);
+    Observable<User> getUser(@Path("user") String user);
 
     /**
      * Return story item.
      */
     @GET("/item/{itemId}.json")
-    public Observable<Post> getStoryItem(@Path("itemId") String itemId);
+    Observable<Post> getStoryItem(@Path("itemId") String itemId);
 
     /**
      * Returns a comment item.
      */
     @GET("/item/{itemId}.json")
-    public Observable<Comment> getCommentItem(@Path("itemId") String itemId);
+    Observable<Comment> getCommentItem(@Path("itemId") String itemId);
 
 }
