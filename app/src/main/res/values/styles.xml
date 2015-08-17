@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/hn_orange</item>
         <item name="colorPrimaryDark">@color/hn_orange_dark</item>
         <item name="colorAccent">@color/hn_orange_lighter</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogStyle</item>
         <item name="android:itemTextAppearance">@style/OptionsMenuTextColor</item>
         <item name="android:textColorPrimary">@color/black_87pc</item>
         <item name="android:textColor">@color/white</item>
@@ -20,6 +21,16 @@
         <item name="android:textColor">@color/black_87pc</item>
         <item name="drawerArrowStyle">@style/HamburgerIconStyle</item>
         <item name="android:itemTextAppearance">@style/OptionsMenuTextColor</item>
+    </style>
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowTitleStyle">@style/DialogTitleText</item>
+        <item name="colorAccent">@color/hn_orange_lighter</item>
+    </style>
+
+    <style name="DialogTitleText">
+        <item name="android:textColor">@color/black_87pc</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
 
     <style name="HamburgerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
