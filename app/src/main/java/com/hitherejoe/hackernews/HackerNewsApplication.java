@@ -3,8 +3,6 @@ package com.hitherejoe.hackernews;
 import android.app.Application;
 import android.content.Context;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.hitherejoe.hackernews.injection.component.ApplicationComponent;
 import com.hitherejoe.hackernews.injection.component.DaggerApplicationComponent;
 import com.hitherejoe.hackernews.injection.module.ApplicationModule;
@@ -15,8 +13,6 @@ import timber.log.Timber;
 public class HackerNewsApplication extends Application {
 
     ApplicationComponent mApplicationComponent;
-
-    private Tracker mAnalyticsTracker;
 
     @Override
     public void onCreate() {
@@ -40,9 +36,4 @@ public class HackerNewsApplication extends Application {
         mApplicationComponent = applicationComponent;
     }
 
-    public synchronized Tracker getAnalyticsTrackerTracker() {
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-        if (mAnalyticsTracker == null) mAnalyticsTracker = analytics.newTracker(R.xml.app_tracker);
-        return mAnalyticsTracker;
-    }
 }

@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
-import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
 import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
 
@@ -54,7 +53,6 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
         mViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryClicked(getContext());
                 launchActivity();
             }
         });
@@ -68,7 +66,6 @@ public class BookmarkHolder extends ItemViewHolder<Post> {
         mBookmarkContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked(getContext());
                 launchActivity();
             }
         });

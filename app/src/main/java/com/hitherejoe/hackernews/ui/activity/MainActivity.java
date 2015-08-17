@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
-import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.fragment.StoriesFragment;
 import com.hitherejoe.hackernews.util.RateUtils;
 
@@ -41,11 +40,9 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about:
-                AnalyticsHelper.trackAboutMenuItemClicked(this);
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;
             case R.id.action_bookmarks:
-                AnalyticsHelper.trackBookmarksMenuItemClicked(this);
                 startActivity(new Intent(this, BookmarksActivity.class));
                 return true;
             default:

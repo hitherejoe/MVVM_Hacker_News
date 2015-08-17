@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.model.Post;
-import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.ui.activity.CommentsActivity;
 import com.hitherejoe.hackernews.ui.activity.UserActivity;
 import com.hitherejoe.hackernews.ui.activity.ViewStoryActivity;
@@ -60,28 +59,24 @@ public class StoriesHolder extends ItemViewHolder<Post> {
         mPostAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackUserNameClicked(getContext());
                 getContext().startActivity(UserActivity.getStartIntent(getContext(), getItem().by));
             }
         });
         mPostComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewCommentsClicked(getContext());
                 launchCommentsActivity();
             }
         });
         mViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryClicked(getContext());
                 launchStoryActivity();
             }
         });
         mPostContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryCardClicked(getContext());
                 Post.PostType postType = getItem().postType;
                 if (postType == Post.PostType.JOB || postType == Post.PostType.STORY) {
                     launchStoryActivity();

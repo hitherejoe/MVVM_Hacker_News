@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.android.databinding'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
@@ -41,7 +42,6 @@ android {
 }
 
 dependencies {
-    final PLAY_SERVICES_VERSION = '7.5.0'
     final SUPPORT_LIBRARY_VERSION = '22.2.1'
     final DAGGER_VERSION = '2.0.1'
     final DEXMAKER_VERSION = '1.2'
@@ -51,7 +51,6 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile "com.google.android.gms:play-services-analytics:$PLAY_SERVICES_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
@@ -64,6 +63,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'io.reactivex:rxandroid:1.0.1'
 
+    apt 'com.android.databinding:compiler:1.0-rc1'
     compile  "com.google.dagger:dagger:$DAGGER_VERSION"
     apt      "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     provided 'org.glassfish:javax.annotation:10.0-b28'

@@ -2,14 +2,12 @@ package com.hitherejoe.hackernews.data;
 
 import android.content.Context;
 
-import com.hitherejoe.hackernews.BuildConfig;
 import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.data.local.DatabaseHelper;
 import com.hitherejoe.hackernews.data.local.PreferencesHelper;
 import com.hitherejoe.hackernews.data.model.Comment;
 import com.hitherejoe.hackernews.data.model.Post;
 import com.hitherejoe.hackernews.data.model.User;
-import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.data.remote.HackerNewsService;
 import com.hitherejoe.hackernews.injection.component.DaggerDataManagerComponent;
 import com.hitherejoe.hackernews.injection.module.DataManagerModule;
@@ -20,7 +18,6 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Scheduler;
-import rx.functions.Action0;
 import rx.functions.Func1;
 
 public class DataManager {
@@ -150,22 +147,11 @@ public class DataManager {
                         if (!doesExist) return mDatabaseHelper.bookmarkStory(story);
                         return Observable.empty();
                     }
-                }).doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
-                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkAdded(context);
-                    }
                 });
     }
 
     public Observable<Void> deleteBookmark(final Context context, Post story) {
-        return mDatabaseHelper.deleteBookmark(story)
-                .doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
-                        if (!BuildConfig.DEBUG) AnalyticsHelper.trackBookmarkRemoved(context);
-                    }
-                });
+        return mDatabaseHelper.deleteBookmark(story);
     }
 
     public Observable<Boolean> doesBookmarkExist(Post story) {

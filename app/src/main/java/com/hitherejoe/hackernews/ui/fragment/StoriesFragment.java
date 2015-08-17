@@ -19,8 +19,7 @@ import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Post;
-import com.hitherejoe.hackernews.ui.adapter.StoriesHolder;
-import com.hitherejoe.hackernews.ui.adapter.UserStoriesHolder;
+import com.hitherejoe.hackernews.ui.adapter.PostAdapter;
 import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.DialogFactory;
 
@@ -34,7 +33,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
-import uk.co.ribot.easyadapter.EasyRecyclerAdapter;
 
 public class StoriesFragment extends Fragment implements OnRefreshListener {
 
@@ -56,7 +54,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     public static final String ARG_USER = "ARG_USER";
 
     private DataManager mDataManager;
-    private EasyRecyclerAdapter<Post> mEasyRecycleAdapter;
+    private PostAdapter mPostAdapter;
     private List<Subscription> mSubscriptions;
     private List<Post> mStories;
     private String mUser;
@@ -77,6 +75,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
         mDataManager = HackerNewsApplication.get(getActivity()).getComponent().dataManager();
         Bundle bundle = getArguments();
         if (bundle != null) mUser = bundle.getString(ARG_USER, null);
+        mPostAdapter = new PostAdapter(getActivity(), new ArrayList<Post>(), mUser != null);
     }
 
     @Override
@@ -100,7 +99,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onRefresh() {
         for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
-        mEasyRecycleAdapter.setItems(new ArrayList<Post>());
+        if (mPostAdapter != null) mPostAdapter.setItems(new ArrayList<Post>());
         if (mUser != null) {
             getUserStories();
         } else {
@@ -128,12 +127,15 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     private void setupRecyclerView() {
         mListPosts.setLayoutManager(new LinearLayoutManager(getActivity()));
         mListPosts.setHasFixedSize(true);
-        mEasyRecycleAdapter = new EasyRecyclerAdapter<>(
-                getActivity(),
-                mUser == null ? StoriesHolder.class : UserStoriesHolder.class,
-                mStories
-        );
-        mListPosts.setAdapter(mEasyRecycleAdapter);
+        //if (mUser == null) {
+        mPostAdapter.setItems(mStories);
+        mListPosts.setAdapter(mPostAdapter);
+       // }
+       // mEasyRecycleAdapter = new EasyRecyclerAdapter<>(
+         //       getActivity(),
+           //     mUser == null ? StoriesHolder.class : UserStoriesHolder.class,
+             //   mStories
+        //);
     }
 
     private void loadStoriesIfNetworkConnected() {
@@ -156,12 +158,14 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                 .subscribe(new Subscriber<Post>() {
                     @Override
                     public void onCompleted() {
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         hideLoadingViews();
                         Timber.e("There was a problem loading the top stories " + e);
+                        e.printStackTrace();
                         DialogFactory.createSimpleOkErrorDialog(
                                 getActivity(),
                                 getString(R.string.error_stories)
@@ -171,7 +175,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                     @Override
                     public void onNext(Post post) {
                         hideLoadingViews();
-                        mEasyRecycleAdapter.addItem(post);
+                        mPostAdapter.addItem(post);
                     }
                 }));
     }
@@ -197,7 +201,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                     @Override
                     public void onNext(Post story) {
                         hideLoadingViews();
-                        mEasyRecycleAdapter.addItem(story);
+                        mPostAdapter.addItem(story);
                     }
                 }));
     }

@@ -25,7 +25,6 @@ import com.hitherejoe.hackernews.HackerNewsApplication;
 import com.hitherejoe.hackernews.R;
 import com.hitherejoe.hackernews.data.DataManager;
 import com.hitherejoe.hackernews.data.model.Post;
-import com.hitherejoe.hackernews.data.remote.AnalyticsHelper;
 import com.hitherejoe.hackernews.util.DataUtils;
 import com.hitherejoe.hackernews.util.DialogFactory;
 import com.hitherejoe.hackernews.util.SnackbarFactory;
@@ -114,7 +113,6 @@ public class ViewStoryActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_browser:
-                if (!BuildConfig.DEBUG) AnalyticsHelper.trackViewStoryInBrowserMenuItemClicked(this);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mPost.url)));
                 return true;
             case R.id.action_bookmark:
@@ -142,16 +140,7 @@ public class ViewStoryActivity extends BaseActivity {
     private void setupShareActionProvider(Menu menu) {
         ShareActionProvider shareActionProvider =
                 (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.menu_item_share));
-        if (shareActionProvider != null) {
-            shareActionProvider.setShareIntent(getShareIntent());
-            shareActionProvider.setOnShareTargetSelectedListener(new OnShareTargetSelectedListener() {
-                @Override
-                public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-                    if (!BuildConfig.DEBUG) AnalyticsHelper.trackStoryShared(ViewStoryActivity.this, intent.getComponent().getPackageName());
-                    return false;
-                }
-            });
-        }
+        if (shareActionProvider != null) shareActionProvider.setShareIntent(getShareIntent());
     }
 
     private void setupWebView() {
