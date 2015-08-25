@@ -16,23 +16,23 @@ Posts
 
 Post cards displayed on the Post Screen (left, above) are built using the following classes:
 
-[Post]() - The post object
-[PostAdapter]() - The RecyclerView adapter used to set the view model
-[PostViewModel]() - The view model used to manage the display of the posts
-[item_post]() - The XML layout file which displays the post card
+[Post](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/model/Post.java) - The post object
+[PostAdapter](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/view/adapter/PostAdapter.java) - The RecyclerView adapter used to set the view model
+[PostViewModel](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/viewModel/PostViewModel.java) - The view model used to manage the display of the posts
+[item_post](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/res/layout/item_post.xml) - The XML layout file which displays the post card
 
 Comments
 --------
 
 Comments displayed on the Comment Screen (right, above) are built using the following classes:
 
-[Comment]() - The comment object
-[CommentAdapter]() - The RecyclerView adapter used to set the corresponding view model. Comments work a bit differently
+[Comment](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/model/Comment.java) - The comment object
+[CommentAdapter](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/view/adapter/CommentAdapter.java) - The RecyclerView adapter used to set the corresponding view model. Comments work a bit differently
 from posts as this adapter uses logic to choose to use one of two view models based on the comment type
-[CommentViewModel]() - The view model used for standard comments on a post
-[CommentsHeaderViewModel]() - The view model used as a header for the post text with an ASK post
-[item_comment]() - The XML layout file which displays a standard comment
-[item_comments_header]() - The XML layout file used to display the header for an ASK post
+[CommentViewModel](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/viewModel/CommentViewModel.java) - The view model used for standard comments on a post
+[CommentsHeaderViewModel](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/viewModel/CommentHeaderViewModel.java) - The view model used as a header for the post text with an ASK post
+[item_comment](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/res/layout/item_comment.xml) - The XML layout file which displays a standard comment
+[item_comments_header](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/res/layout/item_comments_header.xml) - The XML layout file used to display the header for an ASK post
 
 Requirements
 ------------
