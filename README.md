@@ -1,5 +1,5 @@
-MVVM Hacker News using the official Data Binding Library
-========================================================
+MVVM using Data Binding [![Build Status](https://travis-ci.org/hitherejoe/MVVM_Hacker_News.svg?branch=master)](https://travis-ci.org/hitherejoe/MVVM_Hacker_News)
+=======================
 
 I wanted to experiment creating an MVVM structured project using the official Data Binding library,
 so I stripped back an [old project](https://github.com/hitherejoe/HackerNewsReader) of mine and replaced relevant codebase with an MVVM approach. This is still experimental,
@@ -17,8 +17,11 @@ Posts
 Post cards displayed on the Post Screen (left, above) are built using the following classes:
 
 [Post](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/model/Post.java) - The post object
+
 [PostAdapter](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/view/adapter/PostAdapter.java) - The RecyclerView adapter used to set the view model
+
 [PostViewModel](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/viewModel/PostViewModel.java) - The view model used to manage the display of the posts
+
 [item_post](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/res/layout/item_post.xml) - The XML layout file which displays the post card
 
 Comments
