@@ -51,8 +51,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.BindingHolder>
     }
 
     public void addItem(Post post) {
-        mPosts.add(post);
-        notifyDataSetChanged();
+        if (!mPosts.contains(post)) {
+            mPosts.add(post);
+            notifyItemInserted(mPosts.size()-1);
+        } else {
+            mPosts.set(mPosts.indexOf(post), post);
+            notifyItemChanged(mPosts.indexOf(post));
+        }
     }
 
     public static class BindingHolder extends RecyclerView.ViewHolder {
