@@ -18,5 +18,5 @@ android:
 before_script:
     - chmod +x gradlew
 #Build, and run tests
-script: "./gradlew build testDebug"
+script: "./gradlew build testDebugUnitTest"
 sudo: false
