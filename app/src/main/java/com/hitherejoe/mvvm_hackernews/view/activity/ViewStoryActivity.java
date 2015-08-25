@@ -23,13 +23,9 @@ import com.hitherejoe.mvvm_hackernews.R;
 import com.hitherejoe.mvvm_hackernews.model.Post;
 import com.hitherejoe.mvvm_hackernews.util.DataUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscription;
 
 public class ViewStoryActivity extends BaseActivity {
 
@@ -55,7 +51,6 @@ public class ViewStoryActivity extends BaseActivity {
     private static final String URL_PLAY_STORE =
             "https://play.google.com/store/apps/details?id=com.hitherejoe.hackernews&hl=en_GB";
     private Post mPost;
-    private List<Subscription> mSubscriptions;
 
     public static Intent getStartIntent(Context context, Post post) {
         Intent intent = new Intent(context, ViewStoryActivity.class);
@@ -71,15 +66,8 @@ public class ViewStoryActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         mPost = bundle.getParcelable(EXTRA_POST);
         if (mPost == null) throw new IllegalArgumentException("ViewStoryActivity requires a Post object!");
-        mSubscriptions = new ArrayList<>();
         setupToolbar();
         setupWebView();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
     }
 
     @Override

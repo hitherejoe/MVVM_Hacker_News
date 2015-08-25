@@ -30,6 +30,7 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 public class CommentsActivity extends BaseActivity {
@@ -58,7 +59,7 @@ public class CommentsActivity extends BaseActivity {
     private ArrayList<Comment> mComments;
     private CommentAdapter mCommentsAdapter;
     private DataManager mDataManager;
-    private List<Subscription> mSubscriptions;
+    private CompositeSubscription mSubscriptions;
     private Post mPost;
 
     public static Intent getStartIntent(Context context, Post post) {
@@ -75,7 +76,7 @@ public class CommentsActivity extends BaseActivity {
         mPost = getIntent().getParcelableExtra(EXTRA_POST);
         if (mPost == null) throw new IllegalArgumentException("CommentsActivity requires a Post object!");
         mDataManager = HackerNewsApplication.get(this).getComponent().dataManager();
-        mSubscriptions = new ArrayList<>();
+        mSubscriptions = new CompositeSubscription();
         mComments = new ArrayList<>();
         setupToolbar();
         setupRecyclerView();
@@ -85,7 +86,7 @@ public class CommentsActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
+        mSubscriptions.unsubscribe();
     }
 
     @OnClick(R.id.button_try_again)

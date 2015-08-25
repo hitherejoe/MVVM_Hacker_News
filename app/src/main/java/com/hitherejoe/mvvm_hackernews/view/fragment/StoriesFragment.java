@@ -30,8 +30,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 public class StoriesFragment extends Fragment implements OnRefreshListener {
@@ -55,7 +55,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
 
     private DataManager mDataManager;
     private PostAdapter mPostAdapter;
-    private List<Subscription> mSubscriptions;
+    private CompositeSubscription mSubscriptions;
     private List<Post> mStories;
     private String mUser;
 
@@ -70,7 +70,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSubscriptions = new ArrayList<>();
+        mSubscriptions = new CompositeSubscription();
         mStories = new ArrayList<>();
         mDataManager = HackerNewsApplication.get(getActivity()).getComponent().dataManager();
         Bundle bundle = getArguments();
@@ -93,12 +93,12 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
+        mSubscriptions.unsubscribe();
     }
 
     @Override
     public void onRefresh() {
-        for (Subscription subscription : mSubscriptions) subscription.unsubscribe();
+        mSubscriptions.unsubscribe();
         if (mPostAdapter != null) mPostAdapter.setItems(new ArrayList<Post>());
         if (mUser != null) {
             getUserStories();
