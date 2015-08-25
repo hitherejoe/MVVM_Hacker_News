@@ -56,19 +56,6 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testAskPostNoViewButton() {
-        List<Long> postIdList = new ArrayList<>();
-        Post mockPost = MockModelsUtil.createMockAskStoryWithTitle("Ask HN: Mock");
-        postIdList.add(mockPost.id);
-        when(component.getMockHackerNewsService().getTopStories()).thenReturn(Observable.just(postIdList));
-        when(component.getMockHackerNewsService().getStoryItem(mockPost.id.toString())).thenReturn(Observable.just(mockPost));
-
-        Intent i = new Intent(MainActivity.getStartIntent(InstrumentationRegistry.getTargetContext()));
-        main.launchActivity(i);
-        onView(withId(R.id.text_view_post)).check(matches(not(isDisplayed())));
-    }
-
-    @Test
     public void testStoryPostHasViewButton() throws Exception {
         List<Long> postIdList = new ArrayList<>();
         Post mockPost = MockModelsUtil.createMockStoryWithTitle("Post with url");
