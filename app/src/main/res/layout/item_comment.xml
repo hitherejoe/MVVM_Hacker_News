@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="viewModel" type="com.hitherejoe.mvvm_hackernews.viewModel.CommentViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/container_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@color/dark_grey"
+        app:containerMargin="@{viewModel.commentIsTopLevel}">
+
+        <LinearLayout
+            android:id="@+id/comment_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            app:commentDepth="@{viewModel.commentDepth}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/text_post_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="@{viewModel.commentAuthor}"
+                        android:textColor="@color/black_87pc"
+                        android:textSize="@dimen/text_body" />
+
+                    <TextView
+                        android:id="@+id/text_post_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/text_post_author"
+                        android:text="@{viewModel.commentDate}"
+                        android:textSize="@dimen/text_body"
+                        android:textColor="@color/hn_orange" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/text_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web|email"
+                    android:text="@{viewModel.commentText}"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/comment_item"
+            android:background="@color/light_grey" />
+
+    </RelativeLayout>
+
+</layout>

@@ -4,22 +4,22 @@
 
     <bool name="ga_autoActivityTracking">true</bool>
 
-    <screenName name="com.hitherejoe.hackernews.ui.activity.MainActivity">
+    <screenName name="com.hitherejoe.mvvm_hackernews.view.activity.MainActivity">
         HackerNewsReader MainActivity
     </screenName>
-    <screenName name="com.hitherejoe.hackernews.ui.activity.AboutActivity">
+    <screenName name="com.hitherejoe.mvvm_hackernews.view.activity.AboutActivity">
         HackerNewsReader AboutActivity
     </screenName>
-    <screenName name="com.hitherejoe.hackernews.ui.activity.BookmarksActivity">
+    <screenName name="com.hitherejoe.mvvm_hackernews.view.activity.BookmarksActivity">
         HackerNewsReader BookmarksActivity
     </screenName>
-    <screenName name="com.hitherejoe.hackernews.ui.activity.CommentsActivity">
+    <screenName name="com.hitherejoe.mvvm_hackernews.view.activity.CommentsActivity">
         HackerNewsReader CommentsActivity
     </screenName>
-    <screenName name="com.hitherejoe.hackernews.ui.activity.UserActivity">
+    <screenName name="com.hitherejoe.mvvm_hackernews.view.activity.UserActivity">
         HackerNewsReader UserActivity
     </screenName>
-    <screenName name="com.hitherejoe.hackernews.ui.activity.ViewStoryActivity">
+    <screenName name="com.hitherejoe.mvvm_hackernews.view.activity.ViewStoryActivity">
         HackerNewsReader WebPageActivity
     </screenName>
     <!--  The following value should be replaced with correct property id. -->

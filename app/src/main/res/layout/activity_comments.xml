@@ -1,79 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_bookmarks"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_light_grey">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:id="@+id/layout_comments"
+    <data/>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/layout_bookmarks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@color/bg_light_grey"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:background="@color/bg_light_grey">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_comments"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:clipToPadding="false" />
-
-    <LinearLayout
-        android:id="@+id/progress_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@color/white">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@android:color/darker_gray"
-            android:text="@string/loading" />
-
-    </LinearLayout>
-
-    <include layout="@layout/layout_offline" />
-
-    <TextView
-        android:id="@+id/text_no_comments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/no_comments"
-        android:textColor="@color/dark_grey"
-        android:textSize="@dimen/text_title"
-        android:visibility="gone" />
-
-    </RelativeLayout>
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
+            android:id="@+id/layout_comments"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:background="@color/hn_orange"
-            app:theme="@style/AppTheme.ActionBar"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/bg_light_grey"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_comments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:clipToPadding="false" />
 
-</android.support.design.widget.CoordinatorLayout>
+            <LinearLayout
+                android:id="@+id/progress_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:background="@color/white">
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="@string/loading" />
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_offline" />
+
+            <TextView
+                android:id="@+id/text_no_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/no_comments"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_title"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:background="@color/hn_orange"
+                app:theme="@style/AppTheme.ActionBar"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

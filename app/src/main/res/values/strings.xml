@@ -16,15 +16,13 @@
     <string name="action_view_bookmarks">View Bookmarks</string>
 
     <!-- Comments -->
-    <string name="view_replies">View Replies</string>
-    <string name="hide_replies">Hide Replies</string>
+    <string name="text_comment_author">%s -&#160;</string>
 
     <!-- Post card -->
     <string name="view_button">VIEW</string>
+    <string name="text_post_author">&#160;- %s</string>
+    <string name="story_points">&#160;points</string>
     <string name="seperator_name_points">-</string>
-    <string name="author_by"> - by</string>
-    <string name="story_by">by</string>
-    <string name="story_points">points</string>
     <string name="via">via</string>
 
     <!-- Bookmark cards -->
