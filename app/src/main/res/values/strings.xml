@@ -9,7 +9,7 @@
     <string name="label_bookmarks">Bookmarks</string>
 
     <!-- Option menus -->
-    <string name="action_about">About</string>
+    <string name="action_view_on_github">View on GitHub</string>
     <string name="action_view_in_browser">View in Browser</string>
     <string name="action_share">Share</string>
     <string name="action_bookmark">Bookmark</string>
@@ -28,11 +28,6 @@
     <!-- Bookmark cards -->
     <string name="comments_button">COMMENTS</string>
     <string name="remove_button">REMOVE</string>
-
-    <!-- About activity -->
-    <string name="created_by">Created by Joe Birch</string>
-    <string name="web_link">www.hitherejoe.com</string>
-    <string name="no_comments">No comments yet!</string>
 
     <!-- Bookmarks -->
     <string name="no_bookmarks">No bookmarks yet!</string>

@@ -33,20 +33,20 @@ import rx.Subscription;
 
 public class ViewStoryActivity extends BaseActivity {
 
-    @Bind(R.id.layout_story)
-    RelativeLayout mStoryLayout;
-
-    @Bind(R.id.web_view)
-    WebView mWebView;
-
     @Bind(R.id.progress_indicator)
     LinearLayout mProgressContainer;
 
     @Bind(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
+    @Bind(R.id.layout_story)
+    RelativeLayout mStoryLayout;
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.web_view)
+    WebView mWebView;
 
     public static final String EXTRA_POST =
             "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST";

@@ -53,27 +53,22 @@ public class CommentViewModel extends BaseObservable {
         }
     }
 
-    @Bindable
     public String getCommentText() {
         return Html.fromHtml(comment.text.trim()).toString();
     }
 
-    @Bindable
     public String getCommentAuthor() {
         return context.getResources().getString(R.string.text_comment_author, comment.by);
     }
 
-    @Bindable
     public String getCommentDate() {
         return new PrettyTime().format(new Date(comment.time * 1000));
     }
 
-    @Bindable
     public int getCommentDepth() {
         return comment.depth;
     }
 
-    @Bindable
     public boolean getCommentIsTopLevel() {
         return comment.isTopLevelComment;
     }

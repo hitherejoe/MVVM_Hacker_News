@@ -19,6 +19,7 @@ import com.hitherejoe.mvvm_hackernews.databinding.ItemCommentBinding;
 import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.BindingHolder> {
+
     private static final int VIEW_TYPE_COMMENT = 0;
     private static final int VIEW_TYPE_HEADER = 1;
 

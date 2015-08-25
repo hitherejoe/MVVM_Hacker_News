@@ -127,15 +127,8 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
     private void setupRecyclerView() {
         mListPosts.setLayoutManager(new LinearLayoutManager(getActivity()));
         mListPosts.setHasFixedSize(true);
-        //if (mUser == null) {
         mPostAdapter.setItems(mStories);
         mListPosts.setAdapter(mPostAdapter);
-       // }
-       // mEasyRecycleAdapter = new EasyRecyclerAdapter<>(
-         //       getActivity(),
-           //     mUser == null ? StoriesHolder.class : UserStoriesHolder.class,
-             //   mStories
-        //);
     }
 
     private void loadStoriesIfNetworkConnected() {
@@ -157,9 +150,7 @@ public class StoriesFragment extends Fragment implements OnRefreshListener {
                 .subscribeOn(mDataManager.getScheduler())
                 .subscribe(new Subscriber<Post>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
+                    public void onCompleted() { }
 
                     @Override
                     public void onError(Throwable e) {

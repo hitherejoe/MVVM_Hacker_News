@@ -31,8 +31,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_about:
-                startActivity(new Intent(this, AboutActivity.class));
+            case R.id.action_view_on_github:
+                //TODO: Add github link
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

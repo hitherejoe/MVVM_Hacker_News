@@ -35,10 +35,6 @@
             android:name="com.hitherejoe.mvvm_hackernews.view.activity.ViewStoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name="com.hitherejoe.mvvm_hackernews.view.activity.AboutActivity"
-            android:label="@string/label_about"
-            android:screenOrientation="portrait" />
 
     </application>
 

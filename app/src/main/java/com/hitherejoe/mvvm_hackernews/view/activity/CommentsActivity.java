@@ -34,9 +34,6 @@ import timber.log.Timber;
 
 public class CommentsActivity extends BaseActivity {
 
-    @Bind(R.id.layout_comments)
-    RelativeLayout mCommentsLayout;
-
     @Bind(R.id.progress_indicator)
     LinearLayout mProgressBar;
 
@@ -45,6 +42,9 @@ public class CommentsActivity extends BaseActivity {
 
     @Bind(R.id.recycler_comments)
     RecyclerView mCommentsRecycler;
+
+    @Bind(R.id.layout_comments)
+    RelativeLayout mCommentsLayout;
 
     @Bind(R.id.text_no_comments)
     TextView mNoCommentsText;
@@ -55,11 +55,11 @@ public class CommentsActivity extends BaseActivity {
     public static final String EXTRA_POST =
             "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_POST";
 
-    private Post mPost;
+    private ArrayList<Comment> mComments;
+    private CommentAdapter mCommentsAdapter;
     private DataManager mDataManager;
     private List<Subscription> mSubscriptions;
-    private CommentAdapter mCommentsAdapter;
-    private ArrayList<Comment> mComments;
+    private Post mPost;
 
     public static Intent getStartIntent(Context context, Post post) {
         Intent intent = new Intent(context, CommentsActivity.class);

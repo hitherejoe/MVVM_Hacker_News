@@ -2,7 +2,6 @@ package com.hitherejoe.mvvm_hackernews.viewModel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.text.Html;
 
 import com.hitherejoe.mvvm_hackernews.R;
