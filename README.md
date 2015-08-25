@@ -30,11 +30,16 @@ Comments
 Comments displayed on the Comment Screen (right, above) are built using the following classes:
 
 [Comment](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/model/Comment.java) - The comment object
+
 [CommentAdapter](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/view/adapter/CommentAdapter.java) - The RecyclerView adapter used to set the corresponding view model. Comments work a bit differently
 from posts as this adapter uses logic to choose to use one of two view models based on the comment type
+
 [CommentViewModel](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/viewModel/CommentViewModel.java) - The view model used for standard comments on a post
+
 [CommentsHeaderViewModel](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/java/com/hitherejoe/mvvm_hackernews/viewModel/CommentHeaderViewModel.java) - The view model used as a header for the post text with an ASK post
+
 [item_comment](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/res/layout/item_comment.xml) - The XML layout file which displays a standard comment
+
 [item_comments_header](https://github.com/hitherejoe/MVVM_Hacker_News/blob/master/app/src/main/res/layout/item_comments_header.xml) - The XML layout file used to display the header for an ASK post
 
 Requirements
