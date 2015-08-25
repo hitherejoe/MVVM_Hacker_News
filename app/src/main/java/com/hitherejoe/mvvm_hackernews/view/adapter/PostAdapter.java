@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hitherejoe.mvvm_hackernews.R;
+import com.hitherejoe.mvvm_hackernews.databinding.ItemPostBinding;
 import com.hitherejoe.mvvm_hackernews.model.Post;
 import com.hitherejoe.mvvm_hackernews.viewModel.PostViewModel;
-import com.hitherejoe.mvvm_hackernews.databinding.ItemStoryBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +30,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.BindingHolder>
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new BindingHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_story, parent, false));
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        ItemStoryBinding storyBinding = DataBindingUtil.bind(holder.itemView);
-        storyBinding.setViewModel(new PostViewModel(mContext, mPosts.get(position), mIsUserPosts));
+        ItemPostBinding postBinding = DataBindingUtil.bind(holder.itemView);
+        postBinding.setViewModel(new PostViewModel(mContext, mPosts.get(position), mIsUserPosts));
         holder.getBinding().executePendingBindings();
     }
 

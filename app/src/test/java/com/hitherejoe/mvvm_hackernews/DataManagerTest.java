@@ -7,8 +7,6 @@ import com.hitherejoe.mvvm_hackernews.data.remote.HackerNewsService;
 import com.hitherejoe.mvvm_hackernews.util.DefaultConfig;
 import com.hitherejoe.mvvm_hackernews.util.MockModelsUtil;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.functions.Action1;
+import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static org.mockito.Matchers.any;
@@ -62,21 +60,16 @@ public class DataManagerTest {
         storyIds.add(mockUser.submitted.get(2));
         storyIds.add(mockUser.submitted.get(3));
 
-        final List<Post> stories = new ArrayList<>();
+        List<Post> topStories = new ArrayList<>();
+        topStories.add(mockStoryOne);
+        topStories.add(mockStoryTwo);
+        topStories.add(mockStoryThree);
+        topStories.add(mockStoryFour);
 
-        mDataManager.getPostsFromIds(storyIds).subscribe(new Action1<Post>() {
-            @Override
-            public void call(Post story) {
-                stories.add(story);
-            }
-        });
-
-        Assert.assertEquals(4, stories.size());
-
-        Assert.assertTrue(stories.contains(mockStoryOne));
-        Assert.assertTrue(stories.contains(mockStoryTwo));
-        Assert.assertTrue(stories.contains(mockStoryThree));
-        Assert.assertTrue(stories.contains(mockStoryFour));
+        TestSubscriber<Post> result = new TestSubscriber<>();
+        mDataManager.getPostsFromIds(storyIds).subscribe(result);
+        result.assertNoErrors();
+        result.assertReceivedOnNext(topStories);
     }
 
     @Test
@@ -98,21 +91,17 @@ public class DataManagerTest {
         when(mMockHackerNewsService.getStoryItem(String.valueOf(mockUser.submitted.get(3))))
                 .thenReturn(Observable.just(mockStoryFour));
 
-        final List<Post> userStories = new ArrayList<>();
+        List<Post> userStories = new ArrayList<>();
+        userStories.add(mockStoryOne);
+        userStories.add(mockStoryTwo);
+        userStories.add(mockStoryThree);
+        userStories.add(mockStoryFour);
 
-        mDataManager.getUserPosts(mockUser.id).subscribe(new Action1<Post>() {
-            @Override
-            public void call(Post story) {
-                userStories.add(story);
-            }
-        });
+        TestSubscriber<Post> result = new TestSubscriber<>();
+        mDataManager.getUserPosts(mockUser.id).subscribe(result);
+        result.assertNoErrors();
+        result.assertReceivedOnNext(userStories);
 
-        Assert.assertEquals(4, userStories.size());
-
-        Assert.assertTrue(userStories.contains(mockStoryOne));
-        Assert.assertTrue(userStories.contains(mockStoryTwo));
-        Assert.assertTrue(userStories.contains(mockStoryThree));
-        Assert.assertTrue(userStories.contains(mockStoryFour));
     }
 
 }
