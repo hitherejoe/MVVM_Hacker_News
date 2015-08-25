@@ -45,7 +45,7 @@ public class ViewStoryActivity extends BaseActivity {
     WebView mWebView;
 
     public static final String EXTRA_POST =
-            "com.hitherejoe.HackerNews.ui.activity.WebPageActivity.EXTRA_POST";
+            "com.hitherejoe.mvvm_hackernews.ui.activity.WebPageActivity.EXTRA_POST";
     private static final String KEY_PDF = "pdf";
     private static final String URL_GOOGLE_DOCS = "http://docs.google.com/gview?embedded=true&url=";
     private static final String URL_PLAY_STORE =

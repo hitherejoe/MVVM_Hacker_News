@@ -11,7 +11,7 @@ import com.hitherejoe.mvvm_hackernews.view.fragment.StoriesFragment;
 public class UserActivity extends BaseActivity {
 
     public static final String EXTRA_USER =
-            "com.hitherejoe.HackerNews.ui.activity.UserActivity.EXTRA_USER";
+            "com.hitherejoe.mvvm_hackernews.ui.activity.UserActivity.EXTRA_USER";
 
     public static Intent getStartIntent(Context context, String user) {
         Intent intent = new Intent(context, UserActivity.class);

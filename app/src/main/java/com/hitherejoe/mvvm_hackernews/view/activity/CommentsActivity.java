@@ -28,7 +28,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
@@ -54,7 +53,7 @@ public class CommentsActivity extends BaseActivity {
     Toolbar mToolbar;
 
     public static final String EXTRA_POST =
-            "com.hitherejoe.HackerNews.ui.activity.CommentsActivity.EXTRA_POST";
+            "com.hitherejoe.mvvm_hackernews.ui.activity.CommentsActivity.EXTRA_POST";
 
     private ArrayList<Comment> mComments;
     private CommentAdapter mCommentsAdapter;
