@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.hitherejoe.mvvm_hackernews.R;
@@ -35,26 +34,34 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.BindingH
 
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_COMMENT) {
-            return new BindingHolder(
-                    LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false));
+        if (viewType == VIEW_TYPE_HEADER) {
+            ItemCommentsHeaderBinding commentsHeaderBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.getContext()),
+                    R.layout.item_comments_header,
+                    parent,
+                    false);
+            return new BindingHolder(commentsHeaderBinding);
+        } else {
+            ItemCommentBinding commentBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.getContext()),
+                    R.layout.item_comment,
+                    parent,
+                    false);
+            return new BindingHolder(commentBinding);
         }
-        return new BindingHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comments_header, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_HEADER) {
-            ItemCommentsHeaderBinding commentsHeaderBinding = DataBindingUtil.bind(holder.itemView);
+            ItemCommentsHeaderBinding commentsHeaderBinding = (ItemCommentsHeaderBinding) holder.binding;
             commentsHeaderBinding.setViewModel(new CommentHeaderViewModel(mContext, mPost));
         } else {
             int actualPosition = (postHasText()) ? position - 1 : position;
-            ItemCommentBinding commentsBinding = DataBindingUtil.bind(holder.itemView);
+            ItemCommentBinding commentsBinding = (ItemCommentBinding) holder.binding;
             mComments.get(actualPosition).isTopLevelComment = actualPosition == 0;
             commentsBinding.setViewModel(new CommentViewModel(mContext, mComments.get(actualPosition)));
         }
-        holder.getBinding().executePendingBindings();
     }
 
 
@@ -80,12 +87,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.BindingH
     public static class BindingHolder extends RecyclerView.ViewHolder {
         private ViewDataBinding binding;
 
-        public BindingHolder(View rowView) {
-            super(rowView);
-            binding = DataBindingUtil.bind(rowView);
+        public BindingHolder(ItemCommentBinding binding) {
+            super(binding.containerItem);
+            this.binding = binding;
         }
-        public ViewDataBinding getBinding() {
-            return binding;
+
+        public BindingHolder(ItemCommentsHeaderBinding binding) {
+            super(binding.containerItem);
+            this.binding = binding;
         }
     }
 

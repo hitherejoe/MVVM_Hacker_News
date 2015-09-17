@@ -2,10 +2,8 @@ package com.hitherejoe.mvvm_hackernews.view.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.hitherejoe.mvvm_hackernews.R;
@@ -29,15 +27,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.BindingHolder>
 
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BindingHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false));
+        ItemPostBinding postBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.item_post,
+                parent,
+                false);
+        return new BindingHolder(postBinding);
     }
 
     @Override
     public void onBindViewHolder(BindingHolder holder, int position) {
-        ItemPostBinding postBinding = DataBindingUtil.bind(holder.itemView);
+        ItemPostBinding postBinding = holder.binding;
         postBinding.setViewModel(new PostViewModel(mContext, mPosts.get(position), mIsUserPosts));
-        holder.getBinding().executePendingBindings();
     }
 
     @Override
@@ -56,14 +57,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.BindingHolder>
     }
 
     public static class BindingHolder extends RecyclerView.ViewHolder {
-        private ViewDataBinding binding;
+        private ItemPostBinding binding;
 
-        public BindingHolder(View rowView) {
-            super(rowView);
-            binding = DataBindingUtil.bind(rowView);
-        }
-        public ViewDataBinding getBinding() {
-            return binding;
+        public BindingHolder(ItemPostBinding binding) {
+            super(binding.cardView);
+            this.binding = binding;
         }
     }
 
