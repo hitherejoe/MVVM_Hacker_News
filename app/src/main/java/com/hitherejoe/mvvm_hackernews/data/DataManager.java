@@ -65,7 +65,8 @@ public class DataManager {
 
     public Observable<Comment> getPostComments(final List<Long> commentIds, final int depth) {
         return Observable.from(commentIds)
-                .concatMap(aLong -> mHackerNewsService.getCommentItem(String.valueOf(aLong))).concatMap(comment -> {
+                .concatMap(aLong -> mHackerNewsService.getCommentItem(String.valueOf(aLong)))
+                .concatMap(comment -> {
                     comment.depth = depth;
                     if (comment.kids == null || comment.kids.isEmpty()) {
                         return Observable.just(comment);
@@ -73,7 +74,8 @@ public class DataManager {
                         return Observable.just(comment)
                                 .mergeWith(getPostComments(comment.kids, depth + 1));
                     }
-                }).filter(comment -> (comment.by != null && !comment.by.trim().isEmpty()
+                })
+                .filter(comment -> (comment.by != null && !comment.by.trim().isEmpty()
                         && comment.text != null && !comment.text.trim().isEmpty()));
     }
 
