@@ -1,7 +1,10 @@
 package com.hitherejoe.mvvm_hackernews.viewModel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -9,6 +12,8 @@ import android.view.View;
 
 import com.hitherejoe.mvvm_hackernews.R;
 import com.hitherejoe.mvvm_hackernews.model.Post;
+import com.hitherejoe.mvvm_hackernews.util.CustomTabsHelper;
+import com.hitherejoe.mvvm_hackernews.util.ViewUtils;
 import com.hitherejoe.mvvm_hackernews.view.activity.CommentsActivity;
 import com.hitherejoe.mvvm_hackernews.view.activity.UserActivity;
 import com.hitherejoe.mvvm_hackernews.view.activity.ViewStoryActivity;
@@ -78,7 +83,16 @@ public class PostViewModel extends BaseObservable {
     }
 
     private void launchStoryActivity() {
-        context.startActivity(ViewStoryActivity.getStartIntent(context, post));
+        String packageName = CustomTabsHelper.getPackageNameToUse(context);
+
+        if (packageName == null) {
+            context.startActivity(ViewStoryActivity.getStartIntent(context, post));
+        } else {
+            CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+            Intent intent = intentBuilder.build().intent;
+            intent.setData(Uri.parse(post.url));
+            context.startActivity(intent);
+        }
     }
 
     private void launchCommentsActivity() {
