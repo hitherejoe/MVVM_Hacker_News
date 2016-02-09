@@ -1,4 +1,6 @@
 language: android
+jdk:
+  - oraclejdk8
 android:
   components:
     - platform-tools
@@ -16,6 +18,8 @@ android:
     - extra-android-m2repository
 
 before_script:
+    - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
+    - export JAVA_HOME=$JAVA8_HOME
     - chmod +x gradlew
 #Build, and run tests
 script: "./gradlew build testDebugUnitTest"

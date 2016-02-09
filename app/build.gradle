@@ -1,8 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.android.databinding'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
 
 android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     compileSdkVersion 22
     buildToolsVersion '23.0.0'
     publishNonDefault true
@@ -35,6 +42,7 @@ android {
         abortOnError false
     }
 }
+
 
 dependencies {
     final SUPPORT_LIBRARY_VERSION = '22.2.1'
