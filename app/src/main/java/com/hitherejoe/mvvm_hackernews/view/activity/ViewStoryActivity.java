@@ -23,25 +23,25 @@ import com.hitherejoe.mvvm_hackernews.R;
 import com.hitherejoe.mvvm_hackernews.model.Post;
 import com.hitherejoe.mvvm_hackernews.util.DataUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ViewStoryActivity extends BaseActivity {
 
-    @Bind(R.id.progress_indicator)
+    @BindView(R.id.progress_indicator)
     LinearLayout mProgressContainer;
 
-    @Bind(R.id.layout_offline)
+    @BindView(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
-    @Bind(R.id.layout_story)
+    @BindView(R.id.layout_story)
     RelativeLayout mStoryLayout;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.web_view)
+    @BindView(R.id.web_view)
     WebView mWebView;
 
     public static final String EXTRA_POST =
