@@ -30,4 +30,4 @@ cache:
 before_script:
     - chmod +x gradlew
 #Build, and run tests
-script: "./gradlew connectedAndroidTest -PdisablePreDex --stacktrace"
+script: "./gradlew build testDebugUnitTest"
