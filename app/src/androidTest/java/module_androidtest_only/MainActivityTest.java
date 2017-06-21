@@ -1,4 +1,4 @@
-package com.hitherejoe.module_androidtest_only;
+package module_androidtest_only;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
@@ -6,7 +6,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.hitherejoe.module_androidtest_only.injection.TestComponentRule;
+import com.hitherejoe.mvvm_hackernews.R;
 import com.hitherejoe.mvvm_hackernews.model.Post;
 import com.hitherejoe.mvvm_hackernews.util.MockModelsUtil;
 import com.hitherejoe.mvvm_hackernews.view.activity.MainActivity;
@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import module_androidtest_only.injection.TestComponentRule;
 import rx.Observable;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -26,10 +27,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
-
-import com.hitherejoe.mvvm_hackernews.R;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {

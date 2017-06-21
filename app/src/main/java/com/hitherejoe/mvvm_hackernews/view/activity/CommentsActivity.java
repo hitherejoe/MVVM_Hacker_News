@@ -24,7 +24,7 @@ import com.hitherejoe.mvvm_hackernews.util.DialogFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
@@ -34,22 +34,22 @@ import timber.log.Timber;
 
 public class CommentsActivity extends BaseActivity {
 
-    @Bind(R.id.progress_indicator)
+    @BindView(R.id.progress_indicator)
     LinearLayout mProgressBar;
 
-    @Bind(R.id.layout_offline)
+    @BindView(R.id.layout_offline)
     LinearLayout mOfflineLayout;
 
-    @Bind(R.id.recycler_comments)
+    @BindView(R.id.recycler_comments)
     RecyclerView mCommentsRecycler;
 
-    @Bind(R.id.layout_comments)
+    @BindView(R.id.layout_comments)
     RelativeLayout mCommentsLayout;
 
-    @Bind(R.id.text_no_comments)
+    @BindView(R.id.text_no_comments)
     TextView mNoCommentsText;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     public static final String EXTRA_POST =

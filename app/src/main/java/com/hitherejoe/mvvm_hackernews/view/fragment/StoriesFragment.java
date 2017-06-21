@@ -26,7 +26,7 @@ import com.hitherejoe.mvvm_hackernews.util.DialogFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
@@ -36,19 +36,19 @@ import timber.log.Timber;
 
 public class StoriesFragment extends Fragment implements OnRefreshListener {
 
-    @Bind(R.id.swipe_container)
+    @BindView(R.id.swipe_container)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @Bind(R.id.recycler_stories)
+    @BindView(R.id.recycler_stories)
     RecyclerView mListPosts;
 
-    @Bind(R.id.layout_offline)
+    @BindView(R.id.layout_offline)
     LinearLayout mOfflineContainer;
 
-    @Bind(R.id.progress_indicator)
+    @BindView(R.id.progress_indicator)
     ProgressBar mProgressBar;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     public static final String ARG_USER = "ARG_USER";
