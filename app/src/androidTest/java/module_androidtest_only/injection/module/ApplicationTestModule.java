@@ -1,14 +1,14 @@
-package com.hitherejoe.module_androidtest_only.injection.module;
+package module_androidtest_only.injection.module;
 
 import android.app.Application;
 
-import com.hitherejoe.module_androidtest_only.util.TestDataManager;
 import com.hitherejoe.mvvm_hackernews.data.DataManager;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import module_androidtest_only.util.TestDataManager;
 
 /**
  * Provides application-level dependencies for an app running on a testing environment

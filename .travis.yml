@@ -1,5 +1,8 @@
 language: android
+jdk: oraclejdk8
+sudo: false
 android:
+  update_sdk: true
   components:
     - platform-tools
     - tools
@@ -15,8 +18,16 @@ android:
     # - extra-google-m2repository
     - extra-android-m2repository
 
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+    - $HOME/.gradle/daemon
+    - $HOME/.gradle/native
+    - $HOME/.gradle/wrapper
+
 before_script:
     - chmod +x gradlew
 #Build, and run tests
-script: "./gradlew build testDebugUnitTest"
-sudo: false
+script: "./gradlew connectedAndroidTest -PdisablePreDex --stacktrace"

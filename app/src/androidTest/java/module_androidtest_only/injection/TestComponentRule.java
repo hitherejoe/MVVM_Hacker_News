@@ -1,17 +1,18 @@
-package com.hitherejoe.module_androidtest_only.injection;
+package module_androidtest_only.injection;
 
 import android.support.test.InstrumentationRegistry;
 
-import com.hitherejoe.module_androidtest_only.injection.component.DaggerTestComponent;
-import com.hitherejoe.module_androidtest_only.injection.component.TestComponent;
-import com.hitherejoe.module_androidtest_only.injection.module.ApplicationTestModule;
-import com.hitherejoe.module_androidtest_only.util.TestDataManager;
 import com.hitherejoe.mvvm_hackernews.HackerNewsApplication;
 import com.hitherejoe.mvvm_hackernews.data.remote.HackerNewsService;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+
+import module_androidtest_only.injection.component.DaggerTestComponent;
+import module_androidtest_only.injection.component.TestComponent;
+import module_androidtest_only.injection.module.ApplicationTestModule;
+import module_androidtest_only.util.TestDataManager;
 
 /**
  * Test rule that creates and sets a Dagger TestComponent into the application overriding the

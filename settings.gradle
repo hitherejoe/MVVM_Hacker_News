@@ -1,1 +1,1 @@
-include ':app', ':module_androidtest_only'
+include ':app'

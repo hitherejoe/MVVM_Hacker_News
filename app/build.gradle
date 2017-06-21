@@ -43,6 +43,8 @@ dependencies {
     final OKHTTP_VERSION = '3.8.0'
     final BUTTERKNIFE_VERSION = '8.6.0'
     final RETROFIT_VERSION = '2.3.0'
+    final ESPRESSO_VERSION = '2.2.2'
+    final DEXMAKER_VERSION = '1.2'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -79,4 +81,21 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
+
+    androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION") {
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
+    androidTestCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+    androidTestCompile "com.google.dagger:dagger:$DAGGER_VERSION"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile "com.google.dexmaker:dexmaker:$DEXMAKER_VERSION"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:$DEXMAKER_VERSION"
 }

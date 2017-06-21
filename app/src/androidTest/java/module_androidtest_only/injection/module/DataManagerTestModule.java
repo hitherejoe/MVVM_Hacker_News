@@ -1,6 +1,4 @@
-package com.hitherejoe.module_androidtest_only.injection.module;
-
-import android.content.Context;
+package module_androidtest_only.injection.module;
 
 import com.hitherejoe.mvvm_hackernews.data.remote.HackerNewsService;
 import com.hitherejoe.mvvm_hackernews.injection.scope.PerDataManager;
