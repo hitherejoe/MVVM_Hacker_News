@@ -6,8 +6,8 @@ import com.hitherejoe.mvvm_hackernews.model.User;
 
 import java.util.List;
 
-import retrofit.http.GET;
-import retrofit.http.Path;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 import rx.Observable;
 
 public interface HackerNewsService {
@@ -17,25 +17,25 @@ public interface HackerNewsService {
     /**
      * Return a list of the latest post IDs.
      */
-    @GET("/topstories.json")
+    @GET("topstories.json")
     Observable<List<Long>> getTopStories();
 
     /**
      * Return a list of a users post IDs.
      */
-    @GET("/user/{user}.json")
+    @GET("user/{user}.json")
     Observable<User> getUser(@Path("user") String user);
 
     /**
      * Return story item.
      */
-    @GET("/item/{itemId}.json")
+    @GET("item/{itemId}.json")
     Observable<Post> getStoryItem(@Path("itemId") String itemId);
 
     /**
      * Returns a comment item.
      */
-    @GET("/item/{itemId}.json")
+    @GET("item/{itemId}.json")
     Observable<Comment> getCommentItem(@Path("itemId") String itemId);
 
 }

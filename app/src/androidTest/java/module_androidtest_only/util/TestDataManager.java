@@ -1,13 +1,14 @@
-package com.hitherejoe.module_androidtest_only.util;
+package module_androidtest_only.util;
 
 import android.content.Context;
 
-import com.hitherejoe.module_androidtest_only.injection.component.DaggerDataManagerTestComponent;
-import com.hitherejoe.module_androidtest_only.injection.component.TestComponent;
-import com.hitherejoe.module_androidtest_only.injection.module.DataManagerTestModule;
 import com.hitherejoe.mvvm_hackernews.HackerNewsApplication;
 import com.hitherejoe.mvvm_hackernews.data.DataManager;
 import com.hitherejoe.mvvm_hackernews.data.remote.HackerNewsService;
+
+import module_androidtest_only.injection.component.DaggerDataManagerTestComponent;
+import module_androidtest_only.injection.component.TestComponent;
+import module_androidtest_only.injection.module.DataManagerTestModule;
 
 /**
  * Extension of DataManager to be used on a testing environment.
